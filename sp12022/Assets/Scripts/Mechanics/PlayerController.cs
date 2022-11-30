@@ -5,6 +5,7 @@ using Platformer.Gameplay;
 using static Platformer.Core.Simulation;
 using Platformer.Model;
 using Platformer.Core;
+using UnityEngine.Tilemaps;
 
 namespace Platformer.Mechanics
 {
@@ -34,16 +35,18 @@ namespace Platformer.Mechanics
         public Health health;
         public bool controlEnabled = true;
 
-        bool jump;
+        bool jump, recentlyWallJumped;
+        private float timeSinceWallJump;
         Vector2 move;
         SpriteRenderer spriteRenderer;
         internal Animator animator;
         readonly PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
         public Bounds Bounds => collider2d.bounds;
+        public TilemapCollider2D tilesCollider;
 
-        void Awake()
-        {
+        void Awake(){
+            timeSinceWallJump = 0f;
             health = GetComponent<Health>();
             audioSource = GetComponent<AudioSource>();
             collider2d = GetComponent<Collider2D>();
@@ -55,9 +58,21 @@ namespace Platformer.Mechanics
         {
             if (controlEnabled)
             {
+                bool touchingWall = !IsGrounded && collider2d.IsTouching(tilesCollider);
+                if (recentlyWallJumped)
+                {
+                    recentlyWallJumped = timeSinceWallJump <= 0.5f;
+                    timeSinceWallJump += Time.deltaTime;
+                    timeSinceWallJump = recentlyWallJumped ? timeSinceWallJump : 0f;
+                }
                 move.x = Input.GetAxis("Horizontal");
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
                     jumpState = JumpState.PrepareToJump;
+                else if (Input.GetButtonDown("Jump") && touchingWall && !recentlyWallJumped)
+                {
+                    jumpState = JumpState.PrepareToJump;
+                    recentlyWallJumped = true;
+                }
                 else if (Input.GetButtonUp("Jump"))
                 {
                     stopJump = true;
@@ -104,7 +119,7 @@ namespace Platformer.Mechanics
 
         protected override void ComputeVelocity()
         {
-            if (jump && IsGrounded)
+            if (jump /*&& IsGrounded*/)
             {
                 velocity.y = jumpTakeOffSpeed * model.jumpModifier;
                 jump = false;
