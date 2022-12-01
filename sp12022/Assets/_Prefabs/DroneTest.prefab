@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5836601013271340929}
   - component: {fileID: 5836601013271340930}
   - component: {fileID: 5836601013271340933}
+  - component: {fileID: 1819625484}
   m_Layer: 0
   m_Name: DroneTest
   m_TagString: Untagged
@@ -120,8 +121,8 @@ EdgeCollider2D:
   m_EdgeRadius: 0
   m_Points:
   - {x: 0.31242448, y: -0.17215514}
-  - {x: 3.3587747, y: -2.459987}
-  - {x: -0.13911104, y: -2.4602163}
+  - {x: 3.326865, y: -2.3961663}
+  - {x: -0.362481, y: -2.3963964}
   - {x: 0.07931113, y: -0.250283}
   - {x: 0.31273842, y: -0.17095816}
   m_AdjacentStartPoint: {x: 0, y: 0}
@@ -141,3 +142,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrol: {x: 4, y: 0, z: 0}
+  level:
+    serializedVersion: 2
+    m_Bits: 8
+--- !u!95 &1819625484
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5836601013271340932}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 381d731c3231a80408037b309076a2e4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
