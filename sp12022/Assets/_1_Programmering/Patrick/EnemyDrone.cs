@@ -13,12 +13,13 @@ public class EnemyDrone : MonoBehaviour
     // public PatrolPath path;
     // internal PatrolPath.Mover mover;
     public Vector3 patrol;
+    public LayerMask level;
     
     private EdgeCollider2D _collider2D;
     private SpriteRenderer _spriteRenderer;
     
     private Vector3 start, target;
-    private bool movingRight, seeingPlayer;
+    private bool movingRight, playerWithinLineOfSight, playerHidden;
     private List<Collider2D> collisions;
     private GameObject player;
 
@@ -29,7 +30,7 @@ public class EnemyDrone : MonoBehaviour
         _collider2D = GetComponent<EdgeCollider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         
-        seeingPlayer = false;
+        playerWithinLineOfSight = false;
         start = transform.position;
         target = transform.position + patrol;
         movingRight = transform.position.x<target.x;
@@ -38,33 +39,38 @@ public class EnemyDrone : MonoBehaviour
     }
 
     private void Update(){
-        Patrol();
-    }
-
-    private void LateUpdate(){
         LookForPlayer();
     }
-
-    private void Patrol(){
+    
+    private void LateUpdate(){
+        Patrol();
+    }
+    
+    private void Patrol()
+    {
         bool startDirMode = movingRight;
-        if (movingRight && !seeingPlayer)
+        if (movingRight && !playerWithinLineOfSight)
         {
             var dir = target - transform.position;
             dir = dir.normalized;
             transform.position += dir * Time.deltaTime;
             movingRight = dir.x>0;
         }
-        else if (!seeingPlayer)
+        else if (!playerWithinLineOfSight)
         {
             var dir = start - transform.position;
             dir = dir.normalized;
             transform.position += dir * Time.deltaTime;
             movingRight = dir.x>0;
         }
-        else if (seeingPlayer)
-        {
-            Vector3 dir = player.transform.position-transform.position;
-            Debug.DrawRay(transform.position,dir, Color.red,0,true);
+        else if (playerWithinLineOfSight) {
+            Vector3 dir = player.transform.position - transform.position;
+            float dstEnemyPlayer = Vector2.Distance(player.transform.position, transform.position);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dstEnemyPlayer, level);
+            if (hit && hit.transform.gameObject.layer != level)
+                playerHidden = true;
+            else
+                playerHidden = false;
         }
         if (startDirMode!=movingRight) {
             gameObject.transform.Rotate(new Vector3(0,180,0));
@@ -75,7 +81,7 @@ public class EnemyDrone : MonoBehaviour
         collisions.Add(col);
         if (col.CompareTag("Player"))
         {
-            seeingPlayer = true;
+            playerWithinLineOfSight = true;
             player = col.gameObject;
         }
     }
@@ -83,11 +89,17 @@ public class EnemyDrone : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other){
         collisions.Remove(other);
         if (other.CompareTag("Player"))
-            seeingPlayer = false;
-    }
+        {
+            playerWithinLineOfSight = false;
+            player = null;
+        }
+
+}
 
 
     private void LookForPlayer(){
-        _spriteRenderer.color = seeingPlayer ? Color.red : Color.white;
+        Color lineOfSightColor =playerWithinLineOfSight ? Color.red : Color.white;
+        _spriteRenderer.color = playerWithinLineOfSight ? Color.red : Color.white;
+        _spriteRenderer.color = playerHidden ? Color.magenta : lineOfSightColor;
     }
 }
