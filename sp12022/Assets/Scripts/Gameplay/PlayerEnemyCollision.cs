@@ -18,34 +18,33 @@ namespace Platformer.Gameplay
 
         PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
-        public override void Execute()
-        {
-            var willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
+        public override void Execute(){
+            bool willHurtEnemy; 
+            if (enemy is not null) {
+                willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
+            }
+            else {
+                willHurtEnemy = false;
+            }
 
-            if (willHurtEnemy)
-            {
+            if (willHurtEnemy) {
                 var enemyHealth = enemy.GetComponent<Health>();
-                if (enemyHealth != null)
-                {
+                if (enemyHealth != null) {
                     enemyHealth.Decrement();
-                    if (!enemyHealth.IsAlive)
-                    {
+                    if (!enemyHealth.IsAlive) {
                         Schedule<EnemyDeath>().enemy = enemy;
                         player.Bounce(2);
                     }
-                    else
-                    {
+                    else {
                         player.Bounce(7);
                     }
                 }
-                else
-                {
+                else {
                     Schedule<EnemyDeath>().enemy = enemy;
                     player.Bounce(2);
                 }
             }
-            else
-            {
+            else {
                 Schedule<PlayerDeath>();
             }
         }
