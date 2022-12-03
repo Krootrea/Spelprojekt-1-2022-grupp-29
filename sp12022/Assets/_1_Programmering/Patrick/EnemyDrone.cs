@@ -6,6 +6,7 @@ using Platformer.Mechanics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 using static Platformer.Core.Simulation;
 
@@ -24,6 +25,7 @@ public class EnemyDrone : MonoBehaviour
     
     private EdgeCollider2D _collider2D;
     private SpriteRenderer _spriteRenderer;
+    private Light2D _light2D;
     
     private Vector3 start, target;
     private bool movingRight, rayCast,killedPlayer;
@@ -47,6 +49,7 @@ public class EnemyDrone : MonoBehaviour
         movingRight = transform.position.x<target.x;
 
         collisions = new List<Collider2D>();
+        _light2D = transform.Find("BeamLight").GetComponent<Light2D>();
     }
 
     private void Update(){ }
@@ -67,7 +70,10 @@ public class EnemyDrone : MonoBehaviour
             movingRight = dir.x>0;
         }
         else
+        {
             _spriteRenderer.color = enemyState == EnemyState.FollowingPlayer ? Color.red : Color.magenta;
+            _light2D.color = _spriteRenderer.color;
+        }
         
         if (rotationCheck!=movingRight) 
             gameObject.transform.Rotate(new Vector3(0,180,0));
@@ -103,6 +109,7 @@ public class EnemyDrone : MonoBehaviour
         else if (lostSightOfPlayerCountDown <= 0.0f) {
             enemyState = EnemyState.Patrolling;
             _spriteRenderer.color = Color.white;
+            _light2D.color = _spriteRenderer.color;
         }
 
         // Set timer if appropriate
@@ -112,10 +119,15 @@ public class EnemyDrone : MonoBehaviour
             playerDeathCountDown = DeathCountDown;
         
         // Kill player if death-timer ran out.
-        if (enemyState == EnemyState.FollowingPlayer && playerDeathCountDown <= 0.0f && !killedPlayer) {
-            PlayerController playerController = player.GetComponent<PlayerController>();
-            var ev = Schedule<PlayerEnemyCollision>();
-            ev.player = playerController;
+        if (enemyState == EnemyState.FollowingPlayer && playerDeathCountDown <= 0.0f && !killedPlayer)
+        {
+            PlayerController playerController;
+            if (player!=null)
+            {
+                playerController = player.GetComponent<PlayerController>();
+                var ev = Schedule<PlayerEnemyCollision>();
+                ev.player = playerController;
+            }
             // killedPlayer = true;
         }
 
