@@ -167,8 +167,8 @@ MonoBehaviour:
   gravityModifier: 1
   velocity: {x: 0, y: 0}
   jumpAudio: {fileID: 8300000, guid: 6a9f2ccb0d66c44a7a2522a66c699899, type: 3}
-  respawnAudio: {fileID: 8300000, guid: 680f9b88c3aa2478399e030d3c368b70, type: 3}
-  ouchAudio: {fileID: 8300000, guid: f9f5caa169ed9491587b1377fd246319, type: 3}
+  respawnAudio: {fileID: 0}
+  ouchAudio: {fileID: 8300000, guid: cc05f90c27b4d48ee840f0a9401ebaf8, type: 3}
   maxSpeed: 3
   jumpTakeOffSpeed: 7
   jumpState: 0
