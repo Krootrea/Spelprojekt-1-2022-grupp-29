@@ -29,6 +29,8 @@ namespace Platformer.Mechanics
         /// </summary>
         public float jumpTakeOffSpeed = 7;
 
+        public float wallJumpTimer = 0.25f;
+
         public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
         /*internal new*/ public Collider2D collider2d;
@@ -83,7 +85,7 @@ namespace Platformer.Mechanics
 
         private void WallJumpTimer(bool touchingWall){
             if (wjPossibleCountD<=0.0f && touchingWall) {
-                wjPossibleCountD = 0.25f;
+                wjPossibleCountD = wallJumpTimer;
                 wallJumpPossible = true;
             }
             
