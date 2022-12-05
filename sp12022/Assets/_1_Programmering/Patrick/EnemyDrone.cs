@@ -23,6 +23,7 @@ public class EnemyDrone : MonoBehaviour
     // internal PatrolPath.Mover mover;
     public Vector3 patrol;
     public LayerMask level;
+    public float Speed;
     
     private EdgeCollider2D _collider2D;
     private SpriteRenderer _spriteRenderer;
@@ -74,7 +75,7 @@ public class EnemyDrone : MonoBehaviour
             direction = movingTowardsTarget ? target : start;
             if (oldX!=direction.x)
             Rotate();
-            transform.position = Vector3.MoveTowards(transform.position, direction, 2 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, direction, Speed * Time.deltaTime);
         }
         else {
             _spriteRenderer.color = enemyState == EnemyState.FollowingPlayer ? Color.red : Color.magenta;
