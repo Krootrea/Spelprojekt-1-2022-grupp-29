@@ -86,7 +86,6 @@ public class EnemyDrone : MonoBehaviour
         if (enemyState == EnemyState.FollowingPlayer) 
             playerDeathCountDown -= Time.deltaTime;
         
-        
         //Handle state change
         EnemyState oldState = enemyState;
         if (rayCast && oldState != EnemyState.Patrolling) {

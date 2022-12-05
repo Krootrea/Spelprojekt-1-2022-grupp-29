@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Platformer.Gameplay;
@@ -35,8 +36,8 @@ namespace Platformer.Mechanics
         public Health health;
         public bool controlEnabled = true;
 
-        bool jump, recentlyWallJumped;
-        private float timeSinceWallJump;
+        bool jump, wallJumpPossible;
+        private float wjPossibleCountD;
         Vector2 move;
         SpriteRenderer spriteRenderer;
         internal Animator animator;
@@ -46,10 +47,10 @@ namespace Platformer.Mechanics
         public TilemapCollider2D tilesCollider;
 
         void Awake(){
-            timeSinceWallJump = 0f;
+            wjPossibleCountD = 0f;
             health = GetComponent<Health>();
             audioSource = GetComponent<AudioSource>();
-            collider2d = GetComponent<Collider2D>();
+            collider2d = GetComponent<BoxCollider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
         }
@@ -59,22 +60,15 @@ namespace Platformer.Mechanics
             if (controlEnabled)
             {
                 bool touchingWall = !IsGrounded && collider2d.IsTouching(tilesCollider);
-                if (recentlyWallJumped)
-                {
-                    recentlyWallJumped = timeSinceWallJump <= 0.5f;
-                    timeSinceWallJump += Time.deltaTime;
-                    timeSinceWallJump = recentlyWallJumped ? timeSinceWallJump : 0f;
-                }
+                WallJumpTimer(touchingWall);
                 move.x = Input.GetAxis("Horizontal");
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
                     jumpState = JumpState.PrepareToJump;
-                else if (Input.GetButtonDown("Jump") && touchingWall && !recentlyWallJumped)
-                {
+                else if (Input.GetButtonDown("Jump") && wallJumpPossible) {
                     jumpState = JumpState.PrepareToJump;
-                    recentlyWallJumped = true;
+                    wallJumpPossible = false;
                 }
-                else if (Input.GetButtonUp("Jump"))
-                {
+                else if (Input.GetButtonUp("Jump")) {
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
                 }
@@ -85,6 +79,21 @@ namespace Platformer.Mechanics
             }
             UpdateJumpState();
             base.Update();
+        }
+
+        private void WallJumpTimer(bool touchingWall){
+            if (wjPossibleCountD<=0.0f && touchingWall) {
+                wjPossibleCountD = 0.25f;
+                wallJumpPossible = true;
+            }
+            
+            if (wjPossibleCountD>0.0f) {
+                wallJumpPossible = true;
+                wjPossibleCountD -= Time.deltaTime;
+            }
+            else {
+                wallJumpPossible = false;
+            }
         }
 
         void UpdateJumpState()
