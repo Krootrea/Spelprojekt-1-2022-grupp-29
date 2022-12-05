@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine.Utility;
 using Platformer.Gameplay;
 using Platformer.Mechanics;
 using Unity.VisualScripting;
@@ -27,11 +28,11 @@ public class EnemyDrone : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Light2D _light2D;
     
-    private Vector3 start, target;
-    private bool movingRight, rayCast,killedPlayer;
+    private Vector3 start, target, direction;
+    private bool movingTowardsTarget, rayCast,killedPlayer;
     private List<Collider2D> collisions;
     private GameObject player;
-    private float lostSightOfPlayerCountDown, playerDeathCountDown;
+    private float lostSightOfPlayerCountDown, playerDeathCountDown, justKilledPlayerCountDown;
 
     public float LooseSightCountDown, DeathCountDown;
 
@@ -46,10 +47,13 @@ public class EnemyDrone : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         start = transform.position;
         target = transform.position + patrol;
-        movingRight = transform.position.x<target.x;
 
         collisions = new List<Collider2D>();
         _light2D = transform.Find("BeamLight").GetComponent<Light2D>();
+        movingTowardsTarget = true;
+        direction = target;
+        if (direction.x<transform.position.x)
+            Rotate();
     }
 
     private void Update(){ }
@@ -58,25 +62,29 @@ public class EnemyDrone : MonoBehaviour
         Patrol();
     }
     
-    private void Patrol()
-    {
-        bool rotationCheck = movingRight;
+    private void Patrol(){
         StateUpdate();
-
-        if (enemyState == EnemyState.Patrolling) {
-            var dir = movingRight ? (target - transform.position) : (start - transform.position);
-            dir = dir.normalized;
-            transform.position += dir * Time.deltaTime;
-            movingRight = dir.x>0;
-        }
-        else
+        if (enemyState == EnemyState.Patrolling)
         {
+            float oldX = direction.x;
+            if (transform.position==target)
+                movingTowardsTarget = false;
+            else if (transform.position==start)
+                movingTowardsTarget = true;
+            direction = movingTowardsTarget ? target : start;
+            if (oldX!=direction.x)
+            Rotate();
+            transform.position = Vector3.MoveTowards(transform.position, direction, 2 * Time.deltaTime);
+        }
+        else {
             _spriteRenderer.color = enemyState == EnemyState.FollowingPlayer ? Color.red : Color.magenta;
             _light2D.color = _spriteRenderer.color;
         }
         
-        if (rotationCheck!=movingRight) 
-            gameObject.transform.Rotate(new Vector3(0,180,0));
+    }
+
+    private void Rotate(){
+        gameObject.transform.Rotate(new Vector3(0, 180, 0));
     }
 
     private void StateUpdate(){
@@ -126,9 +134,15 @@ public class EnemyDrone : MonoBehaviour
                 playerController = player.GetComponent<PlayerController>();
                 var ev = Schedule<PlayerEnemyCollision>();
                 ev.player = playerController;
+                justKilledPlayerCountDown = 2f;
             }
-            // killedPlayer = true;
+            killedPlayer = true;
         }
+
+        if (justKilledPlayerCountDown > 0.0f)
+            justKilledPlayerCountDown -= Time.deltaTime;
+        else
+            killedPlayer = false;
 
     }
 
