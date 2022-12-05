@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e2dcc1fb4364cdf887c66f39f76f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tokenCollectAudio: {fileID: 8300000, guid: 23bfa15d35fbf4f65894a94bcab72980, type: 3}
+  tokenCollectAudio: {fileID: 8300000, guid: e308e2d3a15d14f8da21b5091ec21d6c, type: 3}
   randomAnimationStartTime: 1
   idleAnimation:
   - {fileID: 153727351, guid: 39f8a7e50bd90854f98422393da44039, type: 3}
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8534e17a0f90604c9afd4f5c73d829f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Id: 2873e5ee-77c2-46a1-bb1b-d9a722ce159a
+  m_Id: cbe69855-82b8-4371-9634-baea5dcf7c9a
 --- !u!114 &3553165276446594942
 MonoBehaviour:
   m_ObjectHideFlags: 0
