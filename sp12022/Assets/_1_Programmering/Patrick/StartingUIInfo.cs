@@ -25,7 +25,7 @@ public class StartingUIInfo : MonoBehaviour
         }
 
         if (initialMoveDone && !initialJumpDone) {
-            if (Input.GetAxis("Vertical")!=0) {
+            if (Input.GetButtonDown("Jump")) {
                 jump.SetActive(false);
                 initialJumpDone = true;
             }
