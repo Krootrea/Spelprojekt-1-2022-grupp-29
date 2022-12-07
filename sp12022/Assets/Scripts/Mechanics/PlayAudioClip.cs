@@ -27,7 +27,7 @@ public class PlayAudioClip : StateMachineBehaviour
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        int clipRandom = Random.Range(0, clipsToPlay.Length);
+        int clipRandom = Random.Range(0, clipsToPlay.Length-1);
         clip = clipsToPlay[clipRandom];
         var nt = stateInfo.normalizedTime;
         if (modulus > 0f) nt %= modulus;
