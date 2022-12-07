@@ -550,6 +550,7 @@ MonoBehaviour:
   level:
     serializedVersion: 2
     m_Bits: 8
+  Speed: 0
   LooseSightCountDown: 2
   DeathCountDown: 2
 --- !u!95 &1819625484
@@ -582,7 +583,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 58106c36e2b6646acb6fba80a24f17e3, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5d7deaa3f49bd4e499144fba957253e1, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.7
   m_Pitch: 1

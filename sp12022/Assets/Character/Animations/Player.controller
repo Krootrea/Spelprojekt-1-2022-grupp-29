@@ -198,9 +198,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1715bf1b7a5e8480aba89c75b75ce7cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clipsToPlay:
+  - {fileID: 8300000, guid: 0751a5a27029244abb7afb047ce26043, type: 3}
+  - {fileID: 8300000, guid: 0116eb6c77dbc456da0d8bab307e4b1b, type: 3}
+  - {fileID: 8300000, guid: 7e428a003f65a41ea8136b132a165d6b, type: 3}
+  - {fileID: 8300000, guid: 4cda896097b464f21b28e985178f7acb, type: 3}
+  - {fileID: 8300000, guid: be43fbbc97c95411ba02236a970cb14f, type: 3}
+  - {fileID: 8300000, guid: 6528d0b356f57477cbed8910e788c4eb, type: 3}
   t: 0.2
   modulus: 1
-  clip: {fileID: 8300000, guid: 3a825f11fa03b4100a3b12350ebfddc8, type: 3}
 --- !u!114 &114742276622948332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -213,24 +219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1715bf1b7a5e8480aba89c75b75ce7cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clipsToPlay:
+  - {fileID: 8300000, guid: 467639509346049aaa8b078c880b4ca8, type: 3}
   t: 0.5
-  modulus: 0
-  clip: {fileID: 8300000, guid: 941374d3387324a349feb6a2ca17f6c4, type: 3}
---- !u!114 &114792792654640044
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1715bf1b7a5e8480aba89c75b75ce7cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  t: 0.7
   modulus: 1
-  clip: {fileID: 8300000, guid: 814af407804b248c5bb7c21e435f3e0f, type: 3}
 --- !u!1101 &1101000010127028388
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -830,7 +822,6 @@ AnimatorState:
   - {fileID: 1101909242155072592}
   m_StateMachineBehaviours:
   - {fileID: 114426900495757286}
-  - {fileID: 114792792654640044}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
