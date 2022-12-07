@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class PlayAudioClip : StateMachineBehaviour
 {
+    [Header("Audio Clips")]
+    public AudioClip[] clipsToPlay;
     /// <summary>
     /// The point in normalized time where the clip should play.
     /// </summary>
@@ -20,11 +22,13 @@ public class PlayAudioClip : StateMachineBehaviour
     /// <summary>
     /// The audio clip to be played.
     /// </summary>
-    public AudioClip clip;
+    private AudioClip clip;
     float last_t = -1f;
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        int clipRandom = Random.Range(0, clipsToPlay.Length);
+        clip = clipsToPlay[clipRandom];
         var nt = stateInfo.normalizedTime;
         if (modulus > 0f) nt %= modulus;
         if (nt >= t && last_t < t)
