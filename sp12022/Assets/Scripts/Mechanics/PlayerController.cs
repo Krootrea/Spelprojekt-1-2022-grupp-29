@@ -30,7 +30,7 @@ namespace Platformer.Mechanics
         /// </summary>
         public float jumpTakeOffSpeed = 7;
 
-        public float wallJumpTimer = 0.25f;
+        public float wallJumpTimer = 0.6f;
 
         public JumpState jumpState = JumpState.Grounded;
 
