@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Platformer.Mechanics
 {
@@ -29,6 +31,11 @@ namespace Platformer.Mechanics
         /// </summary>
         /// <value></value>
         public bool IsGrounded { get; private set; }
+
+        /// <summary>
+        /// Is the entity in air, touching a jumpable wall?
+        /// </summary>
+        protected bool wallJumpPossible;
 
         protected Vector2 targetVelocity;
         protected Vector2 groundNormal;
@@ -94,17 +101,14 @@ namespace Platformer.Mechanics
             ComputeVelocity();
         }
 
-        protected virtual void ComputeVelocity()
-        {
-
-        }
+        protected virtual void ComputeVelocity(){ }
 
         protected virtual void FixedUpdate()
         {
             //if already falling, fall faster than the jump speed, otherwise use normal gravity.
-            if (velocity.y < 0)
+            if (velocity.y < 0 && !wallJumpPossible)
                 velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
-            else
+            else if(!wallJumpPossible)
                 velocity += Physics2D.gravity * Time.deltaTime;
 
             velocity.x = targetVelocity.x;
@@ -113,7 +117,7 @@ namespace Platformer.Mechanics
 
             var deltaPosition = velocity * Time.deltaTime;
 
-            var moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
+            var moveAlongGround = wallJumpPossible ? Vector2.zero : new Vector2(groundNormal.y, -groundNormal.x);
 
             var move = moveAlongGround * deltaPosition.x;
 
@@ -121,8 +125,8 @@ namespace Platformer.Mechanics
 
             move = Vector2.up * deltaPosition.y;
 
-            PerformMovement(move, true);
-
+            //if (!wallJumpPossible)
+                PerformMovement(move, true);
         }
 
         void PerformMovement(Vector2 move, bool yMovement)
