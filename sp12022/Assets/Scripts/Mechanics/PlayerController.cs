@@ -44,7 +44,7 @@ namespace Platformer.Mechanics
         public Health health;
         public bool controlEnabled = true;
 
-        bool jump, facingRight;
+        bool jump;
         private float wjPossibleCountD;
         Vector2 move;
         SpriteRenderer spriteRenderer;
@@ -126,13 +126,11 @@ namespace Platformer.Mechanics
                 Vector2 direction = col.GetContact(0).normal;
                 if (direction.x == 1) {
                     SetWallJumpPossible();
-                    facingRight = false;
                     // Rotate to the left
                 }
 
                 if (direction.x == -1) {
                     SetWallJumpPossible();
-                    facingRight = true;
                     // Rotate to the right
                 }
             }
