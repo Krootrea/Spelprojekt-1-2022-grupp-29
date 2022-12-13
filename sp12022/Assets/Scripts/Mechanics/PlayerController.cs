@@ -54,7 +54,8 @@ namespace Platformer.Mechanics
         public Bounds Bounds => collider2d.bounds;
         public TilemapCollider2D tilesCollider;
 
-        void Awake(){
+        void Awake()
+        {
             wjPossibleCountD = 0f;
             health = GetComponent<Health>();
             audioSource = GetComponent<AudioSource>();
@@ -63,36 +64,29 @@ namespace Platformer.Mechanics
             animator = GetComponent<Animator>();
         }
 
-        protected override void Update(){
+        protected override void Update()
+        {
             WallJumpCountDown();
-            if (controlEnabled) {
-                // if (!wallJumpPossible && Input.GetAxisRaw("Horizontal") > 0.5f) 
-                //     facingRight = true;
-                // else if (!wallJumpPossible && Input.GetAxisRaw("Horizontal") < 0.5f) 
-                //     facingRight = false;
-                
+            if (controlEnabled) 
+            {
                 move.x = Input.GetAxis("Horizontal");
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
                     jumpState = JumpState.PrepareToJump;
-                else if (Input.GetButtonDown("Jump") && wallJumpPossible) {
+                else if (Input.GetButtonDown("Jump") && wallJumpPossible) 
+                {
                     jumpState = JumpState.PrepareToJump;
                     wjPossibleCountD = 0;
                 }
-                else if (Input.GetButtonUp("Jump")) {
+                else if (Input.GetButtonUp("Jump")) 
+                {
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
                 }
-
-                // if (facingRight)
-                //     spriteRenderer.flipX = true;
-                //
-                // else
-                //     spriteRenderer.flipX = false;
             }
-            else {
+            else 
+            {
                 move.x = 0;
             }
-
             UpdateJumpState();
             base.Update();
         }
@@ -113,10 +107,7 @@ namespace Platformer.Mechanics
             }
 
             if (wallJumpPossible && wjPossibleCountD <= 0.0f)
-            {
                 wallJumpPossible = false;
-                // animator.SetBool("walljump", false);
-            }
             if (!wallJumpPossible && wjPossibleCountD > 0)
                 wjPossibleCountD = 0;
         }
@@ -124,15 +115,10 @@ namespace Platformer.Mechanics
         private void OnCollisionEnter2D(Collision2D col){
             if (!IsGrounded && col.gameObject.layer == 3) {
                 Vector2 direction = col.GetContact(0).normal;
-                if (direction.x == 1) {
-                    SetWallJumpPossible();
-                    // Rotate to the left
-                }
-
-                if (direction.x == -1) {
-                    SetWallJumpPossible();
-                    // Rotate to the right
-                }
+                if (direction.x == 1) 
+                    SetWallJumpPossible(); // Rotate to the left
+                if (direction.x == -1) 
+                    SetWallJumpPossible(); // Rotate to the right
             }
         }
 
@@ -173,9 +159,7 @@ namespace Platformer.Mechanics
             }
             else if (stopJump) {
                 stopJump = false;
-                if (wallJumpPossible) {
-                    // Wall jump possible, no gravity while possible.
-                }
+                if (wallJumpPossible) { }// Wall jump possible, no gravity while possible.
                 else if (velocity.y > 0) {
                     velocity.y = velocity.y * model.jumpDeceleration;
                 }

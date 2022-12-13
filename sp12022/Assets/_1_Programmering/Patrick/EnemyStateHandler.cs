@@ -5,22 +5,35 @@ using UnityEngine;
 
 public class EnemyStateHandler : MonoBehaviour
 {
+    [HideInInspector]
+    public bool initiatePlayerMaybeLeft;
+    private float playerMaybeLeftTimer;
+    
+    [HideInInspector]
     public enum EnemyState
     {
-        Patrolling,
+        Normal,
         ChasingPlayer,
         LookingForPlayer
     }
 
-    private float timeSinceSeeingPlayer, lookingTime;
+    private float timeSinceSeeingPlayer;
+    [HideInInspector]
+    public float LookingTime;
+    private bool seeingPlayer;
     private EnemyState currentState;
 
     public EnemyState CurrentState => currentState;
 
-    public EnemyStateHandler(float amountOfTimeEnemyLooksForPlayer){
-        lookingTime = amountOfTimeEnemyLooksForPlayer;
-        currentState = EnemyState.Patrolling;
+    private void Awake(){
+        seeingPlayer = false;
+        currentState = EnemyState.Normal;
     }
+
+    private void Update(){
+        CustomUpdate(seeingPlayer);
+    }
+
     public void CustomUpdate(bool seeingPlayer){
         switch (currentState)
         {
@@ -30,22 +43,27 @@ public class EnemyStateHandler : MonoBehaviour
                     EnemyState.ChasingPlayer : EnemyState.LookingForPlayer;
                 return;
             }
-            case EnemyState.Patrolling :
+            case EnemyState.Normal :
             {
                 currentState = seeingPlayer ? 
-                        EnemyState.ChasingPlayer : EnemyState.Patrolling;
+                        EnemyState.ChasingPlayer : EnemyState.Normal;
                 return;
             }
             case EnemyState.LookingForPlayer :
             {
                 timeSinceSeeingPlayer += Time.deltaTime;
-                if (timeSinceSeeingPlayer >= lookingTime)
+                if (timeSinceSeeingPlayer >= LookingTime)
                 {
-                    currentState = EnemyState.Patrolling;
+                    currentState = EnemyState.Normal;
                     timeSinceSeeingPlayer = 0f;
                 }
                 return;
             }
         }
     }
+
+    public void SeeingPlayer(){
+        seeingPlayer = true;
+    }
+
 }

@@ -125,8 +125,7 @@ namespace Platformer.Mechanics
 
             move = Vector2.up * deltaPosition.y;
 
-            //if (!wallJumpPossible)
-                PerformMovement(move, true);
+            PerformMovement(move, true);
         }
 
         void PerformMovement(Vector2 move, bool yMovement)
