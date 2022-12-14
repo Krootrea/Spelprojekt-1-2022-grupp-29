@@ -47,6 +47,7 @@ public class EnemyDrone : Enemy
     private void Update(){
         if (OnOff == activeStatus.on)
         {
+            state.SeeingPlayer(fov.SeeingPlayer);
             Patrol();
             Move();
         }

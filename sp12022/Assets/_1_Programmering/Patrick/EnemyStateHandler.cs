@@ -62,8 +62,8 @@ public class EnemyStateHandler : MonoBehaviour
         }
     }
 
-    public void SeeingPlayer(){
-        seeingPlayer = true;
+    public void SeeingPlayer(bool trueOrFalse){
+        seeingPlayer = trueOrFalse;
     }
 
 }

@@ -455,6 +455,10 @@ PrefabInstance:
       propertyPath: m_PointLightOuterRadius
       value: 0.32
       objectReference: {fileID: 0}
+    - target: {fileID: 2082341788, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5836601013271340928, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
         type: 3}
       propertyPath: m_RootOrder
@@ -463,7 +467,7 @@ PrefabInstance:
     - target: {fileID: 5836601013271340928, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.91
+      value: -12.42
       objectReference: {fileID: 0}
     - target: {fileID: 5836601013271340928, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
         type: 3}
@@ -573,8 +577,61 @@ PrefabInstance:
     - target: {fileID: 5836601013271340933, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
         type: 3}
       propertyPath: patrol.x
-      value: 12
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836601013271340933, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
+        type: 3}
+      propertyPath: DeathCountDown
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836601013271340933, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
+        type: 3}
+      propertyPath: LooseSightCountDown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836601013271340933, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
+        type: 3}
+      propertyPath: TrashrobotsToAlert.Array.size
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5836601013271340929, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
+--- !u!1 &6836476087741081565 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5836601013271340932, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1017760144357539929}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2042732078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6836476087741081565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36160937354f43444ae2055a1235662d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level:
+    serializedVersion: 2
+    m_Bits: 8
+  SeeingPlayer: 0
+  BetweenPrefAndEnemy: 0
+  Stop: 0
+--- !u!114 &2042732084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6836476087741081565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cbc45cfdd9b7b54d86c6e6efa6ad1d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initiatePlayerMaybeLeft: 0
+  LookingTime: 1.5

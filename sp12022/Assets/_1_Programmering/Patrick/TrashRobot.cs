@@ -7,7 +7,7 @@ public class TrashRobot : Enemy
 {
     private bool rayCast;
     private GameObject sideLight, topLight;
-    private Vector3 lastKnownPlayerLocation;
+    private Vector3 lastKnownPlayerLocation, originalPosition;
     
     // Start is called before the first frame update
     void Start(){
@@ -18,6 +18,7 @@ public class TrashRobot : Enemy
         topLight =  transform.Find("topLight").gameObject;
         SetTurnedOn(false);
         SetLights(OnOff);
+        originalPosition = transform.position;
     }
 
     private void SetLights(activeStatus b){
@@ -46,6 +47,7 @@ public class TrashRobot : Enemy
     }
 
     private void Move(){
+        direction = new Vector3(direction.x, originalPosition.y, originalPosition.z);
         transform.position = Vector3.MoveTowards(transform.position, direction, Speed * Time.deltaTime);
         RotateToCurrentDirection();
     }
