@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e2dcc1fb4364cdf887c66f39f76f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tokenCollectAudio: {fileID: 8300000, guid: e308e2d3a15d14f8da21b5091ec21d6c, type: 3}
+  tokenCollectAudio: {fileID: 8300000, guid: adf1c2d7e7cd04adfbf87b682ff78ce3, type: 3}
   randomAnimationStartTime: 1
   idleAnimation:
   - {fileID: 153727351, guid: 39f8a7e50bd90854f98422393da44039, type: 3}
