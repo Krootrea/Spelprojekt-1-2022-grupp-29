@@ -129,6 +129,8 @@ GameObject:
   - component: {fileID: 837456992361570723}
   - component: {fileID: 837456992361570725}
   - component: {fileID: 837456992361570724}
+  - component: {fileID: 1110282702}
+  - component: {fileID: 1110282703}
   m_Layer: 0
   m_Name: TrashRobot
   m_TagString: Untagged
@@ -271,7 +273,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrol: {x: 0, y: 0, z: 0}
-  Speed: 0
+  Speed: 1
+  LookingTime: 1.5
+--- !u!114 &1110282702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837456992361570735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36160937354f43444ae2055a1235662d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level:
+    serializedVersion: 2
+    m_Bits: 8
+  SeeingPlayer: 0
+  BetweenPrefAndEnemy: 0
+  Stop: 0
+--- !u!114 &1110282703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837456992361570735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cbc45cfdd9b7b54d86c6e6efa6ad1d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initiatePlayerMaybeLeft: 0
+  LookingTime: 1.5
 --- !u!1 &837456993636228881
 GameObject:
   m_ObjectHideFlags: 0

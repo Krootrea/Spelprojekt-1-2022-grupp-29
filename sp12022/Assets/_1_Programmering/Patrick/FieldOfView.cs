@@ -15,8 +15,17 @@ public class FieldOfView : MonoBehaviour
 
     [HideInInspector]
     public bool SeeingPlayer, BetweenPrefAndEnemy, Stop;
-    public Vector3 PlayerPosition => player.transform.position;
-    
+    public Vector3 PlayerPosition
+    {
+        get {
+            if (player.gameObject.IsUnityNull())
+            {
+                return Vector3.zero;
+            }
+            return player.transform.position;
+        }
+    }
+
     // Start is called before the first frame update
     void Start(){
         SeeingPlayer = false;

@@ -29,9 +29,10 @@ public class EnemyDrone : Enemy
     private LineRenderer _lineRenderer;
     
     private void Awake(){
+        fov = GetComponent<FieldOfView>();
         state = GetComponent<EnemyStateHandler>();
         state.LookingTime = LookingTime;
-        SetTurnedOn(true);
+        On = true;
         _lineRenderer = new LineRenderer();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         start = transform.position;
@@ -41,11 +42,10 @@ public class EnemyDrone : Enemy
         _light2D = transform.Find("BeamLight").GetComponent<Light2D>();
         movingTowardsTarget = true;
         direction = target; 
-        fov = GetComponent<FieldOfView>();
     }
 
     private void Update(){
-        if (OnOff == activeStatus.on)
+        if (On)
         {
             state.SeeingPlayer(fov.SeeingPlayer);
             Patrol();
