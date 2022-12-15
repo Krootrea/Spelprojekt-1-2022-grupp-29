@@ -31,10 +31,10 @@ public class EnemyStateHandler : MonoBehaviour
     }
 
     private void Update(){
-        CustomUpdate(seeingPlayer);
+        StateUpdate(seeingPlayer);
     }
 
-    public void CustomUpdate(bool seeingPlayer){
+    public void StateUpdate(bool seeingPlayer){
         switch (currentState)
         {
             case EnemyState.ChasingPlayer :

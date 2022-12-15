@@ -1,16 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Cinemachine.Utility;
-using Platformer.Gameplay;
-using Platformer.Mechanics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
-using static Platformer.Core.Simulation;
 
 public class EnemyDrone : Enemy
 {
@@ -30,15 +20,14 @@ public class EnemyDrone : Enemy
     
     private void Awake(){
         fov = GetComponent<FieldOfView>();
-        state = GetComponent<EnemyStateHandler>();
-        state.LookingTime = LookingTime;
+        stateHandler = GetComponent<EnemyStateHandler>();
+        stateHandler.LookingTime = LookingTime;
         On = true;
         _lineRenderer = new LineRenderer();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         start = transform.position;
         target = transform.position + patrol;
         playerPos = transform.Find("playerPos").gameObject;
-        
         _light2D = transform.Find("BeamLight").GetComponent<Light2D>();
         movingTowardsTarget = true;
         direction = target; 
@@ -47,7 +36,7 @@ public class EnemyDrone : Enemy
     private void Update(){
         if (On)
         {
-            state.SeeingPlayer(fov.SeeingPlayer);
+            stateHandler.SeeingPlayer(fov.SeeingPlayer);
             Patrol();
             Move();
         }
@@ -60,7 +49,7 @@ public class EnemyDrone : Enemy
 
 
     private void Patrol(){
-        switch (state.CurrentState)
+        switch (state)
         {
             case EnemyStateHandler.EnemyState.Normal:
             {
@@ -71,13 +60,22 @@ public class EnemyDrone : Enemy
                 else if (transform.position==start)
                     movingTowardsTarget = true;
                 direction = movingTowardsTarget ? target : start;
-                return;
+                if (fov.SeeingPlayer)
+                {
+                    state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                }
+                break;
             }
             case EnemyStateHandler.EnemyState.LookingForPlayer:
             {
                 _spriteRenderer.color = Color.magenta;
                 _light2D.color = _spriteRenderer.color;
-                return;
+                lostSightOfPlayerCountDown -= Time.deltaTime;
+                if (lostSightOfPlayerCountDown<=0.0f)
+                {
+                    state = EnemyStateHandler.EnemyState.Normal;
+                }
+                break;
             }
             case EnemyStateHandler.EnemyState.ChasingPlayer:
             {
@@ -86,7 +84,12 @@ public class EnemyDrone : Enemy
                 direction = playerPosition;
                 _spriteRenderer.color = Color.red;
                 _light2D.color = _spriteRenderer.color;
-                return;
+                if (!fov.SeeingPlayer)
+                {
+                    state = EnemyStateHandler.EnemyState.LookingForPlayer;
+                    lostSightOfPlayerCountDown = LooseSightCountDown;
+                }
+                break;
             }
         }
     }

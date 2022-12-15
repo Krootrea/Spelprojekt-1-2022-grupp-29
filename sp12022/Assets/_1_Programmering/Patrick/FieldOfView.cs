@@ -18,7 +18,7 @@ public class FieldOfView : MonoBehaviour
     public Vector3 PlayerPosition
     {
         get {
-            if (player.gameObject.IsUnityNull())
+            if (player.IsUnityNull())
             {
                 return Vector3.zero;
             }
