@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -95,9 +96,11 @@ public class EnemyDrone : Enemy
     }
 
     private void AlertAllTrashrobots(){
-        foreach (TrashRobot trashRobot in TrashrobotsToAlert)
-        {
-            trashRobot.Alert(fov.PlayerPosition);
+        if (TrashrobotsToAlert.Any()) {
+            foreach (TrashRobot trashRobot in TrashrobotsToAlert)
+            {
+                trashRobot.Alert(fov.PlayerPosition);
+            }
         }
     }
 }

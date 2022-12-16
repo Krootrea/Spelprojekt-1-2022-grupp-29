@@ -42,7 +42,10 @@ namespace Platformer.Mechanics
         /*internal new*/
         public AudioSource audioSource;
         public Health health;
-        public bool controlEnabled = true;
+        public bool controlEnabled = true; 
+        
+        [HideInInspector]
+        public bool gotCard = false;
 
         bool jump;
         private float wjPossibleCountD;
@@ -119,6 +122,13 @@ namespace Platformer.Mechanics
                     SetWallJumpPossible(); // Rotate to the left
                 if (direction.x == -1) 
                     SetWallJumpPossible(); // Rotate to the right
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D col){
+            if (col.gameObject.CompareTag("Card"))
+            {
+                gotCard = true;
             }
         }
 

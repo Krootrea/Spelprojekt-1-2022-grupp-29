@@ -55,7 +55,6 @@ public class TrashRobot : Enemy
 
     private void HandleTimers(){
         // Timer
-        Debug.Log("Timer running");
         if (transform.position == direction && !countingDown) 
         {
             shutdownTimer = ShutdownCountDown;
