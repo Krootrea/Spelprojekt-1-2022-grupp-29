@@ -55,3 +55,6 @@ TagManager:
   - name: Player
     uniqueID: 226032675
     locked: 0
+  - name: LevelProps
+    uniqueID: 2589904371
+    locked: 0
