@@ -45,3 +45,12 @@ TagManager:
   - name: Level
     uniqueID: 3808150285
     locked: 0
+  - name: Foreground
+    uniqueID: 1260354273
+    locked: 0
+  - name: Indoors
+    uniqueID: 761217737
+    locked: 0
+  - name: Player
+    uniqueID: 226032675
+    locked: 0
