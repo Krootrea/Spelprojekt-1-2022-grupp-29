@@ -175,6 +175,18 @@ namespace Platformer.Mechanics
                     SetWallJumpPossible(!IsGrounded); 
                 }
             }
+
+            if (col.gameObject.CompareTag("MovingPlatform"))
+            {
+                transform.parent = col.transform;
+            }
+        }
+
+        private void OnCollisionExit2D(Collision2D other){
+            if (other.gameObject.CompareTag("MovingPlatform"))
+            {
+                transform.parent = null;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D col){
@@ -231,12 +243,10 @@ namespace Platformer.Mechanics
             if (wallJumpPossible && wallSide == wallJumpSide.left)
             {
                 spriteRenderer.flipX = false;
-                Debug.Log("vägg till vänster");
             }
             else if (wallJumpPossible && wallSide == wallJumpSide.right)
             {
                 spriteRenderer.flipX = true;
-                Debug.Log("vägg till höger");
             }
             else if (move.x > 0.01f)
                 spriteRenderer.flipX = false;

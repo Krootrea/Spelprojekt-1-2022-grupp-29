@@ -10,8 +10,10 @@ public class Door : MonoBehaviour
     private bool playerCloseEnough, open;
     private Vector3 upperDir, lowerDir;
     private GameObject dUpper, dLower;
+    private AudioPlay audioPlay;
     // Start is called before the first frame update
     void Start(){
+        audioPlay = transform.GetChild(0).gameObject.GetComponent<AudioPlay>();
         open = false;
         dUpper = gameObject.transform.GetChild(0).gameObject;
         dLower = gameObject.transform.GetChild(1).gameObject;
@@ -36,6 +38,7 @@ public class Door : MonoBehaviour
     }
 
     private void OpenDoor(){
+        audioPlay.PlayAudio();
         dLower.GetComponent<Collider2D>().isTrigger = true;
         dUpper.GetComponent<Collider2D>().isTrigger = true;
     }
