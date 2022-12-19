@@ -7,7 +7,7 @@ using UnityEngine.Rendering.UI;
 
 public class BackAndForthPlatform : MonoBehaviour
 {
-    private GameObject platform;
+    private GameObject platform, cog, cog2;
     [SerializeField] public float directionOfPlatformX, Speed;
     private Vector3 direction, otherPosition,originalPosition;
     private bool activated;
@@ -18,6 +18,8 @@ public class BackAndForthPlatform : MonoBehaviour
     void Start(){
         activated = false;
         platform = transform.GetChild(0).gameObject;
+        cog = transform.GetChild(2).gameObject;
+        cog2 = transform.GetChild(3).gameObject;
         audio = transform.GetChild(0).GetChild(0).gameObject.GetComponent<AudioPlay>();
         originalPosition = platform.transform.position;
         otherPosition = new Vector3(platform.transform.position.x+directionOfPlatformX, platform.transform.position.y, platform.transform.position.z);
@@ -30,6 +32,8 @@ public class BackAndForthPlatform : MonoBehaviour
         if (activated)
         {
             platform.transform.position = Vector3.MoveTowards(platform.transform.position, direction,Speed*Time.deltaTime);
+            cog.transform.eulerAngles -= Vector3.forward * 0.6f;
+            cog2.transform.eulerAngles -= Vector3.forward * 0.6f;
         }
     }
 

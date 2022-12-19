@@ -24,7 +24,7 @@ public class Door : MonoBehaviour
     
     void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerCloseEnough && player.gotCard)
+        if ((Input.GetKeyDown(KeyCode.E)) && playerCloseEnough && player.gotCard)
         {
             open = true;
             OpenDoor();
