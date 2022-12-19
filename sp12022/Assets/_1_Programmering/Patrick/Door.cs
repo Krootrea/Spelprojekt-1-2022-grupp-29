@@ -15,8 +15,8 @@ public class Door : MonoBehaviour
     void Start(){
         audioPlay = transform.GetChild(0).gameObject.GetComponent<AudioPlay>();
         open = false;
-        dUpper = gameObject.transform.GetChild(0).gameObject;
-        dLower = gameObject.transform.GetChild(1).gameObject;
+        dUpper = gameObject.transform.GetChild(1).gameObject;
+        dLower = gameObject.transform.GetChild(2).gameObject;
 
         upperDir = dUpper.transform.position+new Vector3(0,1);
         lowerDir = dUpper.transform.position+new Vector3(0,-2);
