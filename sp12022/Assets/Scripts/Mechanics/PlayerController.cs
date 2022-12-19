@@ -6,6 +6,7 @@ using Platformer.Gameplay;
 using static Platformer.Core.Simulation;
 using Platformer.Model;
 using Platformer.Core;
+using Unity.Mathematics;
 using UnityEngine.Tilemaps;
 
 namespace Platformer.Mechanics
@@ -131,7 +132,7 @@ namespace Platformer.Mechanics
             {
                 wjPossibleCountD = wallJumpTimer;
                 wallJumpPossible = true;
-                // animator.SetBool("walljump", true);
+                animator.SetBool("onWall", true);
             }
         }
 
@@ -142,7 +143,9 @@ namespace Platformer.Mechanics
             }
 
             if (wallJumpPossible && wjPossibleCountD <= 0.0f)
+            {
                 wallJumpPossible = false;
+            }
             if (!wallJumpPossible && wjPossibleCountD > 0)
                 wjPossibleCountD = 0;
         }
@@ -150,14 +153,14 @@ namespace Platformer.Mechanics
         private void OnCollisionEnter2D(Collision2D col){
             if (!IsGrounded && col.gameObject.layer == 3) {
                 Vector2 direction = col.GetContact(0).normal;
-                if (direction.x == 1) // Wall to the right
-                {
-                    wallSide = wallJumpSide.right;
-                    SetWallJumpPossible(); 
-                }
-                if (direction.x == -1) // Wall to the left
+                if (direction.x == 1) // Wall to the left
                 {
                     wallSide = wallJumpSide.left;
+                    SetWallJumpPossible(); 
+                }
+                if (direction.x == -1) // Wall to the right
+                {
+                    wallSide = wallJumpSide.right;
                     SetWallJumpPossible(); 
                 }
             }
@@ -202,6 +205,7 @@ namespace Platformer.Mechanics
         {
             if (jump && (IsGrounded||wallJumpPossible)) {
                 wallJumpPossible = false;
+                animator.SetBool("onWall", false);
                 velocity.y = jumpTakeOffSpeed * model.jumpModifier;
                 jump = false;
             }
@@ -213,7 +217,17 @@ namespace Platformer.Mechanics
                 }
             }
 
-            if (move.x > 0.01f)
+            if (wallJumpPossible && wallSide == wallJumpSide.left)
+            {
+                spriteRenderer.flipX = false;
+                Debug.Log("vägg till vänster");
+            }
+            else if (wallJumpPossible && wallSide == wallJumpSide.right)
+            {
+                spriteRenderer.flipX = true;
+                Debug.Log("vägg till höger");
+            }
+            else if (move.x > 0.01f)
                 spriteRenderer.flipX = false;
             else if (move.x < -0.01f)
                 spriteRenderer.flipX = true;
