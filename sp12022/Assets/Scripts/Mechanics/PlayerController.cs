@@ -50,7 +50,7 @@ namespace Platformer.Mechanics
         public bool controlEnabled = true; 
         
         [HideInInspector]
-        public bool gotCard = false;
+        public bool gotCard = false, gotScrew = false;
 
         bool jump;
         private float wjPossibleCountD;
@@ -193,6 +193,10 @@ namespace Platformer.Mechanics
             if (col.gameObject.CompareTag("Card"))
             {
                 gotCard = true;
+            }
+            if (col.gameObject.CompareTag("Screw"))
+            {
+                gotScrew = true;
             }
         }
 
