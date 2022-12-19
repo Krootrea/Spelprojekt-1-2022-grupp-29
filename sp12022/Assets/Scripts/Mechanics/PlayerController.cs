@@ -127,18 +127,25 @@ namespace Platformer.Mechanics
             
         }
 
-        private void SetWallJumpPossible(){
+        private void SetWallJumpPossible(bool possible){
             if (wjPossibleCountD <= 0.0f && !wallJumpPossible) 
             {
-                wjPossibleCountD = wallJumpTimer;
-                wallJumpPossible = true;
-                animator.SetBool("onWall", true);
+                wjPossibleCountD = possible ? wallJumpTimer : 0.0f;
+                wallJumpPossible = possible;
+                animator.SetBool("onWall", possible);
+            }
+
+            if (!possible)
+            {
+                wjPossibleCountD = 0.0f;
+                wallJumpPossible = false;
+                animator.SetBool("onWall", false);
             }
         }
 
         private void WallJumpCountDown(){
             if (wjPossibleCountD > 0.0f) {
-                wallJumpPossible = true;
+                // wallJumpPossible = true;
                 wjPossibleCountD -= Time.deltaTime;
             }
 
@@ -148,6 +155,10 @@ namespace Platformer.Mechanics
             }
             if (!wallJumpPossible && wjPossibleCountD > 0)
                 wjPossibleCountD = 0;
+            if (IsGrounded)
+            {
+                SetWallJumpPossible(false);
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D col){
@@ -156,12 +167,12 @@ namespace Platformer.Mechanics
                 if (direction.x == 1) // Wall to the left
                 {
                     wallSide = wallJumpSide.left;
-                    SetWallJumpPossible(); 
+                    SetWallJumpPossible(!IsGrounded); 
                 }
                 if (direction.x == -1) // Wall to the right
                 {
                     wallSide = wallJumpSide.right;
-                    SetWallJumpPossible(); 
+                    SetWallJumpPossible(!IsGrounded); 
                 }
             }
         }
