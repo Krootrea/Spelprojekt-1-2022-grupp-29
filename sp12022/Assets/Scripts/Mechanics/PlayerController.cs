@@ -16,6 +16,10 @@ namespace Platformer.Mechanics
     /// </summary>
     public class PlayerController : KinematicObject
     {
+        private enum wallJumpSide{left, right, noSide}
+
+        private wallJumpSide wallSide;
+        
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
@@ -57,8 +61,8 @@ namespace Platformer.Mechanics
         public Bounds Bounds => collider2d.bounds;
         public TilemapCollider2D tilesCollider;
 
-        void Awake()
-        {
+        void Awake(){
+            wallSide = wallJumpSide.noSide;
             wjPossibleCountD = 0f;
             health = GetComponent<Health>();
             audioSource = GetComponent<AudioSource>();
@@ -72,9 +76,11 @@ namespace Platformer.Mechanics
             WallJumpCountDown();
             if (controlEnabled) 
             {
-                move.x = Input.GetAxis("Horizontal");
+                SetDirectionInWallJump();
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
+                {
                     jumpState = JumpState.PrepareToJump;
+                }
                 else if (Input.GetButtonDown("Jump") && wallJumpPossible) 
                 {
                     jumpState = JumpState.PrepareToJump;
@@ -82,8 +88,8 @@ namespace Platformer.Mechanics
                 }
                 else if (Input.GetButtonUp("Jump")) 
                 {
-                    stopJump = true;
-                    Schedule<PlayerStopJump>().player = this;
+                    // stopJump = true;
+                    // Schedule<PlayerStopJump>().player = this;
                 }
             }
             else 
@@ -92,6 +98,32 @@ namespace Platformer.Mechanics
             }
             UpdateJumpState();
             base.Update();
+        }
+
+        private void SetDirectionInWallJump(){
+            if (wallJumpPossible)
+            {
+                move.x = 0;
+                switch (wallSide)
+                {
+                    case wallJumpSide.left:
+                    {
+                        // Rotera till höger
+                        break;
+                    }
+                    case wallJumpSide.right:
+                    {
+                        // Rotera till vänster
+                        break;
+                    }
+                    case wallJumpSide.noSide : break;
+                }
+            }
+            else
+            {
+                move.x = Input.GetAxis("Horizontal");
+            }
+            
         }
 
         private void SetWallJumpPossible(){
@@ -118,10 +150,16 @@ namespace Platformer.Mechanics
         private void OnCollisionEnter2D(Collision2D col){
             if (!IsGrounded && col.gameObject.layer == 3) {
                 Vector2 direction = col.GetContact(0).normal;
-                if (direction.x == 1) 
-                    SetWallJumpPossible(); // Rotate to the left
-                if (direction.x == -1) 
-                    SetWallJumpPossible(); // Rotate to the right
+                if (direction.x == 1) // Wall to the right
+                {
+                    wallSide = wallJumpSide.right;
+                    SetWallJumpPossible(); 
+                }
+                if (direction.x == -1) // Wall to the left
+                {
+                    wallSide = wallJumpSide.left;
+                    SetWallJumpPossible(); 
+                }
             }
         }
 
