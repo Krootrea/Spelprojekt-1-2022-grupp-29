@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Platformer.Mechanics;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 
 public class BackAndForthPlatform : MonoBehaviour
 {
@@ -10,11 +11,14 @@ public class BackAndForthPlatform : MonoBehaviour
     [SerializeField] public float directionOfPlatformX, Speed;
     private Vector3 direction, otherPosition,originalPosition;
     private bool activated;
+    private PlayerController player;
+    private AudioPlay audio;
     
     // Start is called before the first frame update
     void Start(){
         activated = false;
         platform = transform.GetChild(0).gameObject;
+        audio = transform.GetChild(0).GetChild(0).gameObject.GetComponent<AudioPlay>();
         originalPosition = platform.transform.position;
         otherPosition = new Vector3(platform.transform.position.x+directionOfPlatformX, platform.transform.position.y, platform.transform.position.z);
 
@@ -43,10 +47,14 @@ public class BackAndForthPlatform : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col){
         if (col.gameObject.CompareTag("Player"))
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Activate(col.gameObject.GetComponent<PlayerController>());
-            }
+            player = col.gameObject.GetComponent<PlayerController>();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other){
+        if (other.gameObject.CompareTag("Player") && Input.GetKeyDown(KeyCode.E))
+        {
+            Activate(player);
         }
     }
 
@@ -54,6 +62,7 @@ public class BackAndForthPlatform : MonoBehaviour
         if (player.gotCard)
         {
             activated = true;
+            audio.PlayAudio();
         }
     }
 }
