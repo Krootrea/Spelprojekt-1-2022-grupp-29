@@ -57,6 +57,9 @@ TagManager:
   - name: Foreground
     uniqueID: 1260354273
     locked: 0
+  - name: RebelBase
+    uniqueID: 3722164977
+    locked: 0
   - name: Player
     uniqueID: 226032675
     locked: 0
