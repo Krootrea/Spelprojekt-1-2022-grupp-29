@@ -205,6 +205,13 @@ namespace Platformer.Mechanics
             }
         }
 
+        private void OnCollisionStay2D(Collision2D collision){
+            if (collision.gameObject.CompareTag("MovingPlatform") && Input.GetButtonDown("Jump"))
+            {
+                transform.parent = null;
+            }
+        }
+
         private void OnCollisionExit2D(Collision2D other){
             if (other.gameObject.CompareTag("MovingPlatform"))
             {
