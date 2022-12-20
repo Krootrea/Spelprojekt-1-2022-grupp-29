@@ -75,6 +75,10 @@ namespace Platformer.Mechanics
         }
 
         protected override void Update(){
+            if (wallJumpPossible && Input.GetAxis("Vertical")<0)
+            {
+                wallJumpPossible = false;
+            }
             WallJumpCountDown();
             if (controlEnabled) 
             {
