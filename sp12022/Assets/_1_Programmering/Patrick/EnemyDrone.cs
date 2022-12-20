@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using Platformer.Gameplay;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using static Platformer.Core.Simulation;
 
 public class EnemyDrone : Enemy
 {
@@ -10,7 +12,7 @@ public class EnemyDrone : Enemy
     private Light2D _light2D;
     
     private Vector3 start, target;
-    private bool movingTowardsTarget, rayCast,killedPlayer;
+    private bool movingTowardsTarget, rayCast,killedPlayer,deathCountDownStarted;
     private GameObject playerPos;
     private float lostSightOfPlayerCountDown, playerDeathCountDown, justKilledPlayerCountDown;
 
@@ -69,6 +71,7 @@ public class EnemyDrone : Enemy
             }
             case EnemyStateHandler.EnemyState.LookingForPlayer:
             {
+                deathCountDownStarted = false;
                 _spriteRenderer.color = Color.magenta;
                 _light2D.color = _spriteRenderer.color;
                 lostSightOfPlayerCountDown -= Time.deltaTime;
@@ -80,6 +83,11 @@ public class EnemyDrone : Enemy
             }
             case EnemyStateHandler.EnemyState.ChasingPlayer:
             {
+                if (!deathCountDownStarted)
+                {
+                    deathCountDownStarted = true;
+                    playerDeathCountDown = DeathCountDown;
+                }
                 AlertAllTrashrobots();
                 Vector3 playerPosition = new Vector3(transform.position.x + (fov.PlayerPosition.x-playerPos.transform.position.x), transform.position.y);
                 direction = playerPosition;
@@ -90,13 +98,20 @@ public class EnemyDrone : Enemy
                     state = EnemyStateHandler.EnemyState.LookingForPlayer;
                     lostSightOfPlayerCountDown = LooseSightCountDown;
                 }
+
+                playerDeathCountDown -= Time.deltaTime;
+                if (playerDeathCountDown<0.0f)
+                {
+                    deathCountDownStarted = false;
+                    Schedule<PlayerEnteredDeathZone>();
+                }
                 break;
             }
         }
     }
 
     private void AlertAllTrashrobots(){
-        if (TrashrobotsToAlert.Any()) {
+        if (TrashrobotsToAlert.Count>0) {
             foreach (TrashRobot trashRobot in TrashrobotsToAlert)
             {
                 trashRobot.Alert(fov.PlayerPosition);

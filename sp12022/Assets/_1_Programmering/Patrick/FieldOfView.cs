@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Platformer.Mechanics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ public class FieldOfView : MonoBehaviour
 
     [HideInInspector]
     public bool SeeingPlayer, BetweenPrefAndEnemy, Stop;
+
+    public PlayerController playerController;
     public Vector3 PlayerPosition
     {
         get {
@@ -90,6 +93,10 @@ public class FieldOfView : MonoBehaviour
         bool colIsPlayer = col.CompareTag("Player");
         rayCast = colIsPlayer || rayCast;
         player = colIsPlayer ? col.gameObject : player;
+        if (colIsPlayer)
+        {
+            playerController = player.GetComponent<PlayerController>();
+        }
     } 
 
     private void OnTriggerExit2D(Collider2D other) // We DON'T want to cast ray and look for player.
@@ -98,5 +105,9 @@ public class FieldOfView : MonoBehaviour
         bool otherIsPlayer = other.CompareTag("Player");
         playerJumpedWithinCollision = true;
         jumpCountDownTimer = 1.5f;
+        if (otherIsPlayer)
+        {
+            playerController = null;
+        }
     } 
 }

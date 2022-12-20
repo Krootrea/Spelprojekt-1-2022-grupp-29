@@ -567,7 +567,7 @@ PrefabInstance:
     - target: {fileID: 5836601013271340932, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
         type: 3}
       propertyPath: m_Name
-      value: DroneTest
+      value: DroneTest Shadowcasting
       objectReference: {fileID: 0}
     - target: {fileID: 5836601013271340933, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
         type: 3}
@@ -592,7 +592,7 @@ PrefabInstance:
     - target: {fileID: 5836601013271340933, guid: 137de4dcf102e0b46ab8d0ed9afb55d9,
         type: 3}
       propertyPath: TrashrobotsToAlert.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5836601013271340929, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
