@@ -7,7 +7,9 @@ using static Platformer.Core.Simulation;
 using Platformer.Model;
 using Platformer.Core;
 using Unity.Mathematics;
+using Unity.Tutorials.Core.Editor;
 using UnityEngine.Tilemaps;
+using UnityEngine.EventSystems;
 
 namespace Platformer.Mechanics
 {
@@ -72,8 +74,7 @@ namespace Platformer.Mechanics
             animator = GetComponent<Animator>();
         }
 
-        protected override void Update()
-        {
+        protected override void Update(){
             WallJumpCountDown();
             if (controlEnabled) 
             {
