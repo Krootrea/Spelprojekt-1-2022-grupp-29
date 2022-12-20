@@ -56,7 +56,7 @@ public class BackAndForthPlatform : MonoBehaviour
     }
 
     private void OnTriggerStay2D(Collider2D other){
-        if (other.gameObject.CompareTag("Player") && (Input.GetKeyDown(KeyCode.E)||Input.GetButtonDown("Interact")))
+        if (other.gameObject.CompareTag("Player") && Input.GetButtonDown("Interact"))
         {
             Activate(player);
         }

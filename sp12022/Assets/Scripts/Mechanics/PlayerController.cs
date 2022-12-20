@@ -8,6 +8,7 @@ using Platformer.Model;
 using Platformer.Core;
 using Unity.Mathematics;
 using Unity.Tutorials.Core.Editor;
+using Unity.VisualScripting;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
 
@@ -87,6 +88,10 @@ namespace Platformer.Mechanics
                 {
                     jumpState = JumpState.PrepareToJump;
                     justJumped = true;
+                    if (!transform.parent.IsUnityNull())
+                    {
+                        transform.parent = null;
+                    }
                 }
                 else if (Input.GetButtonDown("Jump") && wallJumpPossible) 
                 {
@@ -95,6 +100,10 @@ namespace Platformer.Mechanics
                     justJumped = true;
                     justWallJumped = true;
                     justWallJumpedCD = 0.6f;
+                    if (!transform.parent.IsUnityNull())
+                    {
+                        transform.parent = null;
+                    }
                 }
                 else if (Input.GetButtonUp("Jump")) 
                 {
