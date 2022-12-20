@@ -18,7 +18,7 @@ public class CollectiblesUI : MonoBehaviour
         _textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
         playerController = player.GetComponent<PlayerController>();
         cardBackground = gameObject.transform.GetChild(0).gameObject;
-        whiteCard = gameObject.transform.GetChild(1).GetChild(0).gameObject;
+        whiteCard = gameObject.transform.GetChild(1).gameObject;
         cardBackground.SetActive(false);
         whiteCard.SetActive(false);
     }
