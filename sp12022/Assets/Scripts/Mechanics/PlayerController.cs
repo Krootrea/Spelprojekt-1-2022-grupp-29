@@ -54,8 +54,8 @@ namespace Platformer.Mechanics
         [HideInInspector]
         public bool gotCard = false, gotScrew = false;
 
-        bool jump;
-        private float wjPossibleCountD;
+        bool jump, justWallJumped;
+        private float wjPossibleCountD, justWallJumpedCD; 
         Vector2 move;
         SpriteRenderer spriteRenderer;
         internal Animator animator;
@@ -79,14 +79,18 @@ namespace Platformer.Mechanics
             if (controlEnabled) 
             {
                 SetDirectionInWallJump();
-                if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
+                if ((jumpState == JumpState.Grounded || justStartedFalling) && Input.GetButtonDown("Jump"))
                 {
                     jumpState = JumpState.PrepareToJump;
+                    justJumped = true;
                 }
                 else if (Input.GetButtonDown("Jump") && wallJumpPossible) 
                 {
                     jumpState = JumpState.PrepareToJump;
                     wjPossibleCountD = 0;
+                    justJumped = true;
+                    justWallJumped = true;
+                    justWallJumpedCD = 0.6f;
                 }
                 else if (Input.GetButtonUp("Jump")) 
                 {
@@ -99,6 +103,17 @@ namespace Platformer.Mechanics
                 move.x = 0;
             }
             UpdateJumpState();
+            if (justWallJumped)
+            {
+                if (wallSide == wallJumpSide.left)
+                {
+                    move.x = 1;
+                }
+                else if (wallSide == wallJumpSide.right)
+                {
+                    move.x = -1;
+                }
+            }
             base.Update();
         }
 
@@ -110,12 +125,10 @@ namespace Platformer.Mechanics
                 {
                     case wallJumpSide.left:
                     {
-                        // Rotera till höger
                         break;
                     }
                     case wallJumpSide.right:
                     {
-                        // Rotera till vänster
                         break;
                     }
                     case wallJumpSide.noSide : break;
@@ -129,7 +142,7 @@ namespace Platformer.Mechanics
         }
 
         private void SetWallJumpPossible(bool possible){
-            if (wjPossibleCountD <= 0.0f && !wallJumpPossible) 
+            if (!justJumped && wjPossibleCountD <= 0.0f && !wallJumpPossible) 
             {
                 wjPossibleCountD = possible ? wallJumpTimer : 0.0f;
                 wallJumpPossible = possible;
@@ -159,6 +172,15 @@ namespace Platformer.Mechanics
             if (IsGrounded)
             {
                 SetWallJumpPossible(false);
+            }
+
+            if (justWallJumped)
+            {
+                justWallJumpedCD -= Time.deltaTime;
+                if (justWallJumpedCD<0.0f)
+                {
+                    justWallJumped = false;
+                }
             }
         }
 
@@ -226,6 +248,16 @@ namespace Platformer.Mechanics
                 case JumpState.Landed:
                     jumpState = JumpState.Grounded;
                     break;
+            }
+
+            if (justJumped)
+            {
+                justJumpedCD -= Time.deltaTime;
+                if (justJumpedCD<=0.0f)
+                {
+                    justJumped = false;
+                    justJumpedCD = 0.2f;
+                }
             }
         }
 

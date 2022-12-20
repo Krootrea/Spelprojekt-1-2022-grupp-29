@@ -45,6 +45,9 @@ namespace Platformer.Mechanics
 
         protected const float minMoveDistance = 0.001f;
         protected const float shellRadius = 0.01f;
+        
+        protected float justJumpedCD = 0.2f, jsFallingCD = 1f;
+        protected bool justJumped, justStartedFalling;
 
 
         /// <summary>
@@ -108,8 +111,9 @@ namespace Platformer.Mechanics
             //if already falling, fall faster than the jump speed, otherwise use normal gravity.
             if (velocity.y < 0 && !wallJumpPossible)
                 velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
-            else if(!wallJumpPossible)
+            else if (!wallJumpPossible)
                 velocity += Physics2D.gravity * Time.deltaTime;
+            
 
             velocity.x = targetVelocity.x;
 
@@ -165,7 +169,10 @@ namespace Platformer.Mechanics
                     {
                         //We are airborne, but hit something, so cancel vertical up and horizontal velocity.
                         velocity.x *= 0;
-                        velocity.y = Mathf.Min(velocity.y, 0);
+                        if (!justJumped)
+                        {
+                            velocity.y = Mathf.Min(velocity.y, 0);
+                        }
                     }
                     //remove shellDistance from actual move distance.
                     var modifiedDistance = hitBuffer[i].distance - shellRadius;
