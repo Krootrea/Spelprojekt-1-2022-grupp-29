@@ -7,7 +7,6 @@ using static Platformer.Core.Simulation;
 using Platformer.Model;
 using Platformer.Core;
 using Unity.Mathematics;
-using Unity.Tutorials.Core.Editor;
 using Unity.VisualScripting;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
@@ -38,7 +37,7 @@ namespace Platformer.Mechanics
         /// </summary>
         public float jumpTakeOffSpeed = 7;
 
-        public float wallJumpTimer = 0.6f;
+        public float wallJumpTimer = 0.6f, WallJumpLockTime = 0.6f;
 
         public JumpState jumpState = JumpState.Grounded;
 
@@ -99,7 +98,7 @@ namespace Platformer.Mechanics
                     wjPossibleCountD = 0;
                     justJumped = true;
                     justWallJumped = true;
-                    justWallJumpedCD = 0.6f;
+                    justWallJumpedCD = WallJumpLockTime;
                     if (!transform.parent.IsUnityNull())
                     {
                         transform.parent = null;

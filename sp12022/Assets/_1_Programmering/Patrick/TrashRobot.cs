@@ -58,12 +58,12 @@ public class TrashRobot : Enemy
         if (transform.position == direction && !countingDown) 
         {
             shutdownTimer = ShutdownCountDown;
-            countingDown = !fov.SeeingPlayer;
+            countingDown = true;
         }
-        
-        if (shutdownTimer>0.0f && countingDown)
+
+        if (shutdownTimer > 0.0f && countingDown)
             shutdownTimer -= Time.deltaTime;
-        
+
         if (countingDown && shutdownTimer<=0.0f && state == EnemyStateHandler.EnemyState.LookingForPlayer)
         {
             shutDown = true;
@@ -91,7 +91,6 @@ public class TrashRobot : Enemy
             case EnemyStateHandler.EnemyState.LookingForPlayer:
             {
                 // Framme på direction, leta efter spelare och räkna ner.
-                
                 if (fov.SeeingPlayer)
                     state = EnemyStateHandler.EnemyState.ChasingPlayer;
                 else
