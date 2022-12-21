@@ -15,7 +15,7 @@ TagManager:
   - Level
   - Water
   - UI
-  - 
+  - LevelNonStick
   - 
   - 
   - 
@@ -53,6 +53,9 @@ TagManager:
     locked: 0
   - name: Level
     uniqueID: 3808150285
+    locked: 0
+  - name: LevelNonStick
+    uniqueID: 4090072547
     locked: 0
   - name: Foreground
     uniqueID: 1260354273
