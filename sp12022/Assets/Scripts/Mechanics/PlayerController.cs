@@ -189,7 +189,7 @@ namespace Platformer.Mechanics
             if (justWallJumped)
             {
                 justWallJumpedCD -= Time.deltaTime;
-                if (justWallJumpedCD<0.0f || Input.GetAxisRaw("Horizontal")!=0.0f)
+                if (IsGrounded || justWallJumpedCD<0.0f || Input.GetAxisRaw("Horizontal")!=0.0f)
                 {
                     justWallJumped = false;
                 }
