@@ -37,7 +37,7 @@ namespace Platformer.Mechanics
         /// </summary>
         public float jumpTakeOffSpeed = 7;
 
-        public float wallJumpTimer = 0.6f, WallJumpLockTime = 0.6f;
+        public float wallJumpTimer = 0.6f;
 
         public JumpState jumpState = JumpState.Grounded;
 
@@ -98,7 +98,7 @@ namespace Platformer.Mechanics
                     wjPossibleCountD = 0;
                     justJumped = true;
                     justWallJumped = true;
-                    justWallJumpedCD = WallJumpLockTime;
+                    justWallJumpedCD = 5;
                     if (!transform.parent.IsUnityNull())
                     {
                         transform.parent = null;
@@ -189,7 +189,7 @@ namespace Platformer.Mechanics
             if (justWallJumped)
             {
                 justWallJumpedCD -= Time.deltaTime;
-                if (justWallJumpedCD<0.0f)
+                if (justWallJumpedCD<0.0f || Input.GetAxisRaw("Horizontal")!=0.0f)
                 {
                     justWallJumped = false;
                 }
