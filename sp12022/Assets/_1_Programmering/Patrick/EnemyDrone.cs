@@ -14,7 +14,7 @@ public class EnemyDrone : Enemy
     private Vector3 start, target;
     private bool movingTowardsTarget, rayCast,killedPlayer,deathCountDownStarted;
     private GameObject playerPos;
-    private float lostSightOfPlayerCountDown, playerDeathCountDown, justKilledPlayerCountDown;
+    private float lostSightOfPlayerCountDown, playerDeathCountDown, justKilledPlayerCountDown, justAlertedCountDown;
 
     public float LooseSightCountDown, DeathCountDown;
     public List<TrashRobot> TrashrobotsToAlert;
@@ -111,10 +111,13 @@ public class EnemyDrone : Enemy
     }
 
     private void AlertAllTrashrobots(){
-        if (TrashrobotsToAlert.Count>0) {
+        if(justAlertedCountDown<=0.0f)justAlertedCountDown = 1f;
+        justAlertedCountDown -= Time.deltaTime;
+        if (TrashrobotsToAlert.Count>0 && justAlertedCountDown<=0.0f) {
             foreach (TrashRobot trashRobot in TrashrobotsToAlert)
             {
                 trashRobot.Alert(fov.PlayerPosition);
+                Debug.Log("Drone warning trashrobot!!");
             }
         }
     }

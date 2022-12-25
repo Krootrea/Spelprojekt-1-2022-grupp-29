@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class TrashRobot : Enemy
@@ -9,14 +11,16 @@ public class TrashRobot : Enemy
     // public enum TM{MovingToLocation, LookingForPlayer,Idle, ChasingPlayer, Attacking}
 
     // private TM mode;
-    private bool rayCast, shutDown, countingDown, lightsBlinkState;
-    private GameObject sideLight, topLight;
+    private bool rayCast, shutDown, countingDown, lightsBlinkState,arrived, turnLeft;
+    private GameObject sideLight, topLight, playerPos;
     private Vector3 lastKnownPlayerLocation, originalPosition;
-    public float ShutdownCountDown = 2.5f;
-    private float shutdownTimer, blinkTimer;
+    // private float ShutdownCountDown;
+    private float shutdownTimer, blinkTimer, lookTimer;
     
     // Start is called before the first frame update
     void Start(){
+        lookTimer = 0.0f;
+        arrived = false;
         countingDown = false;
         // mode = TM.Idle;
         stateHandler = GetComponent<EnemyStateHandler>();
@@ -30,6 +34,7 @@ public class TrashRobot : Enemy
         originalPosition = transform.position;
         shutdownTimer = 0f;
         lightsBlinkState = true;
+        playerPos = transform.Find("playerPos").gameObject;
     }
 
     private void SetLights(bool onOff){
@@ -53,12 +58,17 @@ public class TrashRobot : Enemy
         }
     }
 
+    private void LateUpdate(){
+        Debug.Log(state);
+    }
+
     private void HandleTimers(){
         // Timer
-        if (transform.position == direction && !countingDown) 
+        if (arrived && !countingDown) 
         {
-            shutdownTimer = ShutdownCountDown;
+            shutdownTimer = LookingTime;
             countingDown = true;
+            Debug.Log("Time for countdown.");
         }
 
         if (shutdownTimer > 0.0f && countingDown)
@@ -71,7 +81,21 @@ public class TrashRobot : Enemy
         }
     }
 
-    private void LookAround(){ }
+    private void LookAround(){
+        if (lookTimer>1f)
+        {
+            lookTimer = 0.0f;
+            Vector3 scale = transform.localScale;
+            if (turnLeft)
+                scale.Set(-1, 1, 1);
+            else
+                scale.Set(1, 1, 1);
+            turnLeft = !turnLeft;
+            transform.localScale = scale;
+        }
+
+        lookTimer += Time.deltaTime;
+    }
 
     private void DecideWhereToGo()
     {
@@ -82,9 +106,13 @@ public class TrashRobot : Enemy
                 // Gå till direction
 
                 if (fov.SeeingPlayer)
+                {
                     state = EnemyStateHandler.EnemyState.ChasingPlayer;
-                else if (transform.position == direction)
+                }
+                else if (arrived)
+                {
                     state = EnemyStateHandler.EnemyState.LookingForPlayer;
+                }
                 Move();
                 break;
             }
@@ -92,9 +120,12 @@ public class TrashRobot : Enemy
             {
                 // Framme på direction, leta efter spelare och räkna ner.
                 if (fov.SeeingPlayer)
+                {
                     state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                }
                 else
                 {
+                    LookAround();
                     HandleTimers();
                 }
                 break;
@@ -102,9 +133,10 @@ public class TrashRobot : Enemy
             case EnemyStateHandler.EnemyState.ChasingPlayer:
             {
                 // Ser spelare, om framme: attackera. Annars gå till direction(spelarens position).
-                
-                if (!fov.SeeingPlayer)
+
+                if (!fov.SeeingPlayer && arrived){
                     state = EnemyStateHandler.EnemyState.LookingForPlayer;
+                }
                 Move();
                 break;
             }
@@ -112,10 +144,17 @@ public class TrashRobot : Enemy
         lastKnownPlayerLocation = fov.SeeingPlayer ? fov.PlayerPosition : lastKnownPlayerLocation;
     }
 
-    private void Move()
-    {
-        direction = new Vector3(direction.x, originalPosition.y, originalPosition.z);
-        transform.position = Vector3.MoveTowards(transform.position, direction, Speed * Time.deltaTime);
+    private void Move(){
+        Vector3 moveToDir;
+        if (direction.x-transform.position.x<0.1f) {
+            moveToDir = new Vector3(direction.x, originalPosition.y, originalPosition.z);
+        }
+        else {
+            moveToDir = new Vector3(direction.x-(playerPos.transform.position.x-transform.position.x), originalPosition.y, originalPosition.z);    
+        }
+        arrived = Mathf.Abs(transform.position.x-moveToDir.x)<=0.01f;
+        
+        transform.position = Vector3.MoveTowards(transform.position, moveToDir, Speed * Time.deltaTime);
         RotateToCurrentDirection();
     }
     
