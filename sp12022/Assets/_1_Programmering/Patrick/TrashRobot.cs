@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Platformer.Gameplay;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using static Platformer.Core.Simulation;
 
 public class TrashRobot : Enemy
 {
@@ -58,17 +60,12 @@ public class TrashRobot : Enemy
         }
     }
 
-    private void LateUpdate(){
-        Debug.Log(state);
-    }
-
     private void HandleTimers(){
         // Timer
         if (arrived && !countingDown) 
         {
             shutdownTimer = LookingTime;
             countingDown = true;
-            Debug.Log("Time for countdown.");
         }
 
         if (shutdownTimer > 0.0f && countingDown)
@@ -82,7 +79,7 @@ public class TrashRobot : Enemy
     }
 
     private void LookAround(){
-        if (lookTimer>1f)
+        if (lookTimer>2f)
         {
             lookTimer = 0.0f;
             Vector3 scale = transform.localScale;
@@ -108,6 +105,7 @@ public class TrashRobot : Enemy
                 if (fov.SeeingPlayer)
                 {
                     state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                    direction = fov.PlayerPosition;
                 }
                 else if (arrived)
                 {
@@ -122,6 +120,7 @@ public class TrashRobot : Enemy
                 if (fov.SeeingPlayer)
                 {
                     state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                    direction = fov.PlayerPosition;
                 }
                 else
                 {
@@ -136,6 +135,10 @@ public class TrashRobot : Enemy
 
                 if (!fov.SeeingPlayer && arrived){
                     state = EnemyStateHandler.EnemyState.LookingForPlayer;
+                }
+                else if (arrived)
+                {
+                    AttackPlayer();
                 }
                 Move();
                 break;

@@ -117,7 +117,6 @@ public class EnemyDrone : Enemy
             foreach (TrashRobot trashRobot in TrashrobotsToAlert)
             {
                 trashRobot.Alert(fov.PlayerPosition);
-                Debug.Log("Drone warning trashrobot!!");
             }
         }
     }
