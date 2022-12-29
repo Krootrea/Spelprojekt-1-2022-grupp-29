@@ -16,11 +16,14 @@ public class TrashRobot : Enemy
     private bool rayCast, shutDown, countingDown, lightsBlinkState,arrived, turnLeft;
     private GameObject sideLight, topLight, playerPos;
     private Vector3 lastKnownPlayerLocation, originalPosition;
+
+    private Laser laser;
     // private float ShutdownCountDown;
     private float shutdownTimer, blinkTimer, lookTimer;
     
     // Start is called before the first frame update
     void Start(){
+        laser = GetComponent<Laser>();
         lookTimer = 0.0f;
         arrived = false;
         countingDown = false;
@@ -140,6 +143,14 @@ public class TrashRobot : Enemy
                 {
                     AttackPlayer();
                 }
+
+                if (!fov.SeeingPlayer)
+                {
+                    if (laser.CurrentlyFiring())
+                    {
+                        laser.StopFiring();
+                    }
+                }
                 Move();
                 break;
             }
@@ -149,7 +160,7 @@ public class TrashRobot : Enemy
 
     private void Move(){
         Vector3 moveToDir;
-        if (direction.x-transform.position.x<0.1f) {
+        if (direction.x-transform.position.x<0.1f && direction.x-transform.position.x>-0.1f) {
             moveToDir = new Vector3(direction.x, originalPosition.y, originalPosition.z);
         }
         else {
@@ -162,7 +173,11 @@ public class TrashRobot : Enemy
     }
     
     private void AttackPlayer(){
-        Debug.Log("Attack!");
+        if (!laser.CurrentlyFiring())
+        {
+            laser.Fire();
+            Schedule<PlayerEnteredDeathZone>();
+        }
     }
     
     private void AlertLights(){
