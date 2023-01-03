@@ -20,6 +20,7 @@ public class TrashRobot : Enemy
     private Laser laser;
     // private float ShutdownCountDown;
     private float shutdownTimer, blinkTimer, lookTimer;
+    public float startupTimer;
     
     // Start is called before the first frame update
     void Start(){
@@ -104,17 +105,23 @@ public class TrashRobot : Enemy
             case EnemyStateHandler.EnemyState.Normal:
             {
                 // Gå till direction
-
-                if (fov.SeeingPlayer)
+                if (startupTimer<=0.0f)
                 {
-                    state = EnemyStateHandler.EnemyState.ChasingPlayer;
-                    direction = fov.PlayerPosition;
+                    if (fov.SeeingPlayer)
+                    {
+                        state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                        direction = fov.PlayerPosition;
+                    }
+                    else if (arrived)
+                    {
+                        state = EnemyStateHandler.EnemyState.LookingForPlayer;
+                    }
+                    Move();
                 }
-                else if (arrived)
+                else
                 {
-                    state = EnemyStateHandler.EnemyState.LookingForPlayer;
+                    startupTimer -= Time.deltaTime;
                 }
-                Move();
                 break;
             }
             case EnemyStateHandler.EnemyState.LookingForPlayer:

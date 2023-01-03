@@ -19874,6 +19874,7 @@ MonoBehaviour:
   patrol: {x: 0, y: 0, z: 0}
   Speed: 4
   LookingTime: 10
+  startupTimer: 2
 --- !u!114 &1110282702
 MonoBehaviour:
   m_ObjectHideFlags: 0
