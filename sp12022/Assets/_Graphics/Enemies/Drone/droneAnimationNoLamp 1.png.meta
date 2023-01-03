@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cfe934cdc399b2448b286e0108a4b513
+guid: 4c2b590956de62640a8ed0df4d586cbb
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: droneAnimationNoLamp_0
+      name: droneAnimationNoLamp 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1a5d86498b10354ca767c6079bd570c
-      internalID: -1457663616
+      spriteID: d377040e01dac4042ae7d85f1ed852f3
+      internalID: -321288566
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: droneAnimationNoLamp_1
+      name: droneAnimationNoLamp 1_1
       rect:
         serializedVersion: 2
         x: 512
@@ -139,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2c195f7229a0be649920eed15eeb8f4f
-      internalID: 835645720
+      spriteID: aa1cdae4dd699cc49bba0b06ddfd8a5d
+      internalID: 2096069663
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: droneAnimationNoLamp_2
+      name: droneAnimationNoLamp 1_2
       rect:
         serializedVersion: 2
         x: 1024
@@ -160,8 +160,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3a029894032df314193939bfda1e9e35
-      internalID: 1308327295
+      spriteID: fc46bad350ddea24d8a68f4c2d17c339
+      internalID: -1363346251
       vertices: []
       indices: 
       edges: []
@@ -177,9 +177,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      droneAnimationNoLamp_2: 1308327295
-      droneAnimationNoLamp_1: 835645720
-      droneAnimationNoLamp_0: -1457663616
+      droneAnimationNoLamp 1_0: -321288566
+      droneAnimationNoLamp 1_1: 2096069663
+      droneAnimationNoLamp 1_2: -1363346251
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
