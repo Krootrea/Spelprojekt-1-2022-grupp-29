@@ -13,7 +13,7 @@ public class EnemyDrone : Enemy
     
     private Vector3 start, target;
     private bool movingTowardsTarget, rayCast,killedPlayer,deathCountDownStarted;
-    private GameObject playerPos;
+    private GameObject playerPos, droneYellowLamp, droneRedLamp;
     private float lostSightOfPlayerCountDown, playerDeathCountDown, justKilledPlayerCountDown, justAlertedCountDown;
 
     public float LooseSightCountDown, DeathCountDown;
@@ -32,8 +32,17 @@ public class EnemyDrone : Enemy
         target = transform.position + patrol;
         playerPos = transform.Find("playerPos").gameObject;
         _light2D = transform.Find("BeamLight").GetComponent<Light2D>();
+        droneYellowLamp = transform.Find("droneYellowLamp").gameObject;
+        droneRedLamp = transform.Find("droneRedLamp").gameObject;
+        AlertLights(false);
         movingTowardsTarget = true;
         direction = target; 
+    }
+
+    private void AlertLights(bool b){
+        droneYellowLamp.SetActive(!b);
+        droneRedLamp.SetActive(b);
+        _light2D.color = b ? Color.red : Color.white;
     }
 
     private void Update(){
@@ -56,8 +65,7 @@ public class EnemyDrone : Enemy
         {
             case EnemyStateHandler.EnemyState.Normal:
             {
-                _spriteRenderer.color = Color.white;
-                _light2D.color = _spriteRenderer.color;
+                AlertLights(false);
                 if (transform.position==target)
                     movingTowardsTarget = false;
                 else if (transform.position==start)
@@ -72,8 +80,7 @@ public class EnemyDrone : Enemy
             case EnemyStateHandler.EnemyState.LookingForPlayer:
             {
                 deathCountDownStarted = false;
-                _spriteRenderer.color = Color.magenta;
-                _light2D.color = _spriteRenderer.color;
+                AlertLights(false);
                 lostSightOfPlayerCountDown -= Time.deltaTime;
                 if (lostSightOfPlayerCountDown<=0.0f)
                 {
@@ -91,8 +98,7 @@ public class EnemyDrone : Enemy
                 AlertAllTrashrobots();
                 Vector3 playerPosition = new Vector3(transform.position.x + (fov.PlayerPosition.x-playerPos.transform.position.x), transform.position.y);
                 direction = playerPosition;
-                _spriteRenderer.color = Color.red;
-                _light2D.color = _spriteRenderer.color;
+                AlertLights(true);
                 if (!fov.SeeingPlayer)
                 {
                     state = EnemyStateHandler.EnemyState.LookingForPlayer;
