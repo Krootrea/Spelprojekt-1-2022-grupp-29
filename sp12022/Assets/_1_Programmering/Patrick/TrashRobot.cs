@@ -13,7 +13,7 @@ public class TrashRobot : Enemy
     // public enum TM{MovingToLocation, LookingForPlayer,Idle, ChasingPlayer, Attacking}
 
     // private TM mode;
-    private bool rayCast, shutDown, countingDown, lightsBlinkState,arrived, turnLeft;
+    private bool rayCast, shutDown, countingDown, lightsBlinkState, turnLeft, alerted;
     private GameObject sideLight, topLight, playerPos;
     private Vector3 lastKnownPlayerLocation, originalPosition;
 
@@ -26,7 +26,6 @@ public class TrashRobot : Enemy
     void Start(){
         laser = GetComponent<Laser>();
         lookTimer = 0.0f;
-        arrived = false;
         countingDown = false;
         // mode = TM.Idle;
         stateHandler = GetComponent<EnemyStateHandler>();
@@ -66,7 +65,7 @@ public class TrashRobot : Enemy
 
     private void HandleTimers(){
         // Timer
-        if (arrived && !countingDown) 
+        if (Arrived() && !countingDown) 
         {
             shutdownTimer = LookingTime;
             countingDown = true;
@@ -104,6 +103,7 @@ public class TrashRobot : Enemy
         {
             case EnemyStateHandler.EnemyState.Normal:
             {
+                alerted = false;
                 // Gå till direction
                 if (startupTimer<=0.0f)
                 {
@@ -112,7 +112,7 @@ public class TrashRobot : Enemy
                         state = EnemyStateHandler.EnemyState.ChasingPlayer;
                         direction = fov.PlayerPosition;
                     }
-                    else if (arrived)
+                    else if (Arrived())
                     {
                         state = EnemyStateHandler.EnemyState.LookingForPlayer;
                     }
@@ -127,7 +127,11 @@ public class TrashRobot : Enemy
             case EnemyStateHandler.EnemyState.LookingForPlayer:
             {
                 // Framme på direction, leta efter spelare och räkna ner.
-                if (fov.SeeingPlayer)
+                if (alerted)
+                {
+                    state = EnemyStateHandler.EnemyState.Normal;
+                }
+                else if (fov.SeeingPlayer)
                 {
                     state = EnemyStateHandler.EnemyState.ChasingPlayer;
                     direction = fov.PlayerPosition;
@@ -143,10 +147,10 @@ public class TrashRobot : Enemy
             {
                 // Ser spelare, om framme: attackera. Annars gå till direction(spelarens position).
 
-                if (!fov.SeeingPlayer && arrived){
+                if (!fov.SeeingPlayer && Arrived()){
                     state = EnemyStateHandler.EnemyState.LookingForPlayer;
                 }
-                else if (arrived)
+                else if (Arrived())
                 {
                     AttackPlayer();
                 }
@@ -173,12 +177,22 @@ public class TrashRobot : Enemy
         else {
             moveToDir = new Vector3(direction.x-(playerPos.transform.position.x-transform.position.x), originalPosition.y, originalPosition.z);    
         }
-        arrived = Mathf.Abs(transform.position.x-moveToDir.x)<=0.01f;
         
         transform.position = Vector3.MoveTowards(transform.position, moveToDir, Speed * Time.deltaTime);
         RotateToCurrentDirection();
     }
-    
+
+    private bool Arrived(){
+        Vector3 moveToDir;
+        if (direction.x-transform.position.x<0.1f && direction.x-transform.position.x>-0.1f) {
+            moveToDir = new Vector3(direction.x, originalPosition.y, originalPosition.z);
+        }
+        else {
+            moveToDir = new Vector3(direction.x-(playerPos.transform.position.x-transform.position.x), originalPosition.y, originalPosition.z);    
+        }
+        return Mathf.Abs(transform.position.x-moveToDir.x)<=0.01f;
+    }
+
     private void AttackPlayer(){
         if (!laser.CurrentlyFiring())
         {
@@ -204,6 +218,7 @@ public class TrashRobot : Enemy
             On = true;
             SetLights(true);
         }
+        alerted = true;
         lastKnownPlayerLocation = lastKnownPosition;
         direction = lastKnownPlayerLocation;
     }
