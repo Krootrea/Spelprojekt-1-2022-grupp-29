@@ -10,14 +10,21 @@ public class Laser : MonoBehaviour
 
     public Camera cam;
     public LineRenderer lineRenderer;
-    public Transform firePoint, playerPos;
+    public Transform startPoint, endPoint;
     public GameObject startVFX, endVFX;
     private bool firing, startFire;
+    public float Speed;
+    private Vector3 origin, targetPos, currentTarget;
+    [SerializeField] public bool AlwaysOn, Moveable;
 
     private List<ParticleSystem> particles = new List<ParticleSystem>();
     void Start(){
+        origin = transform.position;
+        targetPos = new Vector3(transform.Find("TargetPosition").position.x, transform.Find("TargetPosition").position.y);
         FillLists();
         DisableLaser();
+        if (AlwaysOn)
+            Fire();
     }
 
     // Update is called once per frame
@@ -32,6 +39,7 @@ public class Laser : MonoBehaviour
         if (firing)
         {
             UpdateLaser();
+            Move();
         }
 
         if (!firing)
@@ -62,10 +70,10 @@ public class Laser : MonoBehaviour
     }
 
     private void UpdateLaser(){
-        var targetPos = (Vector2)playerPos.position;
+        var targetPos = (Vector2)endPoint.position;
         
-        lineRenderer.SetPosition(0,firePoint.position);
-        startVFX.transform.position = (Vector2)firePoint.position;
+        lineRenderer.SetPosition(0,startPoint.position);
+        startVFX.transform.position = (Vector2)startPoint.position;
         
         lineRenderer.SetPosition(1,targetPos);
 
@@ -81,9 +89,18 @@ public class Laser : MonoBehaviour
                 }
             }
         }
-
+        
         endVFX.transform.position = lineRenderer.GetPosition(1);
+    }
 
+    private void Move(){
+        if (!Moveable) return;
+        
+        if (transform.position==targetPos)
+            currentTarget = origin;
+        if (transform.position==origin)
+            currentTarget = targetPos;
+        transform.position = Vector3.MoveTowards(transform.position, currentTarget, Speed * Time.deltaTime);
     }
 
     private void EnableLaser(){

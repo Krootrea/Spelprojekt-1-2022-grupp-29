@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Platformer.Gameplay;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using static Platformer.Core.Simulation;
@@ -11,14 +12,16 @@ public class EnemyDrone : Enemy
     private SpriteRenderer _spriteRenderer;
     private Light2D _light2D;
     
-    private Vector3 start, target;
+    private Vector3 start, target, buttonLocation;
     private bool movingTowardsTarget, rayCast,killedPlayer,deathCountDownStarted;
     private GameObject playerPos, droneYellowLamp, droneRedLamp;
-    private float lostSightOfPlayerCountDown, playerDeathCountDown, justKilledPlayerCountDown, justAlertedCountDown;
+    private float lostSightOfPlayerCountDown, playerDeathCountDown, justKilledPlayerCountDown, justAlertedCountDown, initialPlayerSighting;
 
     public float LooseSightCountDown, DeathCountDown;
-    public List<TrashRobot> TrashrobotsToAlert;
     
+    public List<TrashRobot> TrashrobotsToAlert;
+    public ButtonGeneral Button;
+
     private LineRenderer _lineRenderer;
     
     private void Awake(){
@@ -36,7 +39,9 @@ public class EnemyDrone : Enemy
         droneRedLamp = transform.Find("droneRedLamp").gameObject;
         AlertLights(false);
         movingTowardsTarget = true;
-        direction = target; 
+        direction = target;
+        buttonLocation = Button.transform.position;
+        initialPlayerSighting = 0.6f;
     }
 
     private void AlertLights(bool b){
@@ -54,7 +59,7 @@ public class EnemyDrone : Enemy
         }
     }
     private void Move(){
-        if (!fov.Stop)
+        if (!fov.Stop || !Button.IsButtonPushed)
             transform.position = Vector3.MoveTowards(transform.position, direction, Speed * Time.deltaTime);
         RotateToCurrentDirection();
     }
@@ -65,7 +70,7 @@ public class EnemyDrone : Enemy
         {
             case EnemyStateHandler.EnemyState.Normal:
             {
-                AlertLights(false);
+                AlertLights(fov.SeeingPlayer);
                 if (transform.position==target)
                     movingTowardsTarget = false;
                 else if (transform.position==start)
@@ -73,8 +78,31 @@ public class EnemyDrone : Enemy
                 direction = movingTowardsTarget ? target : start;
                 if (fov.SeeingPlayer)
                 {
-                    state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                    if (initialPlayerSighting>0.0f)
+                        initialPlayerSighting -= Time.deltaTime;
+                    if (Button.IsUnityNull() && initialPlayerSighting<=0.0f)
+                        state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                    else if (initialPlayerSighting<=0.0f)
+                        state = (Button.IsButtonPushed) ? 
+                            EnemyStateHandler.EnemyState.ChasingPlayer : EnemyStateHandler.EnemyState.GoForAlertButton;
                 }
+                break;
+            }
+            case EnemyStateHandler.EnemyState.GoForAlertButton:
+            {
+                if (Button.IsUnityNull())
+                {
+                    state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                    break;
+                }
+                AlertLights(true);
+                if (Button.IsButtonPushed)
+                {
+                    state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                    break;
+                }
+                Vector3 buttonPosition = new Vector3(buttonLocation.x, transform.position.y);
+                direction = buttonPosition;
                 break;
             }
             case EnemyStateHandler.EnemyState.LookingForPlayer:

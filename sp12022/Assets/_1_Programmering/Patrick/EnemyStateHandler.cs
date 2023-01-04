@@ -14,13 +14,15 @@ public class EnemyStateHandler : MonoBehaviour
     {
         Normal,
         ChasingPlayer,
-        LookingForPlayer
+        LookingForPlayer,
+        GoForAlertButton
     }
 
     private float timeSinceSeeingPlayer;
     [HideInInspector]
     public float LookingTime;
-    private bool seeingPlayer;
+
+    private bool seeingPlayer; 
     private EnemyState currentState;
 
     public EnemyState CurrentState => currentState;
@@ -31,7 +33,7 @@ public class EnemyStateHandler : MonoBehaviour
     }
 
     private void Update(){
-        StateUpdate(seeingPlayer);
+        // StateUpdate(seeingPlayer);
     }
 
     public void StateUpdate(bool seeingPlayer){
@@ -43,10 +45,12 @@ public class EnemyStateHandler : MonoBehaviour
                     EnemyState.ChasingPlayer : EnemyState.LookingForPlayer;
                 return;
             }
+            case EnemyState.GoForAlertButton:
+            {
+                return;
+            }
             case EnemyState.Normal :
             {
-                currentState = seeingPlayer ? 
-                        EnemyState.ChasingPlayer : EnemyState.Normal;
                 return;
             }
             case EnemyState.LookingForPlayer :
