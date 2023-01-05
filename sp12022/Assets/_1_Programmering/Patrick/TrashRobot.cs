@@ -14,7 +14,7 @@ public class TrashRobot : Enemy
 
     // private TM mode;
     private bool rayCast, shutDown, countingDown, lightsBlinkState, turnLeft, alerted;
-    private GameObject sideLight, topLight, playerPos;
+    private GameObject sideLight, topLight, playerPos, Laser;
     private Vector3 lastKnownPlayerLocation, originalPosition;
 
     private Laser laser;
@@ -25,6 +25,8 @@ public class TrashRobot : Enemy
     // Start is called before the first frame update
     void Start(){
         laser = GetComponent<Laser>();
+        Laser = transform.Find("Laser").gameObject;
+        Laser.SetActive(false);
         lookTimer = 0.0f;
         countingDown = false;
         // mode = TM.Idle;
@@ -160,6 +162,7 @@ public class TrashRobot : Enemy
                     if (laser.CurrentlyFiring())
                     {
                         laser.StopFiring();
+                        Laser.SetActive(false);
                     }
                 }
                 Move();
@@ -194,6 +197,8 @@ public class TrashRobot : Enemy
     }
 
     private void AttackPlayer(){
+        if (!Laser.activeSelf)
+            Laser.SetActive(true);
         if (!laser.CurrentlyFiring())
         {
             laser.Fire();
@@ -221,5 +226,9 @@ public class TrashRobot : Enemy
         alerted = true;
         lastKnownPlayerLocation = lastKnownPosition;
         direction = lastKnownPlayerLocation;
+    }
+
+    public void Shutdown(){
+        shutDown = true;
     }
 }

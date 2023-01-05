@@ -123,7 +123,7 @@ public class EnemyDrone : Enemy
                     deathCountDownStarted = true;
                     playerDeathCountDown = DeathCountDown;
                 }
-                AlertAllTrashrobots();
+                // AlertAllTrashrobots();
                 Vector3 playerPosition = new Vector3(transform.position.x + (fov.PlayerPosition.x-playerPos.transform.position.x), transform.position.y);
                 direction = playerPosition;
                 AlertLights(true);
