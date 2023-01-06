@@ -12,8 +12,7 @@ public class Enemy : MonoBehaviour
     protected FieldOfView fov;
     protected Collider2D _collider2D;
     protected bool On;
-    protected EnemyStateHandler stateHandler;
-    protected EnemyStateHandler.EnemyState state;
+    protected EnemyStateHandler state;
     protected Vector3 direction;
 
     private void Awake(){

@@ -30,10 +30,9 @@ public class TrashRobot : Enemy
         Laser.SetActive(false);
         lookTimer = 0.0f;
         countingDown = false;
-        // mode = TM.Idle;
-        stateHandler = GetComponent<EnemyStateHandler>();
-        stateHandler.LookingTime = LookingTime;
-        state = stateHandler.CurrentState;
+        state = GetComponent<EnemyStateHandler>();
+        state.LookingTime = LookingTime;
+        state.Current = state.Current;
         _collider2D = GetComponent<EdgeCollider2D>();
         sideLight = transform.Find("sideLight").gameObject;
         On = false;
@@ -78,7 +77,7 @@ public class TrashRobot : Enemy
         if (shutdownTimer > 0.0f && countingDown)
             shutdownTimer -= Time.deltaTime;
 
-        if (countingDown && shutdownTimer<=0.0f && state == EnemyStateHandler.EnemyState.LookingForPlayer)
+        if (countingDown && shutdownTimer<=0.0f && state.Current == EnemyStateHandler.State.LookingForPlayer)
         {
             shutDown = true;
             countingDown = false;
@@ -103,9 +102,9 @@ public class TrashRobot : Enemy
 
     private void DecideWhereToGo()
     {
-        switch (state)
+        switch (state.Current)
         {
-            case EnemyStateHandler.EnemyState.Normal:
+            case EnemyStateHandler.State.Normal:
             {
                 alerted = false;
                 // Gå till direction
@@ -113,12 +112,12 @@ public class TrashRobot : Enemy
                 {
                     if (fov.SeeingPlayer)
                     {
-                        state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                        state.Current = EnemyStateHandler.State.ChasingPlayer;
                         direction = fov.PlayerPosition;
                     }
                     else if (Arrived())
                     {
-                        state = EnemyStateHandler.EnemyState.LookingForPlayer;
+                        state.Current = EnemyStateHandler.State.LookingForPlayer;
                     }
 
                     animator.SetBool("Running", true);
@@ -130,17 +129,17 @@ public class TrashRobot : Enemy
                 }
                 break;
             }
-            case EnemyStateHandler.EnemyState.LookingForPlayer:
+            case EnemyStateHandler.State.LookingForPlayer:
             {
                 // Framme på direction, leta efter spelare och räkna ner.
                 animator.SetBool("Running", false);
                 if (alerted)
                 {
-                    state = EnemyStateHandler.EnemyState.Normal;
+                    state.Current = EnemyStateHandler.State.Normal;
                 }
                 else if (fov.SeeingPlayer)
                 {
-                    state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                    state.Current = EnemyStateHandler.State.ChasingPlayer;
                     direction = fov.PlayerPosition;
                 }
                 else
@@ -150,22 +149,22 @@ public class TrashRobot : Enemy
                 }
                 break;
             }
-            case EnemyStateHandler.EnemyState.ChasingPlayer:
+            case EnemyStateHandler.State.ChasingPlayer:
             {
                 // Ser spelare, om framme: attackera. Annars gå till direction(spelarens position).
 
                 if (!fov.SeeingPlayer && Arrived()){
-                    state = EnemyStateHandler.EnemyState.LookingForPlayer;
+                    state.Current = EnemyStateHandler.State.LookingForPlayer;
                 }
                 else if (Arrived())
                 {
-                    state = EnemyStateHandler.EnemyState.Attacking;
+                    state.Current = EnemyStateHandler.State.Attacking;
                 }
                 animator.SetBool("Running", true);
                 Move();
                 break;
             }
-            case EnemyStateHandler.EnemyState.Attacking:
+            case EnemyStateHandler.State.Attacking:
             {
                 animator.SetBool("Running", false);
                 AttackPlayer();
@@ -176,7 +175,7 @@ public class TrashRobot : Enemy
                         laser.StopFiring();
                         Laser.SetActive(false);
                         direction = originalPosition;
-                        state = EnemyStateHandler.EnemyState.Normal;
+                        state.Current = EnemyStateHandler.State.Normal;
                     }
                 }
                 break;
@@ -232,7 +231,7 @@ public class TrashRobot : Enemy
     public void Alert(Vector3 lastKnownPosition){
         if (!On)
         {
-            state = EnemyStateHandler.EnemyState.Normal;
+            state.Current = EnemyStateHandler.State.Normal;
             On = true;
             animator.SetBool("On",On);
             SetLights(true);

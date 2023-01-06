@@ -10,7 +10,7 @@ public class EnemyStateHandler : MonoBehaviour
     private float playerMaybeLeftTimer;
     
     [HideInInspector]
-    public enum EnemyState
+    public enum State
     {
         Normal,
         ChasingPlayer,
@@ -24,47 +24,11 @@ public class EnemyStateHandler : MonoBehaviour
     public float LookingTime;
 
     private bool seeingPlayer; 
-    private EnemyState currentState;
-
-    public EnemyState CurrentState => currentState;
+    public State Current;
 
     private void Awake(){
         seeingPlayer = false;
-        currentState = EnemyState.Normal;
-    }
-
-    private void Update(){
-        // StateUpdate(seeingPlayer);
-    }
-
-    public void StateUpdate(bool seeingPlayer){
-        switch (currentState)
-        {
-            case EnemyState.ChasingPlayer :
-            {
-                currentState = seeingPlayer ? 
-                    EnemyState.ChasingPlayer : EnemyState.LookingForPlayer;
-                return;
-            }
-            case EnemyState.GoForAlertButton:
-            {
-                return;
-            }
-            case EnemyState.Normal :
-            {
-                return;
-            }
-            case EnemyState.LookingForPlayer :
-            {
-                timeSinceSeeingPlayer += Time.deltaTime;
-                if (timeSinceSeeingPlayer >= LookingTime)
-                {
-                    currentState = EnemyState.Normal;
-                    timeSinceSeeingPlayer = 0f;
-                }
-                return;
-            }
-        }
+        Current = State.Normal;
     }
 
     public void SeeingPlayer(bool trueOrFalse){
