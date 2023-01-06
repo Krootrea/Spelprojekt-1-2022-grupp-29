@@ -15,7 +15,8 @@ public class EnemyStateHandler : MonoBehaviour
         Normal,
         ChasingPlayer,
         LookingForPlayer,
-        GoForAlertButton
+        GoForAlertButton,
+        Attacking
     }
 
     private float timeSinceSeeingPlayer;
