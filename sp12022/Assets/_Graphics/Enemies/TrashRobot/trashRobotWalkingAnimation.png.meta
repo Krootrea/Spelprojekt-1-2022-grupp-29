@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 300
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -118,8 +118,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c0faec653bbad743b0b44ae086e8a60
-      internalID: -1333965393
+      spriteID: e4a966b8035af524bb344a1bc93f98a8
+      internalID: 1194646061
       vertices: []
       indices: 
       edges: []
@@ -139,8 +139,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5fb353a078112844cbb499880211f612
-      internalID: -2125402758
+      spriteID: 41b90003452e10d4ab8c86f5623b0718
+      internalID: -991652732
       vertices: []
       indices: 
       edges: []
@@ -160,8 +160,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a95e37f18911ec04a9a1994a1350a76e
-      internalID: 1675036489
+      spriteID: 7fe9fd29ffaafd941bff58fe92ab97ea
+      internalID: -352567688
       vertices: []
       indices: 
       edges: []
@@ -181,8 +181,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f157ec3a7c9272444a17c8ac9df05456
-      internalID: -1837863367
+      spriteID: d73deb28070e51048b66366d5886c31f
+      internalID: -2021724980
       vertices: []
       indices: 
       edges: []
@@ -202,8 +202,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 862ea433ea107b546ac8bfd714457336
-      internalID: -950883799
+      spriteID: 1def57acf5d042744a82f07c5eb16c81
+      internalID: 1165894915
       vertices: []
       indices: 
       edges: []
@@ -223,8 +223,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04579f40b0e90b2429afae1ee9db29a6
-      internalID: -580776153
+      spriteID: 4ff365e50bd55924e9863dbf8699212b
+      internalID: -501333254
       vertices: []
       indices: 
       edges: []
@@ -244,8 +244,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec39e140941f1014f8b1d0c30d7b3fe7
-      internalID: 104214492
+      spriteID: becfa591c95dbdd4e81c4ebe8cf6ccae
+      internalID: -1167055411
       vertices: []
       indices: 
       edges: []
@@ -265,8 +265,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cfc1ec12af0c43e46b4943cb16c345b6
-      internalID: -1961853687
+      spriteID: 98b42fc9ba018dc419c979446c1dc261
+      internalID: -1739917907
       vertices: []
       indices: 
       edges: []
@@ -286,8 +286,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afedb5a5f4649234fb0cce042eb37a58
-      internalID: 1687144524
+      spriteID: 7f1f4d387a9e0c845a42a4f67ae39ec9
+      internalID: 1114384226
       vertices: []
       indices: 
       edges: []
@@ -307,8 +307,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a18a38d0aef8e00419d335c3da527434
-      internalID: -41425640
+      spriteID: 32969fc858b1f1646bd5bf56b7e3af81
+      internalID: 2098686471
       vertices: []
       indices: 
       edges: []
@@ -324,16 +324,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      trashRobotWalkingAnimation_7: -1961853687
-      trashRobotWalkingAnimation_9: -41425640
-      trashRobotWalkingAnimation_8: 1687144524
-      trashRobotWalkingAnimation_2: 1675036489
-      trashRobotWalkingAnimation_3: -1837863367
-      trashRobotWalkingAnimation_5: -580776153
-      trashRobotWalkingAnimation_6: 104214492
-      trashRobotWalkingAnimation_0: -1333965393
-      trashRobotWalkingAnimation_1: -2125402758
-      trashRobotWalkingAnimation_4: -950883799
+      trashRobotWalkingAnimation_7: -1739917907
+      trashRobotWalkingAnimation_9: 2098686471
+      trashRobotWalkingAnimation_8: 1114384226
+      trashRobotWalkingAnimation_2: -352567688
+      trashRobotWalkingAnimation_3: -2021724980
+      trashRobotWalkingAnimation_5: -501333254
+      trashRobotWalkingAnimation_6: -1167055411
+      trashRobotWalkingAnimation_0: 1194646061
+      trashRobotWalkingAnimation_1: -991652732
+      trashRobotWalkingAnimation_4: 1165894915
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
