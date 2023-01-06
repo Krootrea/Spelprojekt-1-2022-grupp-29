@@ -57,6 +57,9 @@ TagManager:
   - name: LevelNonStick
     uniqueID: 4090072547
     locked: 0
+  - name: Buttons
+    uniqueID: 2786444157
+    locked: 0
   - name: Foreground
     uniqueID: 1260354273
     locked: 0
