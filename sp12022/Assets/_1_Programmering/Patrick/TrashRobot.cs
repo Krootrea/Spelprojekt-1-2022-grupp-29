@@ -43,6 +43,7 @@ public class TrashRobot : Enemy
         lightsBlinkState = true;
         playerPos = transform.Find("playerPos").gameObject;
         animator = GetComponent<Animator>();
+        animator.SetBool("On", false);
     }
 
     private void SetLights(bool onOff){
@@ -54,6 +55,7 @@ public class TrashRobot : Enemy
         if (shutDown)
         {
             On = false;
+            animator.SetBool("On", On);
             SetLights(false);
             shutDown = false;
         }
@@ -157,18 +159,26 @@ public class TrashRobot : Enemy
                 }
                 else if (Arrived())
                 {
-                    AttackPlayer();
+                    state = EnemyStateHandler.EnemyState.Attacking;
                 }
-
+                animator.SetBool("Running", true);
+                Move();
+                break;
+            }
+            case EnemyStateHandler.EnemyState.Attacking:
+            {
+                animator.SetBool("Running", false);
+                AttackPlayer();
                 if (!fov.SeeingPlayer)
                 {
                     if (laser.CurrentlyFiring())
                     {
                         laser.StopFiring();
                         Laser.SetActive(false);
+                        direction = originalPosition;
+                        state = EnemyStateHandler.EnemyState.Normal;
                     }
                 }
-                Move();
                 break;
             }
         }
@@ -205,6 +215,7 @@ public class TrashRobot : Enemy
         if (!laser.CurrentlyFiring())
         {
             laser.Fire();
+            animator.SetBool("Running", false);
             Schedule<PlayerEnteredDeathZone>();
         }
     }
@@ -223,6 +234,7 @@ public class TrashRobot : Enemy
         {
             state = EnemyStateHandler.EnemyState.Normal;
             On = true;
+            animator.SetBool("On",On);
             SetLights(true);
         }
         alerted = true;
