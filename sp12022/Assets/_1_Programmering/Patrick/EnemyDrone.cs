@@ -26,8 +26,8 @@ public class EnemyDrone : Enemy
     
     private void Awake(){
         fov = GetComponent<FieldOfView>();
-        stateHandler = GetComponent<EnemyStateHandler>();
-        stateHandler.LookingTime = LookingTime;
+        state = GetComponent<EnemyStateHandler>();
+        state.LookingTime = LookingTime;
         On = true;
         _lineRenderer = new LineRenderer();
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -56,7 +56,7 @@ public class EnemyDrone : Enemy
     private void Update(){
         if (On)
         {
-            stateHandler.SeeingPlayer(fov.SeeingPlayer);
+            state.SeeingPlayer(fov.SeeingPlayer);
             Patrol();
             Move();
         }
@@ -69,9 +69,9 @@ public class EnemyDrone : Enemy
 
 
     private void Patrol(){
-        switch (state)
+        switch (state.Current)
         {
-            case EnemyStateHandler.EnemyState.Normal:
+            case EnemyStateHandler.State.Normal:
             {
                 AlertLights(fov.SeeingPlayer);
                 if (transform.position==target)
@@ -84,42 +84,42 @@ public class EnemyDrone : Enemy
                     if (initialPlayerSighting>0.0f)
                         initialPlayerSighting -= Time.deltaTime;
                     if (Button.IsUnityNull() && initialPlayerSighting<=0.0f)
-                        state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                        state.Current = EnemyStateHandler.State.ChasingPlayer;
                     else if (initialPlayerSighting<=0.0f)
-                        state = (Button.IsButtonPushed) ? 
-                            EnemyStateHandler.EnemyState.ChasingPlayer : EnemyStateHandler.EnemyState.GoForAlertButton;
+                        state.Current = (Button.IsButtonPushed) ? 
+                            EnemyStateHandler.State.ChasingPlayer : EnemyStateHandler.State.GoForAlertButton;
                 }
                 break;
             }
-            case EnemyStateHandler.EnemyState.GoForAlertButton:
+            case EnemyStateHandler.State.GoForAlertButton:
             {
                 if (Button.IsUnityNull())
                 {
-                    state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                    state.Current = EnemyStateHandler.State.ChasingPlayer;
                     break;
                 }
                 AlertLights(true);
                 if (Button.IsButtonPushed)
                 {
-                    state = EnemyStateHandler.EnemyState.ChasingPlayer;
+                    state.Current = EnemyStateHandler.State.ChasingPlayer;
                     break;
                 }
                 Vector3 buttonPosition = new Vector3(buttonLocation.x, transform.position.y);
                 direction = buttonPosition;
                 break;
             }
-            case EnemyStateHandler.EnemyState.LookingForPlayer:
+            case EnemyStateHandler.State.LookingForPlayer:
             {
                 deathCountDownStarted = false;
                 AlertLights(false);
                 lostSightOfPlayerCountDown -= Time.deltaTime;
                 if (lostSightOfPlayerCountDown<=0.0f)
                 {
-                    state = EnemyStateHandler.EnemyState.Normal;
+                    state.Current = EnemyStateHandler.State.Normal;
                 }
                 break;
             }
-            case EnemyStateHandler.EnemyState.ChasingPlayer:
+            case EnemyStateHandler.State.ChasingPlayer:
             {
                 if (!deathCountDownStarted)
                 {
@@ -132,7 +132,7 @@ public class EnemyDrone : Enemy
                 AlertLights(true);
                 if (!fov.SeeingPlayer)
                 {
-                    state = EnemyStateHandler.EnemyState.LookingForPlayer;
+                    state.Current = EnemyStateHandler.State.LookingForPlayer;
                     lostSightOfPlayerCountDown = LooseSightCountDown;
                 }
 
