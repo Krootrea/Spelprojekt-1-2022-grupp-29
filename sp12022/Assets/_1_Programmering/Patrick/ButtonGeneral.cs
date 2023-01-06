@@ -33,10 +33,10 @@ public class ButtonGeneral : MonoBehaviour
 
     private void Move()
     {
-        if (transform.position == origin)
-            currentTarget = destination;
-        else if (transform.position == destination)
-            currentTarget = origin;
+        // if (transform.position == origin)
+        //     currentTarget = destination;
+        // else if (transform.position == destination)
+        //     currentTarget = origin;
         transform.position = Vector3.MoveTowards(transform.position, currentTarget, 2 * Time.deltaTime);
         if (transform.position == currentTarget)
             movementTime = false;
@@ -56,8 +56,10 @@ public class ButtonGeneral : MonoBehaviour
             foreach (GameObject gameObject in ObjectsToDeactivate) {
                 gameObject.SetActive(!isEnemy);
             }
-            if (TrashRobotsToActivate.Count>0) {
-                foreach (TrashRobot tb in TrashRobotsToActivate) {
+            if (TrashRobotsToActivate.Count>0)
+            {
+                foreach (TrashRobot tb in TrashRobotsToActivate) 
+                {
                     if (isEnemy)
                         tb.Alert(Player.transform.position);
                     else
@@ -65,6 +67,7 @@ public class ButtonGeneral : MonoBehaviour
                 }
             }
         }
-        movementTime = MovingButton;
+        if (MovingButton) 
+            currentTarget = isEnemy ? destination : origin;
     }
 }

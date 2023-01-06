@@ -40,7 +40,10 @@ public class EnemyDrone : Enemy
         AlertLights(false);
         movingTowardsTarget = true;
         direction = target;
-        buttonLocation = Button.transform.position;
+        if (Button.IsUnityNull())
+        {
+            buttonLocation = Button.transform.position;
+        }
         initialPlayerSighting = 0.6f;
     }
 
@@ -123,7 +126,7 @@ public class EnemyDrone : Enemy
                     deathCountDownStarted = true;
                     playerDeathCountDown = DeathCountDown;
                 }
-                // AlertAllTrashrobots();
+                AlertAllTrashrobots();
                 Vector3 playerPosition = new Vector3(transform.position.x + (fov.PlayerPosition.x-playerPos.transform.position.x), transform.position.y);
                 direction = playerPosition;
                 AlertLights(true);
@@ -145,6 +148,13 @@ public class EnemyDrone : Enemy
     }
 
     private void AlertAllTrashrobots(){
+        if (!Button.IsUnityNull() && Button.TrashRobotsToActivate.Count>0)
+        {
+            foreach (TrashRobot trashRobot in Button.TrashRobotsToActivate)
+            {
+                trashRobot.Alert(fov.PlayerPosition);
+            }
+        }
         if(justAlertedCountDown<=0.0f)justAlertedCountDown = 1f;
         justAlertedCountDown -= Time.deltaTime;
         if (TrashrobotsToAlert.Count>0 && justAlertedCountDown<=0.0f) {
