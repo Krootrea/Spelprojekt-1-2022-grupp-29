@@ -40,7 +40,7 @@ public class EnemyDrone : Enemy
         AlertLights(false);
         movingTowardsTarget = true;
         direction = target;
-        if (Button.IsUnityNull())
+        if (!Button.IsUnityNull())
         {
             buttonLocation = Button.transform.position;
         }

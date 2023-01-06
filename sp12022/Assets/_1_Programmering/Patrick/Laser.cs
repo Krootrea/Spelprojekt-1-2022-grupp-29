@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,17 @@ public class Laser : MonoBehaviour
     private List<ParticleSystem> particles = new List<ParticleSystem>();
     void Start(){
         origin = transform.position;
-        targetPos = new Vector3(transform.Find("TargetPosition").position.x, transform.Find("TargetPosition").position.y);
+        GameObject TargetPos = null;
+        try
+        {
+            TargetPos = transform.Find("TargetPosition").gameObject;
+        }
+        catch
+        {
+            TargetPos = null;
+        }
+        if (Moveable && !TargetPos.IsUnityNull())
+            targetPos = new Vector3(transform.Find("TargetPosition").position.x, transform.Find("TargetPosition").position.y);
         FillLists();
         DisableLaser();
         if (AlwaysOn)

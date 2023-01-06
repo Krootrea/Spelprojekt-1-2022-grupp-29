@@ -16,6 +16,7 @@ public class TrashRobot : Enemy
     private bool rayCast, shutDown, countingDown, lightsBlinkState, turnLeft, alerted;
     private GameObject sideLight, topLight, playerPos, Laser;
     private Vector3 lastKnownPlayerLocation, originalPosition;
+    private Animator animator;
 
     private Laser laser;
     // private float ShutdownCountDown;
@@ -35,18 +36,17 @@ public class TrashRobot : Enemy
         state = stateHandler.CurrentState;
         _collider2D = GetComponent<EdgeCollider2D>();
         sideLight = transform.Find("sideLight").gameObject;
-        topLight =  transform.Find("topLight").gameObject;
         On = false;
         SetLights(false);
         originalPosition = transform.position;
         shutdownTimer = 0f;
         lightsBlinkState = true;
         playerPos = transform.Find("playerPos").gameObject;
+        animator = GetComponent<Animator>();
     }
 
     private void SetLights(bool onOff){
         sideLight.SetActive(onOff);
-        topLight.SetActive(onOff);
     }
 
     // Update is called once per frame
@@ -118,6 +118,8 @@ public class TrashRobot : Enemy
                     {
                         state = EnemyStateHandler.EnemyState.LookingForPlayer;
                     }
+
+                    animator.SetBool("Running", true);
                     Move();
                 }
                 else
@@ -129,6 +131,7 @@ public class TrashRobot : Enemy
             case EnemyStateHandler.EnemyState.LookingForPlayer:
             {
                 // Framme på direction, leta efter spelare och räkna ner.
+                animator.SetBool("Running", false);
                 if (alerted)
                 {
                     state = EnemyStateHandler.EnemyState.Normal;
@@ -211,7 +214,6 @@ public class TrashRobot : Enemy
         if (blinkTimer >=0.4f)
         {
             blinkTimer = 0;
-            topLight.SetActive(lightsBlinkState);
             lightsBlinkState = !lightsBlinkState;
         }
     }
