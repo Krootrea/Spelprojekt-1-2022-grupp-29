@@ -133,8 +133,8 @@ MonoBehaviour:
   - {fileID: 1192307350, guid: 39f8a7e50bd90854f98422393da44039, type: 3}
   - {fileID: -1842415669, guid: 39f8a7e50bd90854f98422393da44039, type: 3}
   collectedAnimation:
-  - {fileID: 21300000, guid: d7f3ba40c95624407a79329e1af8b953, type: 3}
-  - {fileID: 21300002, guid: d7f3ba40c95624407a79329e1af8b953, type: 3}
+  - {fileID: 21300014, guid: d7f3ba40c95624407a79329e1af8b953, type: 3}
+  - {fileID: 21300016, guid: d7f3ba40c95624407a79329e1af8b953, type: 3}
   - {fileID: 21300004, guid: d7f3ba40c95624407a79329e1af8b953, type: 3}
   - {fileID: 21300006, guid: d7f3ba40c95624407a79329e1af8b953, type: 3}
   - {fileID: 21300008, guid: d7f3ba40c95624407a79329e1af8b953, type: 3}
