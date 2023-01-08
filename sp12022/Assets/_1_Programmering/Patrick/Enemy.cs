@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     
-    public Vector3 patrol;
+    protected Vector3 patrol;
     public float Speed = 1f, LookingTime = 2f;
     
     protected FieldOfView fov;

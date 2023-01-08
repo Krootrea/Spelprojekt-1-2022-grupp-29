@@ -63,7 +63,7 @@ public class FieldOfView : MonoBehaviour
             if (jumpCountDownTimer<=0.0f)
             {
                 playerJumpedWithinCollision = false;
-                if (!collisions.Contains(player.GetComponent<Collider2D>()))
+                if (!CollisionsContainsPlayer())
                 {
                     player = null;
                     rayCast = false;
@@ -72,7 +72,21 @@ public class FieldOfView : MonoBehaviour
             }
         }
     }
-    
+
+    private bool CollisionsContainsPlayer(){
+        if (collisions.Count>0)
+        {
+            foreach (Collider2D col2D in collisions)
+            {
+                if (col2D.CompareTag("Player"))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private void CheckIfPlayerHiddenBehindObstacle(){
         if (!player.IsUnityNull())
         {

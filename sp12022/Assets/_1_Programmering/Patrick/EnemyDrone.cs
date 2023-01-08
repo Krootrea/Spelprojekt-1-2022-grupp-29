@@ -25,6 +25,7 @@ public class EnemyDrone : Enemy
     private LineRenderer _lineRenderer;
     
     private void Awake(){
+        patrol = new Vector3(transform.Find("patrolDestination").transform.position.x, transform.Find("patrolDestination").transform.position.y);
         fov = GetComponent<FieldOfView>();
         state = GetComponent<EnemyStateHandler>();
         state.LookingTime = LookingTime;
@@ -32,7 +33,7 @@ public class EnemyDrone : Enemy
         _lineRenderer = new LineRenderer();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         start = transform.position;
-        target = transform.position + patrol;
+        target = patrol;
         playerPos = transform.Find("playerPos").gameObject;
         _light2D = transform.Find("BeamLight").GetComponent<Light2D>();
         droneYellowLamp = transform.Find("droneYellowLamp").gameObject;
