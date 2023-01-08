@@ -110,7 +110,7 @@ public class TrashRobot : Enemy
                 // Gå till direction
                 if (startupTimer<=0.0f)
                 {
-                    if (fov.SeeingPlayer)
+                    if (fov.SeeingPlayerRayCast)
                     {
                         state.Current = EnemyStateHandler.State.ChasingPlayer;
                         direction = fov.PlayerPosition;
@@ -137,7 +137,7 @@ public class TrashRobot : Enemy
                 {
                     state.Current = EnemyStateHandler.State.Normal;
                 }
-                else if (fov.SeeingPlayer)
+                else if (fov.SeeingPlayerRayCast)
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
                     direction = fov.PlayerPosition;
@@ -153,7 +153,7 @@ public class TrashRobot : Enemy
             {
                 // Ser spelare, om framme: attackera. Annars gå till direction(spelarens position).
 
-                if (!fov.SeeingPlayer && Arrived()){
+                if (!fov.SeeingPlayerRayCast && Arrived()){
                     state.Current = EnemyStateHandler.State.LookingForPlayer;
                 }
                 else if (Arrived())
@@ -168,7 +168,7 @@ public class TrashRobot : Enemy
             {
                 animator.SetBool("Running", false);
                 AttackPlayer();
-                if (!fov.SeeingPlayer)
+                if (!fov.SeeingPlayerRayCast)
                 {
                     if (laser.CurrentlyFiring())
                     {
@@ -181,7 +181,7 @@ public class TrashRobot : Enemy
                 break;
             }
         }
-        lastKnownPlayerLocation = fov.SeeingPlayer ? fov.PlayerPosition : lastKnownPlayerLocation;
+        lastKnownPlayerLocation = fov.SeeingPlayerRayCast ? fov.PlayerPosition : lastKnownPlayerLocation;
     }
 
     private void Move(){

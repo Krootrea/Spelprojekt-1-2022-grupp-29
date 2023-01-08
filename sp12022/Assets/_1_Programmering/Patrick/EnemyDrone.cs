@@ -12,10 +12,10 @@ public class EnemyDrone : Enemy
     private SpriteRenderer _spriteRenderer;
     private Light2D _light2D;
     
-    private Vector3 start, target, buttonLocation;
-    private bool movingTowardsTarget, rayCast,killedPlayer,deathCountDownStarted;
+    private Vector3 start, buttonLocation;
+    private bool movingTowardsTarget, rayCast;
     private GameObject playerPos, droneYellowLamp, droneRedLamp;
-    private float lostSightOfPlayerCountDown, playerDeathCountDown, justKilledPlayerCountDown, justAlertedCountDown, initialPlayerSighting;
+    private float lostSightOfPlayerCountDown, justAlertedCountDown, initialPlayerSighting;
 
     public float LooseSightCountDown, DeathCountDown;
     
@@ -33,14 +33,13 @@ public class EnemyDrone : Enemy
         _lineRenderer = new LineRenderer();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         start = transform.position;
-        target = patrol;
         playerPos = transform.Find("playerPos").gameObject;
         _light2D = transform.Find("BeamLight").GetComponent<Light2D>();
         droneYellowLamp = transform.Find("droneYellowLamp").gameObject;
         droneRedLamp = transform.Find("droneRedLamp").gameObject;
         AlertLights(false);
         movingTowardsTarget = true;
-        direction = target;
+        direction = patrol;
         if (!Button.IsUnityNull())
         {
             buttonLocation = Button.transform.position;
@@ -57,38 +56,48 @@ public class EnemyDrone : Enemy
     private void Update(){
         if (On)
         {
-            state.SeeingPlayer(fov.SeeingPlayer);
             Patrol();
             Move();
         }
     }
     private void Move(){
-        if (!fov.Stop || !Button.IsButtonPushed)
+        if (!StandStillAndLookAtPlayer())
             transform.position = Vector3.MoveTowards(transform.position, direction, Speed * Time.deltaTime);
         RotateToCurrentDirection();
     }
 
+    private bool StandStillAndLookAtPlayer(){
+        if (state.Current == EnemyStateHandler.State.ChasingPlayer)
+            return !fov.Stop || !Button.IsButtonPushed;
+        return (!fov.Stop || !Button.IsButtonPushed) && !fov.PlayerHiding();
+    }
 
     private void Patrol(){
         switch (state.Current)
         {
             case EnemyStateHandler.State.Normal:
             {
-                AlertLights(fov.SeeingPlayer);
-                if (transform.position==target)
+                AlertLights(fov.SeeingPlayerRayCast && !fov.PlayerHiding());
+                if (transform.position==patrol)
                     movingTowardsTarget = false;
                 else if (transform.position==start)
                     movingTowardsTarget = true;
-                direction = movingTowardsTarget ? target : start;
-                if (fov.SeeingPlayer)
+                direction = movingTowardsTarget ? patrol : start;
+                if (fov.SeeingPlayerRayCast && !fov.PlayerHiding())
                 {
                     if (initialPlayerSighting>0.0f)
                         initialPlayerSighting -= Time.deltaTime;
-                    if (Button.IsUnityNull() && initialPlayerSighting<=0.0f)
+                    if (Button.IsUnityNull() && initialPlayerSighting <= 0.0f)
+                    {
                         state.Current = EnemyStateHandler.State.ChasingPlayer;
+                        Debug.Log(state.Current);
+                    }
                     else if (initialPlayerSighting<=0.0f)
+                    {
                         state.Current = (Button.IsButtonPushed) ? 
                             EnemyStateHandler.State.ChasingPlayer : EnemyStateHandler.State.GoForAlertButton;
+                        Debug.Log(state.Current);
+                    }
                 }
                 break;
             }
@@ -97,12 +106,14 @@ public class EnemyDrone : Enemy
                 if (Button.IsUnityNull())
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
+                    Debug.Log(state.Current);
                     break;
                 }
                 AlertLights(true);
                 if (Button.IsButtonPushed)
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
+                    Debug.Log(state.Current);
                     break;
                 }
                 Vector3 buttonPosition = new Vector3(buttonLocation.x, transform.position.y);
@@ -111,37 +122,31 @@ public class EnemyDrone : Enemy
             }
             case EnemyStateHandler.State.LookingForPlayer:
             {
-                deathCountDownStarted = false;
-                AlertLights(false);
+                AlertLights(true);
                 lostSightOfPlayerCountDown -= Time.deltaTime;
                 if (lostSightOfPlayerCountDown<=0.0f)
                 {
                     state.Current = EnemyStateHandler.State.Normal;
+                    Debug.Log(state.Current);
+                }
+                else if(fov.SeeingPlayerRayCast && !fov.PlayerHiding())
+                {
+                    state.Current = EnemyStateHandler.State.ChasingPlayer;
+                    Debug.Log(state.Current);
                 }
                 break;
             }
             case EnemyStateHandler.State.ChasingPlayer:
             {
-                if (!deathCountDownStarted)
-                {
-                    deathCountDownStarted = true;
-                    playerDeathCountDown = DeathCountDown;
-                }
                 AlertAllTrashrobots();
                 Vector3 playerPosition = new Vector3(transform.position.x + (fov.PlayerPosition.x-playerPos.transform.position.x), transform.position.y);
                 direction = playerPosition;
                 AlertLights(true);
-                if (!fov.SeeingPlayer)
+                if (!fov.SeeingPlayerRayCast)
                 {
                     state.Current = EnemyStateHandler.State.LookingForPlayer;
+                    Debug.Log(state.Current);
                     lostSightOfPlayerCountDown = LooseSightCountDown;
-                }
-
-                playerDeathCountDown -= Time.deltaTime;
-                if (playerDeathCountDown<0.0f)
-                {
-                    deathCountDownStarted = false;
-                    Schedule<PlayerEnteredDeathZone>();
                 }
                 break;
             }

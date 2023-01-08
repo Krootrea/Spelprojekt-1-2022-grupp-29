@@ -55,6 +55,7 @@ namespace Platformer.Mechanics
         public bool gotCard = false, gotScrew = false;
 
         bool jump, justWallJumped;
+        public bool Hidden;
         private float wjPossibleCountD, justWallJumpedCD; 
         Vector2 move;
         SpriteRenderer spriteRenderer;

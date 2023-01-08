@@ -15,7 +15,7 @@ public class FieldOfView : MonoBehaviour
     public LayerMask level;
 
     [HideInInspector]
-    public bool SeeingPlayer, BetweenPrefAndEnemy, Stop;
+    public bool SeeingPlayerRayCast, BetweenPrefAndEnemy, Stop;
 
     public PlayerController playerController;
     public Vector3 PlayerPosition
@@ -31,7 +31,7 @@ public class FieldOfView : MonoBehaviour
 
     // Start is called before the first frame update
     void Start(){
-        SeeingPlayer = false;
+        SeeingPlayerRayCast = false;
         fieldOfView = GetComponent<Collider2D>();
         playerPos = transform.Find("playerPos").gameObject;
         collisions = new List<Collider2D>();
@@ -41,7 +41,7 @@ public class FieldOfView : MonoBehaviour
         Timer();
         CheckIfPlayerHiddenBehindObstacle();
         CheckIfPlayerBetweenPreferredPositionAndEnemy();
-        Stop = BetweenPrefAndEnemy && SeeingPlayer;
+        Stop = BetweenPrefAndEnemy && SeeingPlayerRayCast;
     }
 
     private void CheckIfPlayerBetweenPreferredPositionAndEnemy(){
@@ -54,6 +54,14 @@ public class FieldOfView : MonoBehaviour
                 (player.transform.position.x < transform.position.x &&
                  player.transform.position.x > playerPos.transform.position.x);
         }
+    }
+
+    public bool PlayerHiding(){
+        if (!playerController.IsUnityNull())
+        {
+            return playerController.Hidden;
+        }
+        return true;
     }
 
     private void Timer(){
@@ -93,11 +101,11 @@ public class FieldOfView : MonoBehaviour
             Vector3 dir = player.transform.position - transform.position;
             float dstEnemyPlayer = Vector2.Distance(player.transform.position, transform.position);
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dstEnemyPlayer, level);
-            SeeingPlayer = !(hit && hit.transform.gameObject.layer != level);
+            SeeingPlayerRayCast = !(hit && hit.transform.gameObject.layer != level)/* && !playerController.Hidden*/;
         }
         else
         {
-            SeeingPlayer = false;
+            SeeingPlayerRayCast = false;
         }
     } // Cast ray at player to see if player visible.
 
@@ -111,7 +119,15 @@ public class FieldOfView : MonoBehaviour
         {
             playerController = player.GetComponent<PlayerController>();
         }
-    } 
+    }
+
+    private void OnTriggerStay2D(Collider2D other){
+        bool otherIsPlayer = other.CompareTag("Player");
+        if (otherIsPlayer)
+        {
+            
+        }
+    }
 
     private void OnTriggerExit2D(Collider2D other) // We DON'T want to cast ray and look for player.
     {

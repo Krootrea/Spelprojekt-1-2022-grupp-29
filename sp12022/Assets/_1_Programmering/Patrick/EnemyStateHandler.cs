@@ -22,17 +22,11 @@ public class EnemyStateHandler : MonoBehaviour
     private float timeSinceSeeingPlayer;
     [HideInInspector]
     public float LookingTime;
-
-    private bool seeingPlayer; 
     public State Current;
 
     private void Awake(){
-        seeingPlayer = false;
         Current = State.Normal;
     }
 
-    public void SeeingPlayer(bool trueOrFalse){
-        seeingPlayer = trueOrFalse;
-    }
 
 }
