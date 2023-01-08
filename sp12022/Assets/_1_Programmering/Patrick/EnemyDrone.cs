@@ -26,6 +26,7 @@ public class EnemyDrone : Enemy
     private LineRenderer _lineRenderer;
     
     private void Awake(){
+        initialPlayerSighting = 0.2f;
         patrol = new Vector3(transform.Find("patrolDestination").transform.position.x, transform.Find("patrolDestination").transform.position.y);
         fov = GetComponent<FieldOfView>();
         state = GetComponent<EnemyStateHandler>();
@@ -46,7 +47,6 @@ public class EnemyDrone : Enemy
         {
             buttonLocation = Button.transform.position;
         }
-        initialPlayerSighting = 0.6f;
     }
 
     private void AlertLights(bool b){
@@ -83,7 +83,6 @@ public class EnemyDrone : Enemy
         {
             case EnemyStateHandler.State.Normal:
             {
-                AlertLights(fov.SeeingPlayerRayCast && !fov.PlayerHiding());
                 if (transform.position==patrol)
                     movingTowardsTarget = false;
                 else if (transform.position==start)
@@ -134,6 +133,7 @@ public class EnemyDrone : Enemy
                 if (lostSightOfPlayerCountDown<=0.0f)
                 {
                     state.Current = EnemyStateHandler.State.Normal;
+                    AlertLights(false);
                     questionMark.SetActive(false);
                     StateChangeToConsole();
                 }
