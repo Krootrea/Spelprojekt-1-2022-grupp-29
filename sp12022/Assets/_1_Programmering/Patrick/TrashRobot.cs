@@ -20,7 +20,7 @@ public class TrashRobot : Enemy
 
     private Laser laser;
     // private float ShutdownCountDown;
-    private float shutdownTimer, blinkTimer, lookTimer;
+    private float shutdownTimer, blinkTimer;
     public float startupTimer;
     
     // Start is called before the first frame update
@@ -28,7 +28,6 @@ public class TrashRobot : Enemy
         laser = GetComponent<Laser>();
         Laser = transform.Find("Laser").gameObject;
         Laser.SetActive(false);
-        lookTimer = 0.0f;
         countingDown = false;
         state = GetComponent<EnemyStateHandler>();
         state.LookingTime = LookingTime;
@@ -82,22 +81,6 @@ public class TrashRobot : Enemy
             shutDown = true;
             countingDown = false;
         }
-    }
-
-    private void LookAround(){
-        if (lookTimer>2f)
-        {
-            lookTimer = 0.0f;
-            Vector3 scale = transform.localScale;
-            if (turnLeft)
-                scale.Set(-1, 1, 1);
-            else
-                scale.Set(1, 1, 1);
-            turnLeft = !turnLeft;
-            transform.localScale = scale;
-        }
-
-        lookTimer += Time.deltaTime;
     }
 
     private void DecideWhereToGo()
