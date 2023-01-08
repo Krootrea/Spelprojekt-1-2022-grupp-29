@@ -8,6 +8,7 @@ TagManager:
   - Card
   - MovingPlatform
   - Screw
+  - Enemy
   layers:
   - Default
   - TransparentFX

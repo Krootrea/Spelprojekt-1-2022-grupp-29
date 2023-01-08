@@ -19,7 +19,7 @@ public class ButtonGeneral : MonoBehaviour
 
     private void Awake(){
         origin = new Vector3(transform.position.x, transform.position.y);
-        destination = new Vector3(transform.Find("ButtonDestination").position.x, transform.Find("ButtonDestination").position.y);
+        destination = new Vector3(transform.Find("targetLocation").position.x, transform.Find("targetLocation").position.y);
         currentTarget = destination;
         colliderThatPushesButton = GetComponent<Collider2D>();
     }
@@ -33,17 +33,17 @@ public class ButtonGeneral : MonoBehaviour
 
     private void Move()
     {
-        // if (transform.position == origin)
-        //     currentTarget = destination;
-        // else if (transform.position == destination)
-        //     currentTarget = origin;
+        if (transform.position == origin)
+            currentTarget = destination;
+        else if (transform.position == destination)
+            currentTarget = origin;
         transform.position = Vector3.MoveTowards(transform.position, currentTarget, 2 * Time.deltaTime);
         if (transform.position == currentTarget)
             movementTime = false;
     }
 
     private void OnTriggerEnter2D(Collider2D col){
-        bool isEnemy = col.transform.gameObject.TryGetComponent(typeof(Enemy), out Component comp);
+        bool isEnemy = col.CompareTag("Enemy");
         ButtonPressAction(isEnemy);
     }
 
@@ -67,7 +67,7 @@ public class ButtonGeneral : MonoBehaviour
                 }
             }
         }
-        if (MovingButton) 
-            currentTarget = isEnemy ? destination : origin;
+        if (MovingButton)
+            movementTime = true;
     }
 }

@@ -4861,7 +4861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &260248118
 Transform:
   m_ObjectHideFlags: 0
@@ -19792,7 +19792,7 @@ GameObject:
   - component: {fileID: 1042092475}
   m_Layer: 0
   m_Name: TrashRobot
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
