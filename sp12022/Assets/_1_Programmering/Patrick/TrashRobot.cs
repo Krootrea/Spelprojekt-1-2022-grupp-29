@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Platformer.Gameplay;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using static Platformer.Core.Simulation;
+using Random = UnityEngine.Random;
 
 public class TrashRobot : Enemy
 {
@@ -14,13 +16,13 @@ public class TrashRobot : Enemy
 
     // private TM mode;
     private bool rayCast, shutDown, countingDown, lightsBlinkState, turnLeft, alerted;
-    private GameObject sideLight, topLight, playerPos, Laser;
-    private Vector3 lastKnownPlayerLocation, originalPosition;
+    private GameObject sideLight, topLight, playerPos, Laser, questionMark;
+    private Vector3 lastKnownPlayerLocation, originalPosition, leftPoint, rightPoint;
     private Animator animator;
 
     private Laser laser;
     // private float ShutdownCountDown;
-    private float shutdownTimer, blinkTimer;
+    private float shutdownTimer, blinkTimer, lfpInitialStandStillTimer, lfpWalkAroundToLookForPlayerTimer;
     public float startupTimer;
     
     // Start is called before the first frame update
@@ -42,6 +44,10 @@ public class TrashRobot : Enemy
         playerPos = transform.Find("playerPos").gameObject;
         animator = GetComponent<Animator>();
         animator.SetBool("On", false);
+        leftPoint = new Vector3(transform.Find("leftSide").transform.position.x, transform.Find("leftSide").transform.position.y);
+        rightPoint = new Vector3(transform.Find("rightSide").transform.position.x, transform.Find("rightSide").transform.position.y);
+        questionMark = transform.Find("questionMark").gameObject;
+        questionMark.SetActive(false);
     }
 
     private void SetLights(bool onOff){
@@ -81,6 +87,14 @@ public class TrashRobot : Enemy
             shutDown = true;
             countingDown = false;
         }
+
+        if (state.Current == EnemyStateHandler.State.LookingForPlayer)
+        {
+            if (lfpInitialStandStillTimer>0.0f)
+                lfpInitialStandStillTimer -= Time.deltaTime;
+            else if (lfpWalkAroundToLookForPlayerTimer>0.0f)
+                lfpWalkAroundToLookForPlayerTimer -= Time.deltaTime;
+        }
     }
 
     private void DecideWhereToGo()
@@ -101,9 +115,10 @@ public class TrashRobot : Enemy
                     else if (Arrived())
                     {
                         state.Current = EnemyStateHandler.State.LookingForPlayer;
+                        LookingForPlayerSetup();
                     }
 
-                    animator.SetBool("Running", true);
+                    RunningAnimation(true);
                     Move();
                 }
                 else
@@ -115,19 +130,39 @@ public class TrashRobot : Enemy
             case EnemyStateHandler.State.LookingForPlayer:
             {
                 // Framme på direction, leta efter spelare och räkna ner.
-                animator.SetBool("Running", false);
+                RunningAnimation(false);
                 if (alerted)
                 {
                     state.Current = EnemyStateHandler.State.Normal;
+                    questionMark.SetActive(false);
                 }
                 else if (fov.SeeingPlayerRayCast)
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
+                    questionMark.SetActive(false);
                     direction = fov.PlayerPosition;
                 }
                 else
                 {
-                    LookAround();
+                    if (lfpInitialStandStillTimer>0.0f)
+                    {
+                        LookAround();
+                    }
+                    else if (lfpWalkAroundToLookForPlayerTimer>0.0f)
+                    {
+                        RunningAnimation(false);
+                        if (Arrived())
+                        {
+                            lfpInitialStandStillTimer = 5f;
+                            float randomX = RandomNumberGenerator.GetInt32((int)leftPoint.x, (int)rightPoint.x);
+                            direction = new Vector3(randomX, transform.position.y);
+                        }
+                        else
+                        {
+                            RunningAnimation(true);
+                            Move();
+                        }
+                    }
                     HandleTimers();
                 }
                 break;
@@ -137,19 +172,22 @@ public class TrashRobot : Enemy
                 // Ser spelare, om framme: attackera. Annars gå till direction(spelarens position).
 
                 if (!fov.SeeingPlayerRayCast && Arrived()){
-                    state.Current = EnemyStateHandler.State.LookingForPlayer;
+                    {
+                        state.Current = EnemyStateHandler.State.LookingForPlayer;
+                        LookingForPlayerSetup();
+                    }
                 }
                 else if (Arrived())
                 {
                     state.Current = EnemyStateHandler.State.Attacking;
                 }
-                animator.SetBool("Running", true);
+                RunningAnimation(true);
                 Move();
                 break;
             }
             case EnemyStateHandler.State.Attacking:
             {
-                animator.SetBool("Running", false);
+                RunningAnimation(false);
                 AttackPlayer();
                 if (!fov.SeeingPlayerRayCast)
                 {
@@ -165,6 +203,18 @@ public class TrashRobot : Enemy
             }
         }
         lastKnownPlayerLocation = fov.SeeingPlayerRayCast ? fov.PlayerPosition : lastKnownPlayerLocation;
+    }
+
+    private void RunningAnimation(bool b){
+        animator.SetBool("Running", b);
+    }
+
+    private void LookingForPlayerSetup(){
+        float randomX = RandomNumberGenerator.GetInt32((int)leftPoint.x, (int)rightPoint.x);
+        direction = new Vector3(randomX, transform.position.y);
+        lfpInitialStandStillTimer = 5;
+        lfpWalkAroundToLookForPlayerTimer = 20f;
+        questionMark.SetActive(true);
     }
 
     private void Move(){
@@ -226,5 +276,32 @@ public class TrashRobot : Enemy
 
     public void Shutdown(){
         shutDown = true;
+        questionMark.SetActive(false);
+    }
+
+    private void QuestionMarkRotation(){
+        if (questionMark.activeSelf)
+        {
+            if (transform.localScale.x<0 && questionMark.transform.localScale.x>0 || 
+                transform.localScale.x>0 && questionMark.transform.localScale.x<0)
+            {
+                Vector3 newScale = new Vector3(
+                    -questionMark.transform.localScale.x,
+                    questionMark.transform.localScale.y, 
+                    questionMark.transform.localScale.z);
+                
+                questionMark.transform.localScale=newScale;
+            }
+        }
+    }
+
+    protected override void LookAround(){
+        base.LookAround();
+        QuestionMarkRotation();
+    }
+
+    protected override void RotateToCurrentDirection(){
+        base.RotateToCurrentDirection();
+        QuestionMarkRotation();
     }
 }
