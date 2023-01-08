@@ -21,6 +21,7 @@ public class EnemyDrone : Enemy
     
     public List<TrashRobot> TrashrobotsToAlert;
     public ButtonGeneral Button;
+    public bool WriteStateChangeToConsole;
 
     private LineRenderer _lineRenderer;
     
@@ -95,13 +96,13 @@ public class EnemyDrone : Enemy
                     if (Button.IsUnityNull() && initialPlayerSighting <= 0.0f)
                     {
                         state.Current = EnemyStateHandler.State.ChasingPlayer;
-                        Debug.Log(state.Current);
+                        StateChangeToConsole();
                     }
                     else if (initialPlayerSighting<=0.0f)
                     {
                         state.Current = (Button.IsButtonPushed) ? 
                             EnemyStateHandler.State.ChasingPlayer : EnemyStateHandler.State.GoForAlertButton;
-                        Debug.Log(state.Current);
+                        StateChangeToConsole();
                     }
                 }
                 break;
@@ -111,14 +112,14 @@ public class EnemyDrone : Enemy
                 if (Button.IsUnityNull())
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
-                    Debug.Log(state.Current);
+                    StateChangeToConsole();
                     break;
                 }
                 AlertLights(true);
                 if (Button.IsButtonPushed)
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
-                    Debug.Log(state.Current);
+                    StateChangeToConsole();
                     break;
                 }
                 Vector3 buttonPosition = new Vector3(buttonLocation.x, transform.position.y);
@@ -134,13 +135,13 @@ public class EnemyDrone : Enemy
                 {
                     state.Current = EnemyStateHandler.State.Normal;
                     questionMark.SetActive(false);
-                    Debug.Log(state.Current);
+                    StateChangeToConsole();
                 }
                 else if(fov.SeeingPlayerRayCast && !fov.PlayerHiding())
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
                     questionMark.SetActive(false);
-                    Debug.Log(state.Current);
+                    StateChangeToConsole();
                 }
                 else if (ArrivedAtTarget())
                     LookAround();
@@ -156,13 +157,18 @@ public class EnemyDrone : Enemy
                 {
                     state.Current = EnemyStateHandler.State.LookingForPlayer;
                     questionMark.SetActive(true);
-                    Debug.Log(state.Current);
+                    StateChangeToConsole();
                     lostSightOfPlayerCountDown = LooseSightCountDown;
                     lastKnownPlayerLocation = new Vector3(fov.PlayerPosition.x, transform.position.y);
                 }
                 break;
             }
         }
+    }
+
+    private void StateChangeToConsole(){
+        if (WriteStateChangeToConsole)
+            Debug.Log(state.Current);
     }
 
     private void AlertAllTrashrobots(){
