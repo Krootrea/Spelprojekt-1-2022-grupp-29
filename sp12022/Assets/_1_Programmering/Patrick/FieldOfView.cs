@@ -12,6 +12,8 @@ public class FieldOfView : MonoBehaviour
     private bool playerJumpedWithinCollision, rayCast;
     private float jumpCountDownTimer;
     private GameObject player, playerPos;
+    private Vector3 lastKnownPlayerPosition;
+    
     public LayerMask level;
 
     [HideInInspector]
@@ -23,7 +25,7 @@ public class FieldOfView : MonoBehaviour
         get {
             if (player.IsUnityNull())
             {
-                return Vector3.zero;
+                return lastKnownPlayerPosition;
             }
             return player.transform.position;
         }
@@ -34,6 +36,7 @@ public class FieldOfView : MonoBehaviour
         SeeingPlayerRayCast = false;
         fieldOfView = GetComponent<Collider2D>();
         playerPos = transform.Find("playerPos").gameObject;
+        lastKnownPlayerPosition = Vector3.zero;
         collisions = new List<Collider2D>();
     }
 
@@ -137,6 +140,7 @@ public class FieldOfView : MonoBehaviour
         jumpCountDownTimer = 1.5f;
         if (otherIsPlayer)
         {
+            lastKnownPlayerPosition = playerController.transform.position;
             playerController = null;
         }
     } 

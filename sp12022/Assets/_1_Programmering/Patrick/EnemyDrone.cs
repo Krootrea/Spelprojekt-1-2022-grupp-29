@@ -14,7 +14,7 @@ public class EnemyDrone : Enemy
     
     private Vector3 start, buttonLocation;
     private bool movingTowardsTarget, rayCast;
-    private GameObject playerPos, droneYellowLamp, droneRedLamp;
+    private GameObject playerPos, droneYellowLamp, droneRedLamp, questionMark;
     private float lostSightOfPlayerCountDown, justAlertedCountDown, initialPlayerSighting;
 
     public float LooseSightCountDown, DeathCountDown;
@@ -28,7 +28,6 @@ public class EnemyDrone : Enemy
         patrol = new Vector3(transform.Find("patrolDestination").transform.position.x, transform.Find("patrolDestination").transform.position.y);
         fov = GetComponent<FieldOfView>();
         state = GetComponent<EnemyStateHandler>();
-        state.LookingTime = LookingTime;
         On = true;
         _lineRenderer = new LineRenderer();
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -37,6 +36,8 @@ public class EnemyDrone : Enemy
         _light2D = transform.Find("BeamLight").GetComponent<Light2D>();
         droneYellowLamp = transform.Find("droneYellowLamp").gameObject;
         droneRedLamp = transform.Find("droneRedLamp").gameObject;
+        questionMark = transform.Find("questionMark").gameObject;
+        questionMark.SetActive(false);
         AlertLights(false);
         movingTowardsTarget = true;
         direction = patrol;
@@ -61,7 +62,7 @@ public class EnemyDrone : Enemy
         }
     }
     private void Move(){
-        if (!StandStillAndLookAtPlayer())
+        if (!StandStillAndLookAtPlayer() || !ArrivedAtTarget())
             transform.position = Vector3.MoveTowards(transform.position, direction, Speed * Time.deltaTime);
         RotateToCurrentDirection();
     }
@@ -70,6 +71,10 @@ public class EnemyDrone : Enemy
         if (state.Current == EnemyStateHandler.State.ChasingPlayer)
             return !fov.Stop || !Button.IsButtonPushed;
         return (!fov.Stop || !Button.IsButtonPushed) && !fov.PlayerHiding();
+    }
+
+    private bool ArrivedAtTarget(){
+        return transform.position == direction;
     }
 
     private void Patrol(){
@@ -122,18 +127,23 @@ public class EnemyDrone : Enemy
             }
             case EnemyStateHandler.State.LookingForPlayer:
             {
+                direction = lastKnownPlayerLocation;
                 AlertLights(true);
                 lostSightOfPlayerCountDown -= Time.deltaTime;
                 if (lostSightOfPlayerCountDown<=0.0f)
                 {
                     state.Current = EnemyStateHandler.State.Normal;
+                    questionMark.SetActive(false);
                     Debug.Log(state.Current);
                 }
                 else if(fov.SeeingPlayerRayCast && !fov.PlayerHiding())
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
+                    questionMark.SetActive(false);
                     Debug.Log(state.Current);
                 }
+                else if (ArrivedAtTarget())
+                    LookAround();
                 break;
             }
             case EnemyStateHandler.State.ChasingPlayer:
@@ -145,8 +155,10 @@ public class EnemyDrone : Enemy
                 if (!fov.SeeingPlayerRayCast)
                 {
                     state.Current = EnemyStateHandler.State.LookingForPlayer;
+                    questionMark.SetActive(true);
                     Debug.Log(state.Current);
                     lostSightOfPlayerCountDown = LooseSightCountDown;
+                    lastKnownPlayerLocation = new Vector3(fov.PlayerPosition.x, transform.position.y);
                 }
                 break;
             }
@@ -169,5 +181,24 @@ public class EnemyDrone : Enemy
                 trashRobot.Alert(fov.PlayerPosition);
             }
         }
+    }
+
+    protected override void RotateToCurrentDirection(){
+        base.RotateToCurrentDirection();
+        if (questionMark.activeSelf)
+        {
+            if (transform.localScale.x<0 && questionMark.transform.localScale.x>0 || 
+                transform.localScale.x>0 && questionMark.transform.localScale.x<0)
+            {
+                Vector3 newScale = new Vector3(
+                    -questionMark.transform.localScale.x,
+                    questionMark.transform.localScale.y, 
+                    questionMark.transform.localScale.z);
+                
+                questionMark.transform.localScale=newScale;
+            }
+        }
+        
+
     }
 }
