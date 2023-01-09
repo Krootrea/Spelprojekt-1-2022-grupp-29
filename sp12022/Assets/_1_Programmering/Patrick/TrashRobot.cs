@@ -15,7 +15,7 @@ public class TrashRobot : Enemy
     // public enum TM{MovingToLocation, LookingForPlayer,Idle, ChasingPlayer, Attacking}
 
     // private TM mode;
-    private bool rayCast, shutDown, countingDown, lightsBlinkState, turnLeft, alerted;
+    private bool rayCast, shutDown, countingDown, lightsBlinkState, turnLeft, alerted, knowsThatPlayerIsHiding;
     private GameObject sideLight, topLight, playerPos, Laser, questionMark;
     private Vector3 lastKnownPlayerLocation, originalPosition, leftPoint, rightPoint;
     private Animator animator;
@@ -84,7 +84,7 @@ public class TrashRobot : Enemy
 
         if (countingDown && shutdownTimer<=0.0f && state.Current == EnemyStateHandler.State.LookingForPlayer)
         {
-            shutDown = true;
+            Shutdown();
             countingDown = false;
         }
 
@@ -107,7 +107,7 @@ public class TrashRobot : Enemy
                 // Gå till direction
                 if (startupTimer<=0.0f)
                 {
-                    if (fov.SeeingPlayerRayCast)
+                    if (SeesPlayer())
                     {
                         state.Current = EnemyStateHandler.State.ChasingPlayer;
                         direction = fov.PlayerPosition;
@@ -136,7 +136,7 @@ public class TrashRobot : Enemy
                     state.Current = EnemyStateHandler.State.Normal;
                     questionMark.SetActive(false);
                 }
-                else if (fov.SeeingPlayerRayCast)
+                else if (SeesPlayer())
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
                     questionMark.SetActive(false);
@@ -171,7 +171,7 @@ public class TrashRobot : Enemy
             {
                 // Ser spelare, om framme: attackera. Annars gå till direction(spelarens position).
 
-                if (!fov.SeeingPlayerRayCast && Arrived()){
+                if (!SeesPlayer() && Arrived()){
                     {
                         state.Current = EnemyStateHandler.State.LookingForPlayer;
                         LookingForPlayerSetup();
@@ -189,7 +189,7 @@ public class TrashRobot : Enemy
             {
                 RunningAnimation(false);
                 AttackPlayer();
-                if (!fov.SeeingPlayerRayCast)
+                if (!SeesPlayer())
                 {
                     if (laser.CurrentlyFiring())
                     {
@@ -203,6 +203,12 @@ public class TrashRobot : Enemy
             }
         }
         lastKnownPlayerLocation = fov.SeeingPlayerRayCast ? fov.PlayerPosition : lastKnownPlayerLocation;
+    }
+
+    private bool SeesPlayer(){
+        if (knowsThatPlayerIsHiding)
+            return fov.SeeingPlayerRayCast;
+        return fov.SeeingPlayerRayCast && !fov.playerController.Hidden;
     }
 
     private void RunningAnimation(bool b){
@@ -261,7 +267,7 @@ public class TrashRobot : Enemy
         }
     }
 
-    public void Alert(Vector3 lastKnownPosition){
+    public void Alert(Vector3 lastKnownPosition, bool playerCurrentlyHiding){
         if (!On)
         {
             state.Current = EnemyStateHandler.State.Normal;
@@ -272,11 +278,13 @@ public class TrashRobot : Enemy
         alerted = true;
         lastKnownPlayerLocation = lastKnownPosition;
         direction = lastKnownPlayerLocation;
+        knowsThatPlayerIsHiding = playerCurrentlyHiding;
     }
 
     public void Shutdown(){
         shutDown = true;
         questionMark.SetActive(false);
+        RunningAnimation(false);
     }
 
     private void QuestionMarkRotation(){

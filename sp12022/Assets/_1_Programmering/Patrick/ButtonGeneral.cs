@@ -61,7 +61,7 @@ public class ButtonGeneral : MonoBehaviour
                 foreach (TrashRobot tb in TrashRobotsToActivate) 
                 {
                     if (isEnemy)
-                        tb.Alert(Player.transform.position);
+                        tb.Alert(Player.transform.position, false);
                     else
                         tb.Shutdown();
                 }

@@ -9,6 +9,7 @@ TagManager:
   - MovingPlatform
   - Screw
   - Enemy
+  - Level
   layers:
   - Default
   - TransparentFX

@@ -16,17 +16,16 @@ public class EnemyDrone : Enemy
     private bool movingTowardsTarget, rayCast;
     private GameObject playerPos, droneYellowLamp, droneRedLamp, questionMark;
     private float lostSightOfPlayerCountDown, justAlertedCountDown, initialPlayerSighting;
-
-    public float LooseSightCountDown, DeathCountDown;
     
     public List<TrashRobot> TrashrobotsToAlert;
     public ButtonGeneral Button;
     public bool WriteStateChangeToConsole;
+    public float DiscoverPlayerDelay;
 
     private LineRenderer _lineRenderer;
     
     private void Awake(){
-        initialPlayerSighting = 0.2f;
+        initialPlayerSighting = DiscoverPlayerDelay;
         patrol = new Vector3(transform.Find("patrolDestination").transform.position.x, transform.Find("patrolDestination").transform.position.y);
         fov = GetComponent<FieldOfView>();
         state = GetComponent<EnemyStateHandler>();
@@ -44,9 +43,7 @@ public class EnemyDrone : Enemy
         movingTowardsTarget = true;
         direction = patrol;
         if (!Button.IsUnityNull())
-        {
             buttonLocation = Button.transform.position;
-        }
     }
 
     private void AlertLights(bool b){
@@ -132,10 +129,7 @@ public class EnemyDrone : Enemy
                 lostSightOfPlayerCountDown -= Time.deltaTime;
                 if (lostSightOfPlayerCountDown<=0.0f)
                 {
-                    state.Current = EnemyStateHandler.State.Normal;
-                    AlertLights(false);
-                    questionMark.SetActive(false);
-                    StateChangeToConsole();
+                    ChangeStateToNormal();
                 }
                 else if(fov.SeeingPlayerRayCast && !fov.PlayerHiding())
                 {
@@ -158,12 +152,20 @@ public class EnemyDrone : Enemy
                     state.Current = EnemyStateHandler.State.LookingForPlayer;
                     questionMark.SetActive(true);
                     StateChangeToConsole();
-                    lostSightOfPlayerCountDown = LooseSightCountDown;
+                    lostSightOfPlayerCountDown = LookingTime;
                     lastKnownPlayerLocation = new Vector3(fov.PlayerPosition.x, transform.position.y);
                 }
                 break;
             }
         }
+    }
+
+    private void ChangeStateToNormal(){
+        state.Current = EnemyStateHandler.State.Normal;
+        initialPlayerSighting = DiscoverPlayerDelay;
+        AlertLights(false);
+        questionMark.SetActive(false);
+        StateChangeToConsole();
     }
 
     private void StateChangeToConsole(){
@@ -172,19 +174,19 @@ public class EnemyDrone : Enemy
     }
 
     private void AlertAllTrashrobots(){
-        if (!Button.IsUnityNull() && Button.TrashRobotsToActivate.Count>0)
-        {
-            foreach (TrashRobot trashRobot in Button.TrashRobotsToActivate)
-            {
-                trashRobot.Alert(fov.PlayerPosition);
-            }
-        }
+        // if (!Button.IsUnityNull() && Button.TrashRobotsToActivate.Count>0)
+        // {
+        //     foreach (TrashRobot trashRobot in Button.TrashRobotsToActivate)
+        //     {
+        //         trashRobot.Alert(fov.PlayerPosition, false);
+        //     }
+        // }
         if(justAlertedCountDown<=0.0f)justAlertedCountDown = 1f;
         justAlertedCountDown -= Time.deltaTime;
         if (TrashrobotsToAlert.Count>0 && justAlertedCountDown<=0.0f) {
             foreach (TrashRobot trashRobot in TrashrobotsToAlert)
             {
-                trashRobot.Alert(fov.PlayerPosition);
+                trashRobot.Alert(fov.PlayerPosition, fov.playerController.Hidden);
             }
         }
     }

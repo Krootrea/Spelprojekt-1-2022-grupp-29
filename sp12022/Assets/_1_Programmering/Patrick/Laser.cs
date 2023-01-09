@@ -15,7 +15,8 @@ public class Laser : MonoBehaviour
     public GameObject startVFX, endVFX;
     private bool firing, startFire;
     public float Speed;
-    private Vector3 origin, targetPos, currentTarget;
+    private Vector3 origin, targetPos, currentTarget, lastHitTABORT;
+    private float originalMagnitude;
     [SerializeField] public bool AlwaysOn, Moveable;
 
     private List<ParticleSystem> particles = new List<ParticleSystem>();
@@ -31,7 +32,7 @@ public class Laser : MonoBehaviour
             TargetPos = null;
         }
         if (Moveable && !TargetPos.IsUnityNull())
-            targetPos = new Vector3(transform.Find("TargetPosition").position.x, transform.Find("TargetPosition").position.y);
+            targetPos = new Vector3(TargetPos.transform.position.x, TargetPos.transform.position.y);
         FillLists();
         DisableLaser();
         if (AlwaysOn)
@@ -94,14 +95,17 @@ public class Laser : MonoBehaviour
         {
             foreach (RaycastHit2D hit in hits)
             {
-                if (hit.transform.gameObject.name == "Player" || hit.transform.gameObject.name == "Level")
+                if (hit.transform.CompareTag("Player"))
                 {
                     lineRenderer.SetPosition(1, hit.point);
+                    break;
                 }
+                if (hit.transform.CompareTag("Level"))
+                    lineRenderer.SetPosition(1, hit.point);
             }
         }
-        
         endVFX.transform.position = lineRenderer.GetPosition(1);
+        // Debug.DrawLine(startVFX.transform.position,endVFX.transform.position, Color.magenta);
     }
 
     private void Move(){
