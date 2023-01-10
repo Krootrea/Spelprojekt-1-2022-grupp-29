@@ -1128,6 +1128,9 @@ MonoBehaviour:
   level:
     serializedVersion: 2
     m_Bits: 8
+  levelNonStick:
+    serializedVersion: 2
+    m_Bits: 64
   SeeingPlayerRayCast: 0
   BetweenPrefAndEnemy: 0
   Stop: 0

@@ -14,7 +14,7 @@ public class FieldOfView : MonoBehaviour
     private GameObject player, playerPos;
     private Vector3 lastKnownPlayerPosition;
     
-    public LayerMask level;
+    public LayerMask level, levelNonStick;
 
     [HideInInspector]
     public bool SeeingPlayerRayCast, BetweenPrefAndEnemy, Stop;
@@ -104,7 +104,8 @@ public class FieldOfView : MonoBehaviour
             Vector3 dir = player.transform.position - transform.position;
             float dstEnemyPlayer = Vector2.Distance(player.transform.position, transform.position);
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dstEnemyPlayer, level);
-            SeeingPlayerRayCast = !(hit && hit.transform.gameObject.layer != level)/* && !playerController.Hidden*/;
+            RaycastHit2D hitNonStick = Physics2D.Raycast(transform.position, dir, dstEnemyPlayer, levelNonStick);
+            SeeingPlayerRayCast = !(hit && hit.transform.gameObject.layer != level) && !(hitNonStick && hitNonStick.transform.gameObject.layer != levelNonStick);
         }
         else
         {

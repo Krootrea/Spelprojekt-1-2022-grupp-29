@@ -48,12 +48,18 @@ public class ButtonGeneral : MonoBehaviour
         bool isEnemy = col.CompareTag("Enemy");
         ButtonPressAction(isEnemy);
         if (!collisions.Contains(col))
+        {
             collisions.Add(col);
+            Debug.Log(col.tag);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other){
         if (collisions.Contains(other))
+        {
             collisions.Remove(other);
+            Debug.Log(other.tag);
+        }
     }
 
     private void ButtonPressAction(bool isEnemy){
