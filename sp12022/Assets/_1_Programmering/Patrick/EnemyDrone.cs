@@ -143,6 +143,12 @@ public class EnemyDrone : Enemy
             }
             case EnemyStateHandler.State.ChasingPlayer:
             {
+                if (!Button.IsButtonPushed)
+                {
+                    state.Current = EnemyStateHandler.State.GoForAlertButton;
+                    StateChangeToConsole();
+                    break;
+                }
                 AlertAllTrashrobots();
                 Vector3 playerPosition = new Vector3(transform.position.x + (fov.PlayerPosition.x-playerPos.transform.position.x), transform.position.y);
                 direction = playerPosition;
