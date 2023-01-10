@@ -19,6 +19,7 @@ public class ButtonGeneral : MonoBehaviour
     public bool IsButtonPushed => pushed;
 
     private void Awake(){
+        collisions = new List<Collider2D>();
         origin = new Vector3(transform.position.x, transform.position.y);
         destination = new Vector3(transform.Find("targetLocation").position.x, transform.Find("targetLocation").position.y);
         currentTarget = destination;
@@ -61,7 +62,10 @@ public class ButtonGeneral : MonoBehaviour
             foreach (Collider2D col in collisions)
             {
                 if (col.CompareTag("Enemy"))
+                {
+                    Debug.Log(col.tag);
                     break;
+                }
             }
         }
         pushed = isEnemy;
