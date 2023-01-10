@@ -133,7 +133,7 @@ public class EnemyDrone : Enemy
                 }
                 else if(fov.SeeingPlayerRayCast && !fov.PlayerHiding())
                 {
-                    state.Current = EnemyStateHandler.State.ChasingPlayer;
+                    state.Current = Button.IsButtonPushed ? EnemyStateHandler.State.ChasingPlayer : EnemyStateHandler.State.GoForAlertButton;
                     questionMark.SetActive(false);
                     StateChangeToConsole();
                 }
