@@ -19859,7 +19859,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 72b70d1fdb210b747b12667ba3c94d3a, type: 3}
+  m_Sprite: {fileID: 808757337, guid: e9f6168aa37f50a468d09ac2436dc88c, type: 3}
   m_Color: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -19924,6 +19924,9 @@ MonoBehaviour:
   level:
     serializedVersion: 2
     m_Bits: 8
+  levelNonStick:
+    serializedVersion: 2
+    m_Bits: 0
   SeeingPlayerRayCast: 0
   BetweenPrefAndEnemy: 0
   Stop: 0
