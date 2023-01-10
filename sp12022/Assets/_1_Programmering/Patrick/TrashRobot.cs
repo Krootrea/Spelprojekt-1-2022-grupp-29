@@ -22,12 +22,13 @@ public class TrashRobot : Enemy
 
     private Laser laser;
     // private float ShutdownCountDown;
-    private float shutdownTimer, blinkTimer, lfpInitialStandStillTimer, lfpWalkAroundToLookForPlayerTimer;
+    private float shutdownTimer, blinkTimer, lfpInitialStandStillTimer, lfpWalkAroundToLookForPlayerTimer, startUp;
     public float startupTimer;
     public bool TurnedOn => On;
     
     // Start is called before the first frame update
     void Start(){
+        startUp = startupTimer;
         laser = GetComponent<Laser>();
         Laser = transform.Find("Laser").gameObject;
         Laser.SetActive(false);
@@ -59,6 +60,7 @@ public class TrashRobot : Enemy
     void Update(){
         if (shutDown)
         {
+            startUp = startupTimer;
             On = false;
             animator.SetBool("On", On);
             SetLights(false);
@@ -106,7 +108,7 @@ public class TrashRobot : Enemy
             {
                 alerted = false;
                 // Gå till direction
-                if (startupTimer<=0.0f)
+                if (startUp<=0.0f)
                 {
                     if (SeesPlayer())
                     {
@@ -124,7 +126,7 @@ public class TrashRobot : Enemy
                 }
                 else
                 {
-                    startupTimer -= Time.deltaTime;
+                    startUp -= Time.deltaTime;
                 }
                 break;
             }
