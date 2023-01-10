@@ -22,7 +22,7 @@ public class TrashRobot : Enemy
 
     private Laser laser;
     // private float ShutdownCountDown;
-    private float shutdownTimer, blinkTimer, lfpInitialStandStillTimer, lfpWalkAroundToLookForPlayerTimer, startUp;
+    private float blinkTimer, lfpInitialStandStillTimer, startUp;
     public float startupTimer;
     public bool TurnedOn => On;
     
@@ -41,7 +41,6 @@ public class TrashRobot : Enemy
         On = false;
         SetLights(false);
         originalPosition = transform.position;
-        shutdownTimer = 0f;
         lightsBlinkState = true;
         playerPos = transform.Find("playerPos").gameObject;
         animator = GetComponent<Animator>();
@@ -78,25 +77,22 @@ public class TrashRobot : Enemy
         // Timer
         if (Arrived() && !countingDown) 
         {
-            shutdownTimer = LookingTime;
             countingDown = true;
         }
 
-        if (shutdownTimer > 0.0f && countingDown)
-            shutdownTimer -= Time.deltaTime;
+        // if (shutdownTimer > 0.0f && countingDown)
+        //     shutdownTimer -= Time.deltaTime;
 
-        if (countingDown && shutdownTimer<=0.0f && state.Current == EnemyStateHandler.State.LookingForPlayer)
-        {
-            Shutdown();
-            countingDown = false;
-        }
+        // if (countingDown && shutdownTimer<=0.0f && state.Current == EnemyStateHandler.State.LookingForPlayer)
+        // {
+        //     Shutdown();
+        //     countingDown = false;
+        // }
 
         if (state.Current == EnemyStateHandler.State.LookingForPlayer)
         {
             if (lfpInitialStandStillTimer>0.0f)
                 lfpInitialStandStillTimer -= Time.deltaTime;
-            else if (lfpWalkAroundToLookForPlayerTimer>0.0f)
-                lfpWalkAroundToLookForPlayerTimer -= Time.deltaTime;
         }
     }
 
@@ -151,7 +147,7 @@ public class TrashRobot : Enemy
                     {
                         LookAround();
                     }
-                    else if (lfpWalkAroundToLookForPlayerTimer>0.0f)
+                    else
                     {
                         RunningAnimation(false);
                         if (Arrived())
@@ -222,7 +218,6 @@ public class TrashRobot : Enemy
         float randomX = RandomNumberGenerator.GetInt32((int)leftPoint.x, (int)rightPoint.x);
         direction = new Vector3(randomX, transform.position.y);
         lfpInitialStandStillTimer = 5;
-        lfpWalkAroundToLookForPlayerTimer = 20f;
         questionMark.SetActive(true);
     }
 
