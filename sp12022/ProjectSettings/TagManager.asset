@@ -74,3 +74,6 @@ TagManager:
   - name: LevelProps
     uniqueID: 2589904371
     locked: 0
+  - name: Enemies
+    uniqueID: 796053085
+    locked: 0
