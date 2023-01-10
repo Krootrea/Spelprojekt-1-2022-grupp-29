@@ -70,7 +70,7 @@ public class ButtonGeneral : MonoBehaviour
                 if (col.CompareTag("Enemy"))
                 {
                     Debug.Log(col.tag);
-                    break;
+                    return;
                 }
             }
         }
