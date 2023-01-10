@@ -8,6 +8,7 @@ using UnityEngine;
 public class ButtonGeneral : MonoBehaviour
 {
     private Collider2D colliderThatPushesButton;
+    private List<Collider2D> collisions;
     public bool MovingButton;
     public List<GameObject> ObjectsToActivate, ObjectsToDeactivate;
     public List<TrashRobot> TrashRobotsToActivate;
@@ -45,9 +46,24 @@ public class ButtonGeneral : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col){
         bool isEnemy = col.CompareTag("Enemy");
         ButtonPressAction(isEnemy);
+        if (!collisions.Contains(col))
+            collisions.Add(col);
+    }
+
+    private void OnTriggerExit2D(Collider2D other){
+        if (collisions.Contains(other))
+            collisions.Remove(other);
     }
 
     private void ButtonPressAction(bool isEnemy){
+        if (!isEnemy)
+        {
+            foreach (Collider2D col in collisions)
+            {
+                if (col.CompareTag("Enemy"))
+                    break;
+            }
+        }
         pushed = isEnemy;
         if (!movementTime) {
             foreach (GameObject gameObject in ObjectsToActivate) {
