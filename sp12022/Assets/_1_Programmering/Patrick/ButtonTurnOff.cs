@@ -9,8 +9,8 @@ public class ButtonTurnOff : MonoBehaviour
     // Start is called before the first frame update
     
     private void OnTriggerEnter2D(Collider2D col){
-        bool isEnemy = col.transform.gameObject.TryGetComponent(typeof(Enemy), out Component comp);
-        ButtonPressAction();
+        if (col.CompareTag("Player"))
+            ButtonPressAction();
     }
 
     private void ButtonPressAction(){
