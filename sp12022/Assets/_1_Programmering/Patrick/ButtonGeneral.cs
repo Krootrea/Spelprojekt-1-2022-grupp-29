@@ -20,6 +20,8 @@ public class ButtonGeneral : MonoBehaviour
 
     private void Awake(){
         collisions = new List<Collider2D>();
+        ObjectsToActivate = new List<GameObject>();
+        ObjectsToDeactivate = new List<GameObject>();
         origin = new Vector3(transform.position.x, transform.position.y);
         destination = new Vector3(transform.Find("targetLocation").position.x, transform.Find("targetLocation").position.y);
         currentTarget = destination;
