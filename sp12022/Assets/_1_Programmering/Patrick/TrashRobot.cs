@@ -19,12 +19,12 @@ public class TrashRobot : Enemy
     private GameObject sideLight, topLight, playerPos, Laser, questionMark;
     private Vector3 lastKnownPlayerLocation, originalPosition, leftPoint, rightPoint;
     private Animator animator;
-    private BoxCollider2D _boxCollider2D;
 
     private Laser laser;
     // private float ShutdownCountDown;
     private float shutdownTimer, blinkTimer, lfpInitialStandStillTimer, lfpWalkAroundToLookForPlayerTimer;
     public float startupTimer;
+    public bool TurnedOn => On;
     
     // Start is called before the first frame update
     void Start(){
@@ -49,7 +49,6 @@ public class TrashRobot : Enemy
         rightPoint = new Vector3(transform.Find("rightSide").transform.position.x, transform.Find("rightSide").transform.position.y);
         questionMark = transform.Find("questionMark").gameObject;
         questionMark.SetActive(false);
-        _boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
     private void SetLights(bool onOff){
@@ -274,7 +273,6 @@ public class TrashRobot : Enemy
         {
             state.Current = EnemyStateHandler.State.Normal;
             On = true;
-            _boxCollider2D.enabled = false;
             animator.SetBool("On",On);
             SetLights(true);
         }
@@ -288,7 +286,6 @@ public class TrashRobot : Enemy
         shutDown = true;
         questionMark.SetActive(false);
         RunningAnimation(false);
-        _boxCollider2D.enabled = true;
     }
 
     private void QuestionMarkRotation(){

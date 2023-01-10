@@ -174,19 +174,13 @@ public class EnemyDrone : Enemy
     }
 
     private void AlertAllTrashrobots(){
-        // if (!Button.IsUnityNull() && Button.TrashRobotsToActivate.Count>0)
-        // {
-        //     foreach (TrashRobot trashRobot in Button.TrashRobotsToActivate)
-        //     {
-        //         trashRobot.Alert(fov.PlayerPosition, false);
-        //     }
-        // }
         if(justAlertedCountDown<=0.0f)justAlertedCountDown = 1f;
         justAlertedCountDown -= Time.deltaTime;
         if (TrashrobotsToAlert.Count>0 && justAlertedCountDown<=0.0f) {
             foreach (TrashRobot trashRobot in TrashrobotsToAlert)
             {
-                trashRobot.Alert(fov.PlayerPosition, fov.playerController.Hidden);
+                if (trashRobot.TurnedOn)
+                    trashRobot.Alert(fov.PlayerPosition, fov.playerController.Hidden);
             }
         }
     }
