@@ -1,0 +1,540 @@
+fileFormatVersion: 2
+guid: e9f6168aa37f50a468d09ac2436dc88c
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 512
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66f1ee077eb9f65438ced1ab7ecaf6fb
+      internalID: 808757337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_1
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d08bfe41734d414bbbb8ab38a70a0e3
+      internalID: -1014919683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_2
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8df208596d344784eab46b80ced0319a
+      internalID: -831971468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_3
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8b62356f32f68c4982972f4b1b0b707
+      internalID: -1930551376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_4
+      rect:
+        serializedVersion: 2
+        x: 1368
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 051e72ec5323e2b45ab2b41c11409fac
+      internalID: 67797733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_5
+      rect:
+        serializedVersion: 2
+        x: 1710
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a58e5757f6e2a534cb1c65101c5ed5b1
+      internalID: 1910007520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_6
+      rect:
+        serializedVersion: 2
+        x: 2052
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9196942ea654ec44ad6ae236e4488fc
+      internalID: -991891666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_7
+      rect:
+        serializedVersion: 2
+        x: 2394
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd3de24836b9c8f419c5a35c33fd1a82
+      internalID: 2066864148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_8
+      rect:
+        serializedVersion: 2
+        x: 2736
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 799127ad50659ec4fa154c84a0c7fd8c
+      internalID: 253323055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_9
+      rect:
+        serializedVersion: 2
+        x: 3078
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62a28d6d6e6e63643b0df9387ca98044
+      internalID: 2144580440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_10
+      rect:
+        serializedVersion: 2
+        x: 3420
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0e8d7efad965e544a9fe3653208941b
+      internalID: -551570226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_11
+      rect:
+        serializedVersion: 2
+        x: 3762
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69af2c49d2702d646a2366144b3e839e
+      internalID: 1108948041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_12
+      rect:
+        serializedVersion: 2
+        x: 4104
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f080e12ddba1e0643a7477de5e880436
+      internalID: 2034433252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_13
+      rect:
+        serializedVersion: 2
+        x: 4446
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30fa9a14d6086e34fa195f658aa2da86
+      internalID: 858110497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_14
+      rect:
+        serializedVersion: 2
+        x: 4788
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7ab3b9b5faa03f4faf98db64411bdce
+      internalID: -397649587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_15
+      rect:
+        serializedVersion: 2
+        x: 5130
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2901d34b284a4d4195d69863946c5e8
+      internalID: -1371050399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_16
+      rect:
+        serializedVersion: 2
+        x: 5472
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 769ed1696b86e144f8f56420afba646f
+      internalID: 535494548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_17
+      rect:
+        serializedVersion: 2
+        x: 5814
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c78a7377696e45e47af8662d538cf5b0
+      internalID: -1724195964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: trashRobotStartupAnimation_18
+      rect:
+        serializedVersion: 2
+        x: 6156
+        y: 0
+        width: 342.10526
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca49f05d7c6873e4599482f1f0c42e73
+      internalID: 1464412205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      trashRobotStartupAnimation_0: 808757337
+      trashRobotStartupAnimation_6: -991891666
+      trashRobotStartupAnimation_11: 1108948041
+      trashRobotStartupAnimation_7: 2066864148
+      trashRobotStartupAnimation_10: -551570226
+      trashRobotStartupAnimation_13: 858110497
+      trashRobotStartupAnimation_8: 253323055
+      trashRobotStartupAnimation_14: -397649587
+      trashRobotStartupAnimation_5: 1910007520
+      trashRobotStartupAnimation_15: -1371050399
+      trashRobotStartupAnimation_17: -1724195964
+      trashRobotStartupAnimation_9: 2144580440
+      trashRobotStartupAnimation_12: 2034433252
+      trashRobotStartupAnimation_2: -831971468
+      trashRobotStartupAnimation_16: 535494548
+      trashRobotStartupAnimation_18: 1464412205
+      trashRobotStartupAnimation_1: -1014919683
+      trashRobotStartupAnimation_4: 67797733
+      trashRobotStartupAnimation_3: -1930551376
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
