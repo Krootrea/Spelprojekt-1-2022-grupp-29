@@ -31,7 +31,6 @@ public class ResetObjectsUponRespawn : MonoBehaviour
     public void ResetObjects(){
         if (ObjectsToReset.Count>0)
         {
-            Debug.Log("Reset objects");
             foreach (IResetOnRespawn reset in ObjectsToReset)
             {
                 reset.RespawnReset();
