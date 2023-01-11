@@ -1,6 +1,8 @@
+using System;
 using Platformer.Core;
 using Platformer.Mechanics;
 using Platformer.Model;
+using Unity.VisualScripting;
 
 namespace Platformer.Gameplay
 {
@@ -20,6 +22,20 @@ namespace Platformer.Gameplay
                 player.audioSource.PlayOneShot(player.respawnAudio);
             player.health.Increment();
             player.Teleport(model.spawnPoint.transform.position);
+            OnRespawn r;
+            try {
+                r = model.spawnPoint.gameObject.GetComponent<OnRespawn>();
+            }
+            catch (Exception e)
+            {
+                r = null;
+                throw;
+            }
+
+            if (r!=null)
+            {
+                r.Respawn();
+            }
             player.jumpState = PlayerController.JumpState.Grounded;
             player.animator.SetBool("dead", false);
             model.virtualCamera.m_Follow = player.transform;

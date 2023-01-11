@@ -84,6 +84,10 @@ namespace Platformer.Mechanics
             if (controlEnabled) 
             {
                 SetDirectionInWallJump();
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    Schedule<PlayerDeath>();
+                }
                 if ((jumpState == JumpState.Grounded || justStartedFalling) && Input.GetButtonDown("Jump"))
                 {
                     jumpState = JumpState.PrepareToJump;
