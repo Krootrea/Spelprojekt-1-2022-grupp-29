@@ -14,7 +14,6 @@ public class ButtonGeneral : MonoBehaviour, IResetOnRespawn
     public List<TrashRobot> TrashRobotsToActivate;
     public GameObject Player;
     private Vector3 origin, destination, currentTarget;
-    private float beforeMovementTimer = 2.0f;
     private bool pushed, movementTime;
     public bool IsButtonPushed => pushed;
 
@@ -52,7 +51,6 @@ public class ButtonGeneral : MonoBehaviour, IResetOnRespawn
         if (!collisions.Contains(col))
         {
             collisions.Add(col);
-            Debug.Log(col.tag);
         }
     }
 
@@ -60,7 +58,6 @@ public class ButtonGeneral : MonoBehaviour, IResetOnRespawn
         if (collisions.Contains(other))
         {
             collisions.Remove(other);
-            Debug.Log(other.tag);
         }
     }
 
@@ -71,7 +68,6 @@ public class ButtonGeneral : MonoBehaviour, IResetOnRespawn
             {
                 if (col.CompareTag("Enemy"))
                 {
-                    Debug.Log(col.tag);
                     return;
                 }
             }
