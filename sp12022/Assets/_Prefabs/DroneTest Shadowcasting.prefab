@@ -888,6 +888,18 @@ PrefabInstance:
       propertyPath: m_Vertices.Array.data[21].position.y
       value: 0.1331
       objectReference: {fileID: 0}
+    - target: {fileID: 1493637256, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
+      propertyPath: m_Volume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493637256, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
+      propertyPath: MaxDistance
+      value: 7.2693653
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493637256, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
+      propertyPath: MinDistance
+      value: 1.0350876
+      objectReference: {fileID: 0}
     - target: {fileID: 2005077275, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_IsActive
       value: 1
