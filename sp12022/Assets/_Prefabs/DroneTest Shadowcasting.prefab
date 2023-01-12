@@ -481,12 +481,24 @@ PrefabInstance:
       value: -147.917
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_Intensity
-      value: 20
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_LightType
@@ -497,16 +509,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
+      propertyPath: m_FalloffIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_Vertices.Array.size
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_PointLightInnerAngle
-      value: 74.561104
+      value: 49.94
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_PointLightOuterAngle
-      value: 77.38312
+      value: 49.94
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_Triangles.Array.size
@@ -514,11 +530,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_PointLightInnerRadius
-      value: 6.23
+      value: 8.596537
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_PointLightOuterRadius
-      value: 6.44
+      value: 8.622453
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_LocalBounds.m_Center.x
