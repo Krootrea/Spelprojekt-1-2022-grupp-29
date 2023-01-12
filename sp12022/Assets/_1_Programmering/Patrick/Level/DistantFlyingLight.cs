@@ -20,7 +20,15 @@ public class DistantFlyingLight : MonoBehaviour
     void Start(){
         origin = new Vector3(transform.position.x, transform.position.y);
         blinkTimer = BlinkTime;
-        target = transform.Find("Target").position;
+        try
+        {
+            target = transform.Find("Target").position;
+        }
+        catch
+        {
+            target = Vector3.zero;
+        }
+
         _light2D = GetComponent<Light2D>();
     }
 
@@ -43,8 +51,10 @@ public class DistantFlyingLight : MonoBehaviour
     }
 
     private void Move(){
-        transform.position = Vector3.MoveTowards(transform.position, target, Speed * Time.deltaTime);
-        if (transform.position==target)
-            transform.position = origin;
+        if (target != Vector3.zero) {
+            transform.position = Vector3.MoveTowards(transform.position, target, Speed * Time.deltaTime);
+            if (transform.position==target)
+                transform.position = origin;   
+        }
     }
 }
