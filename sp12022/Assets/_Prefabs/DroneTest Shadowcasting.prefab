@@ -753,6 +753,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 630679389, guid: 137de4dcf102e0b46ab8d0ed9afb55d9, type: 3}
       propertyPath: m_Vertices.Array.data[0].position.x
       value: 0.9985302
       objectReference: {fileID: 0}
