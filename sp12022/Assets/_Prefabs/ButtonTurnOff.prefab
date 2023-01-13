@@ -9,6 +9,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1675748018, guid: 9c324c31b30a92a479f97ee4509f9d25, type: 3}
       propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1559265562370663430, guid: 9c324c31b30a92a479f97ee4509f9d25,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011955978952051424, guid: 9c324c31b30a92a479f97ee4509f9d25,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3353184093871513872, guid: 9c324c31b30a92a479f97ee4509f9d25,
@@ -120,6 +130,16 @@ PrefabInstance:
     - target: {fileID: 3353184093871513887, guid: 9c324c31b30a92a479f97ee4509f9d25,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013583707752791839, guid: 9c324c31b30a92a479f97ee4509f9d25,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174580908410107934, guid: 9c324c31b30a92a479f97ee4509f9d25,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

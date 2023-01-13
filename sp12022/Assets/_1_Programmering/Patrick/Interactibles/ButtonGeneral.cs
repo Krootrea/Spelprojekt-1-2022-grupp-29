@@ -13,11 +13,14 @@ public class ButtonGeneral : MonoBehaviour, IResetOnRespawn
     public List<GameObject> ObjectsToActivate, ObjectsToDeactivate;
     public List<TrashRobot> TrashRobotsToActivate;
     public GameObject Player;
+    private GameObject lit, unlit;
     private Vector3 origin, destination, currentTarget;
     private bool pushed, movementTime;
     public bool IsButtonPushed => pushed;
 
     private void Awake(){
+        lit = transform.Find("ButtonLit").gameObject;
+        unlit = transform.Find("ButtonUnlit").gameObject;
         collisions = new List<Collider2D>();
         origin = new Vector3(transform.position.x, transform.position.y);
         destination = new Vector3(transform.Find("targetLocation").position.x, transform.Find("targetLocation").position.y);
@@ -61,6 +64,8 @@ public class ButtonGeneral : MonoBehaviour, IResetOnRespawn
     }
 
     private void ButtonPressAction(bool isEnemy){
+        lit.SetActive(isEnemy);
+        unlit.SetActive(!isEnemy);
         if (!isEnemy)
         {
             foreach (Collider2D col in collisions)
