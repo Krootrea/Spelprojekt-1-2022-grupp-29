@@ -56,16 +56,22 @@ namespace Platformer.Mechanics
 
         bool jump, justWallJumped;
         public bool Hidden;
-        private float wjPossibleCountD, justWallJumpedCD; 
+        private float wjPossibleCountD, justWallJumpedCD;
+        private Vector3 scale;
+        private bool faceLeft, newAnim;
         Vector2 move;
         SpriteRenderer spriteRenderer;
         internal Animator animator;
         readonly PlatformerModel model = Simulation.GetModel<PlatformerModel>();
+        private Transform animTransform;
+        private Transform friend;
 
         public Bounds Bounds => collider2d.bounds;
         public TilemapCollider2D tilesCollider;
 
         void Awake(){
+            scale = transform.localScale;
+            faceLeft = scale.x < 0;
             wallSide = wallJumpSide.noSide;
             wjPossibleCountD = 0f;
             health = GetComponent<Health>();
@@ -74,11 +80,19 @@ namespace Platformer.Mechanics
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
             Transform[] ts = GetComponentsInChildren<Transform>();
+            newAnim = false;
             foreach(Transform t in ts)
             {
                 if(t.name=="TestPlayerAnnaFörsökerFixa")
                 {
                     animator = transform.Find("TestPlayerAnnaFörsökerFixa").GetComponent<Animator>();
+                    newAnim = true;
+                    animTransform = transform.Find("TestPlayerAnnaFörsökerFixa");
+                }
+
+                if (t.name=="Friend")
+                {
+                    friend = t;
                 }
             }
         }
@@ -311,23 +325,47 @@ namespace Platformer.Mechanics
 
             if (wallJumpPossible && wallSide == wallJumpSide.left)
             {
-                // spriteRenderer.flipX = false;
+                spriteRenderer.flipX = false;
                 animator.SetBool("turnLeft", false);
+                if (newAnim)
+                {
+                    scale = new Vector3(1, 1, 1);
+                    animTransform.localScale = scale;
+                }
+                friend.localScale = spriteRenderer.flipX ? new Vector3(-0.7f, 0.7f, 0.7f) : new Vector3(0.7f, 0.7f, 0.7f);
             }
             else if (wallJumpPossible && wallSide == wallJumpSide.right)
             {
-                // spriteRenderer.flipX = true;
+                spriteRenderer.flipX = true;
                 animator.SetBool("turnLeft", true);
+                if (newAnim)
+                {
+                    scale = new Vector3(-1, 1, 1);
+                    animTransform.localScale = scale;
+                }
+                friend.localScale = spriteRenderer.flipX ? new Vector3(-0.7f, 0.7f, 0.7f) : new Vector3(0.7f, 0.7f, 0.7f);
             }
             else if (move.x > 0.01f)
             {
                 spriteRenderer.flipX = false;
                 animator.SetBool("turnLeft", false);
+                if (newAnim)
+                {
+                    scale = new Vector3(1, 1, 1);
+                    animTransform.localScale = scale;
+                }
+                friend.localScale = spriteRenderer.flipX ? new Vector3(-0.7f, 0.7f, 0.7f) : new Vector3(0.7f, 0.7f, 0.7f);
             }
             else if (move.x < -0.01f)
             {
                 spriteRenderer.flipX = true;
                 animator.SetBool("turnLeft", true);
+                if (newAnim)
+                {
+                    scale = new Vector3(-1, 1, 1);
+                    animTransform.localScale = scale;
+                }
+                friend.localScale = spriteRenderer.flipX ? new Vector3(-0.7f, 0.7f, 0.7f) : new Vector3(0.7f, 0.7f, 0.7f);
             }
 
             animator.SetBool("grounded", IsGrounded);
