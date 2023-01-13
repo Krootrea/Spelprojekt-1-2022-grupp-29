@@ -98,6 +98,7 @@ public class TrashRobot : Enemy, IResetOnRespawn
                 // Gå till direction
                 if (startUp<=0.0f)
                 {
+                    SetLights(true);
                     if (SeesPlayer())
                     {
                         state.Current = EnemyStateHandler.State.ChasingPlayer;
@@ -263,7 +264,6 @@ public class TrashRobot : Enemy, IResetOnRespawn
             state.Current = EnemyStateHandler.State.Normal;
             On = true;
             animator.SetBool("On",On);
-            SetLights(true);
         }
         alerted = true;
         lastKnownPlayerLocation = lastKnownPosition;
