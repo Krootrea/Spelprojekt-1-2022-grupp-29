@@ -7,12 +7,14 @@ using UnityEngine.Rendering;
 public class Checkpoint : MonoBehaviour
 {
     public GameObject SpawnPoint;
+    private CheckpointBox Box;
     private BoxCollider2D _collider2D;
     private bool activeCheckpoint;
     private ResetObjectsUponRespawn resetObjects;
     public bool Active => activeCheckpoint;
 
     private void Awake(){
+        Box = transform.Find("checkpointBox").GetComponent<CheckpointBox>();
         _collider2D = GetComponent<BoxCollider2D>();
         resetObjects = GetComponent<ResetObjectsUponRespawn>();
         activeCheckpoint = false;
@@ -23,6 +25,7 @@ public class Checkpoint : MonoBehaviour
         {
             SpawnPoint.transform.position = transform.position;
             activeCheckpoint = true;
+            Box.OpenBox(); 
         }
     }
 
