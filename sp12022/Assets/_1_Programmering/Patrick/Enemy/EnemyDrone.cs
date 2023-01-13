@@ -31,12 +31,10 @@ public class EnemyDrone : Enemy, IResetOnRespawn
     private Vector3 start;
     private Vector3 originalScale;
     private EnemyStateHandler.State originalState;
-    private GameObject alertSFX;
     
     // ----
     
     private void Awake(){
-        alertSFX = transform.Find("AlertSFX").gameObject;
         initialPlayerSighting = DiscoverPlayerDelay;
         patrol = new Vector3(transform.Find("patrolDestination").transform.position.x, transform.Find("patrolDestination").transform.position.y);
         fov = GetComponent<FieldOfView>();
@@ -105,7 +103,6 @@ public class EnemyDrone : Enemy, IResetOnRespawn
                     if (Button.IsUnityNull() && initialPlayerSighting <= 0.0f)
                     {
                         state.Current = EnemyStateHandler.State.ChasingPlayer;
-                        PlayAlertSound();
                         StateChangeToConsole();
                     }
                     else if (initialPlayerSighting<=0.0f)
@@ -122,7 +119,6 @@ public class EnemyDrone : Enemy, IResetOnRespawn
                 if (Button.IsUnityNull())
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
-                    PlayAlertSound();
                     StateChangeToConsole();
                     break;
                 }
@@ -130,7 +126,6 @@ public class EnemyDrone : Enemy, IResetOnRespawn
                 if (Button.IsButtonPushed)
                 {
                     state.Current = EnemyStateHandler.State.ChasingPlayer;
-                    PlayAlertSound();
                     StateChangeToConsole();
                     break;
                 }
@@ -162,7 +157,6 @@ public class EnemyDrone : Enemy, IResetOnRespawn
                 if (!Button.IsUnityNull() && !Button.IsButtonPushed)
                 {
                     state.Current = EnemyStateHandler.State.GoForAlertButton;
-                    PlayAlertSound();
                     StateChangeToConsole();
                     break;
                 }
@@ -183,9 +177,6 @@ public class EnemyDrone : Enemy, IResetOnRespawn
         }
     }
 
-    private void PlayAlertSound(){
-        alertSFX.GetComponent<AudioSource>().Play();
-    }
 
     private void ChangeStateToNormal(){
         state.Current = EnemyStateHandler.State.Normal;
