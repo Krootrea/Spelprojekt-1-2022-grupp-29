@@ -1,23 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using Platformer.Gameplay;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using static Platformer.Core.Simulation;
-using Random = UnityEngine.Random;
 
 public class TrashRobot : Enemy, IResetOnRespawn
 {
     // public enum TM{MovingToLocation, LookingForPlayer,Idle, ChasingPlayer, Attacking}
 
     // private TM mode;
-    private bool rayCast, shutDown, countingDown, lightsBlinkState, turnLeft, alerted, knowsThatPlayerIsHiding;
+    private bool rayCast, shutDown, countingDown, lightsBlinkState, alerted, knowsThatPlayerIsHiding;
     private GameObject sideLight, topLight, playerPos, Laser, questionMark;
-    private Vector3 lastKnownPlayerLocation, leftPoint, rightPoint;
+    private Vector3 leftPoint, rightPoint;
     private Animator animator;
 
     private Laser laser;
@@ -42,7 +35,6 @@ public class TrashRobot : Enemy, IResetOnRespawn
         countingDown = false;
         state = GetComponent<EnemyStateHandler>();
         state.LookingTime = LookingTime;
-        state.Current = state.Current;
         _collider2D = GetComponent<EdgeCollider2D>();
         sideLight = transform.Find("sideLight").gameObject;
         On = false;

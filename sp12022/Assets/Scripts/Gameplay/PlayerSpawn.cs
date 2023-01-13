@@ -26,7 +26,7 @@ namespace Platformer.Gameplay
             try {
                 r = model.spawnPoint.gameObject.GetComponent<OnRespawn>();
             }
-            catch (Exception e)
+            catch
             {
                 r = null;
                 throw;

@@ -17,8 +17,6 @@ public class OnRespawn : MonoBehaviour
     }
 
     private void ClearPastActiveCheckpoints(){
-        Checkpoint old = null;
-        Checkpoint newOne = null;
         List<Checkpoint> activeCheckpointsToRemove = new List<Checkpoint>();
         foreach (Checkpoint checkpoint in checkpointObjects) {
             if (checkpoint.Active)
