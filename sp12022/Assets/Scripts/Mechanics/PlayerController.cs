@@ -73,6 +73,14 @@ namespace Platformer.Mechanics
             collider2d = GetComponent<BoxCollider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+            Transform[] ts = GetComponentsInChildren<Transform>();
+            foreach(Transform t in ts)
+            {
+                if(t.name=="TestPlayerAnnaFörsökerFixa")
+                {
+                    animator = transform.Find("TestPlayerAnnaFörsökerFixa").GetComponent<Animator>();
+                }
+            }
         }
 
         protected override void Update(){
@@ -303,16 +311,24 @@ namespace Platformer.Mechanics
 
             if (wallJumpPossible && wallSide == wallJumpSide.left)
             {
-                spriteRenderer.flipX = false;
+                // spriteRenderer.flipX = false;
+                animator.SetBool("turnLeft", false);
             }
             else if (wallJumpPossible && wallSide == wallJumpSide.right)
             {
-                spriteRenderer.flipX = true;
+                // spriteRenderer.flipX = true;
+                animator.SetBool("turnLeft", true);
             }
             else if (move.x > 0.01f)
+            {
                 spriteRenderer.flipX = false;
+                animator.SetBool("turnLeft", false);
+            }
             else if (move.x < -0.01f)
+            {
                 spriteRenderer.flipX = true;
+                animator.SetBool("turnLeft", true);
+            }
 
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
