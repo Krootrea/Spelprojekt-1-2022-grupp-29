@@ -72,7 +72,15 @@ namespace Platformer.Mechanics
             audioSource = GetComponent<AudioSource>();
             collider2d = GetComponent<BoxCollider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
-            animator = transform.Find("TestPlayerAnnaFörsökerFixa").GetComponent<Animator>();
+            animator = GetComponent<Animator>();
+            Transform[] ts = GetComponentsInChildren<Transform>();
+            foreach(Transform t in ts)
+            {
+                if(t.name=="TestPlayerAnnaFörsökerFixa")
+                {
+                    animator = transform.Find("TestPlayerAnnaFörsökerFixa").GetComponent<Animator>();
+                }
+            }
         }
 
         protected override void Update(){
