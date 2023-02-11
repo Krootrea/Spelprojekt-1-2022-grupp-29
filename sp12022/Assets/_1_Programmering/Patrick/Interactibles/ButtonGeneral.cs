@@ -12,9 +12,9 @@ public class ButtonGeneral : MonoBehaviour, IResetOnRespawn
     public bool MovingButton;
     public List<GameObject> ObjectsToActivate, ObjectsToDeactivate;
     public List<TrashRobot> TrashRobotsToActivate;
-    public GameObject Player;
+    // public GameObject Player;
     private GameObject lit, unlit;
-    private Vector3 origin, destination, currentTarget;
+    private Vector3 origin, destination, currentTarget, lastKnownPlayerPosition;
     private bool pushed, movementTime;
     public bool IsButtonPushed => pushed;
 
@@ -49,6 +49,11 @@ public class ButtonGeneral : MonoBehaviour, IResetOnRespawn
 
     private void OnTriggerEnter2D(Collider2D col){
         bool isEnemy = col.CompareTag("Enemy");
+        if (isEnemy)
+        {
+            EnemyDrone en = (EnemyDrone) col.gameObject.GetComponent<EnemyDrone>();
+            lastKnownPlayerPosition = en.LastKnownPlayerLocation;
+        }
         ButtonPressAction(isEnemy);
         if (!collisions.Contains(col))
         {
@@ -89,7 +94,7 @@ public class ButtonGeneral : MonoBehaviour, IResetOnRespawn
                 foreach (TrashRobot tb in TrashRobotsToActivate) 
                 {
                     if (isEnemy)
-                        tb.Alert(Player.transform.position, false);
+                        tb.Alert(lastKnownPlayerPosition, false);
                     else
                         tb.Shutdown();
                 }

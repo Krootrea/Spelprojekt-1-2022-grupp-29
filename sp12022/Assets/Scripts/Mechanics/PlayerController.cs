@@ -83,11 +83,11 @@ namespace Platformer.Mechanics
             newAnim = false;
             foreach(Transform t in ts)
             {
-                if(t.name=="TestPlayerAnnaFörsökerFixa")
+                if(t.name=="PlayerGFX")
                 {
-                    animator = transform.Find("TestPlayerAnnaFörsökerFixa").GetComponent<Animator>();
+                    animator = transform.Find("PlayerGFX").GetComponent<Animator>();
                     newAnim = true;
-                    animTransform = transform.Find("TestPlayerAnnaFörsökerFixa");
+                    animTransform = transform.Find("PlayerGFX");
                 }
 
                 if (t.name=="Friend")
@@ -307,8 +307,9 @@ namespace Platformer.Mechanics
             }
         }
 
-        protected override void ComputeVelocity()
-        {
+        protected override void ComputeVelocity(){
+            // float fS = 0.15f; // Friend Scale
+            float pS = 0.2f; // Player Scale
             if (jump && (IsGrounded||wallJumpPossible)) {
                 wallJumpPossible = false;
                 animator.SetBool("onWall", false);
@@ -329,10 +330,10 @@ namespace Platformer.Mechanics
                 animator.SetBool("turnLeft", false);
                 if (newAnim)
                 {
-                    scale = new Vector3(1, 1, 1);
+                    scale = new Vector3(pS,pS,pS);
                     animTransform.localScale = scale;
                 }
-                friend.localScale = spriteRenderer.flipX ? new Vector3(-0.7f, 0.7f, 0.7f) : new Vector3(0.7f, 0.7f, 0.7f);
+                // friend.localScale = spriteRenderer.flipX ? new Vector3(-fS, fS, fS) : new Vector3(fS, fS, fS);
             }
             else if (wallJumpPossible && wallSide == wallJumpSide.right)
             {
@@ -340,10 +341,10 @@ namespace Platformer.Mechanics
                 animator.SetBool("turnLeft", true);
                 if (newAnim)
                 {
-                    scale = new Vector3(-1, 1, 1);
+                    scale = new Vector3(-pS,pS,pS);
                     animTransform.localScale = scale;
                 }
-                friend.localScale = spriteRenderer.flipX ? new Vector3(-0.7f, 0.7f, 0.7f) : new Vector3(0.7f, 0.7f, 0.7f);
+                // friend.localScale = spriteRenderer.flipX ? new Vector3(-fS, fS, fS) : new Vector3(fS, fS, fS);
             }
             else if (move.x > 0.01f)
             {
@@ -351,10 +352,10 @@ namespace Platformer.Mechanics
                 animator.SetBool("turnLeft", false);
                 if (newAnim)
                 {
-                    scale = new Vector3(1, 1, 1);
+                    scale = new Vector3(pS,pS,pS);
                     animTransform.localScale = scale;
                 }
-                friend.localScale = spriteRenderer.flipX ? new Vector3(-0.7f, 0.7f, 0.7f) : new Vector3(0.7f, 0.7f, 0.7f);
+                // friend.localScale = spriteRenderer.flipX ? new Vector3(-fS, fS, fS) : new Vector3(fS, fS, fS);
             }
             else if (move.x < -0.01f)
             {
@@ -362,10 +363,10 @@ namespace Platformer.Mechanics
                 animator.SetBool("turnLeft", true);
                 if (newAnim)
                 {
-                    scale = new Vector3(-1, 1, 1);
+                    scale = new Vector3(-pS,pS,pS);
                     animTransform.localScale = scale;
                 }
-                friend.localScale = spriteRenderer.flipX ? new Vector3(-0.7f, 0.7f, 0.7f) : new Vector3(0.7f, 0.7f, 0.7f);
+                // friend.localScale = spriteRenderer.flipX ? new Vector3(-fS, fS, fS) : new Vector3(fS, fS, fS);
             }
 
             animator.SetBool("grounded", IsGrounded);

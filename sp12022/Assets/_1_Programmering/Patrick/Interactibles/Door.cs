@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public PlayerController player;
-    private bool playerCloseEnough, open;
+    private bool playerCanOpen, open;
     private Vector3 upperDir, lowerDir;
     private GameObject dUpper, dLower;
     private AudioPlay audioPlay;
@@ -24,7 +23,7 @@ public class Door : MonoBehaviour
     
     void LateUpdate()
     {
-        if ((Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Interact")) && playerCloseEnough && player.gotCard)
+        if ((Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Interact")) && playerCanOpen)
         {
             open = true;
             OpenDoor();
@@ -46,14 +45,14 @@ public class Door : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col){
         if (col.CompareTag("Player"))
         {
-            playerCloseEnough = true;
+            playerCanOpen = col.gameObject.GetComponent<PlayerController>().gotCard;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other){
         if (other.CompareTag("Player"))
         {
-            playerCloseEnough = false;
+            playerCanOpen = false;
         }
     }
 }

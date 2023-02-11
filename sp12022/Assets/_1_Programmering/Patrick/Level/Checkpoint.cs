@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -14,7 +15,11 @@ public class Checkpoint : MonoBehaviour
     public bool Active => activeCheckpoint;
 
     private void Awake(){
-        Box = transform.Find("checkpointBox").GetComponent<CheckpointBox>();
+        Transform checkpointBox = transform.Find("checkpointBox");
+        if (!checkpointBox.IsUnityNull())
+            Box = checkpointBox.GetComponent<CheckpointBox>();
+        else
+            Box = null;
         _collider2D = GetComponent<BoxCollider2D>();
         resetObjects = GetComponent<ResetObjectsUponRespawn>();
         activeCheckpoint = false;
@@ -25,7 +30,8 @@ public class Checkpoint : MonoBehaviour
         {
             SpawnPoint.transform.position = transform.position;
             activeCheckpoint = true;
-            Box.OpenBox(); 
+            if (Box!=null)
+                Box.OpenBox();
         }
     }
 

@@ -21,6 +21,7 @@ public class EnemyDrone : Enemy, IResetOnRespawn
     
     public List<TrashRobot> TrashrobotsToAlert;
     public ButtonGeneral Button;
+    
     public bool WriteStateChangeToConsole;
     public float DiscoverPlayerDelay;
 
@@ -33,6 +34,9 @@ public class EnemyDrone : Enemy, IResetOnRespawn
     private EnemyStateHandler.State originalState;
     
     // ----
+    
+    [HideInInspector]
+    public Vector3 LastKnownPlayerLocation;
     
     private void Awake(){
         initialPlayerSighting = DiscoverPlayerDelay;
@@ -175,6 +179,12 @@ public class EnemyDrone : Enemy, IResetOnRespawn
                 break;
             }
         }
+
+        if (fov.SeeingPlayerRayCast)
+            LastKnownPlayerLocation = new Vector3(
+                fov.PlayerPosition.x,
+                fov.PlayerPosition.y,
+                fov.PlayerPosition.z);
     }
 
 
