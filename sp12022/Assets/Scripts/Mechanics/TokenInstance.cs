@@ -29,6 +29,7 @@ namespace Platformer.Mechanics
         //active frame in animation, updated by the controller.
         internal int frame = 0;
         internal bool collected = false;
+        public bool Collected => collected;
 
         void Awake()
         {

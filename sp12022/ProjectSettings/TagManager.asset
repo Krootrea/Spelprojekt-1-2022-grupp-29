@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - Level
   - HasLight
+  - HasShadowcaster
   layers:
   - Default
   - TransparentFX

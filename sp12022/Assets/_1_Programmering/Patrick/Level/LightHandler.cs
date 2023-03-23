@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Platformer.Mechanics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -32,30 +33,32 @@ public class LightHandler : MonoBehaviour
         
         foreach (KeyValuePair<Light2D, bool> light in lightsInScene)
         {
-            // if (light.Value)
-            // {
-                bool isCloseEnough = CheckIfLightIsCloseEnough(light.Key);
-                if (light.Key.isActiveAndEnabled && !isCloseEnough) 
-                    light.Key.gameObject.SetActive(false);
-                else if (!light.Key.isActiveAndEnabled && isCloseEnough)
-                    light.Key.gameObject.SetActive(true);
-            
+            if(light.Key.transform.gameObject.TryGetComponent<TokenInstance>(out TokenInstance t)
+                && t.Collected){
+                    lightsInScene.Remove(light.Key);
+                    continue;
+                }
+            bool isCloseEnough = CheckIfTransformIsCloseEnough(light.Key.transform);
+            if (light.Key.isActiveAndEnabled && !isCloseEnough) 
+                light.Key.gameObject.SetActive(false);
+            else if (!light.Key.isActiveAndEnabled && isCloseEnough)
+                light.Key.gameObject.SetActive(true);
         }
     }
 
-    private bool CheckIfLightIsCloseEnough(Light2D light2D){
-        Vector3 lightP = light2D.transform.position;
+    private bool CheckIfTransformIsCloseEnough(Transform thingy){
+        Vector3 thingyP = thingy.position;
         Vector3 playerP = player.transform.position;
-        float leftBoardX = cameraEdges.getLeft(lightP.z).x;
-        float rightBoardX = cameraEdges.getRight(lightP.z).x;
-        float topBoardY = cameraEdges.getTop(lightP.z).y;
-        float bottomBoardY = cameraEdges.getBottom(lightP.z).y;
+        float leftBoardX = cameraEdges.getLeft(thingyP.z).x;
+        float rightBoardX = cameraEdges.getRight(thingyP.z).x;
+        float topBoardY = cameraEdges.getTop(thingyP.z).y;
+        float bottomBoardY = cameraEdges.getBottom(thingyP.z).y;
         float space = 10f;
         
-        bool closeEnough = lightP.x < (rightBoardX + space) 
-               && lightP.x > (leftBoardX - space)
-               && lightP.y < (topBoardY + space)
-               && lightP.y > (bottomBoardY - space);
+        bool closeEnough = thingyP.x < (rightBoardX + space) 
+               && thingyP.x > (leftBoardX - space)
+               && thingyP.y < (topBoardY + space)
+               && thingyP.y > (bottomBoardY - space);
         return closeEnough;
     }
 }
